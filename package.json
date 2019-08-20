@@ -1,0 +1,30 @@
+{
+  "name": "@dw/dw-dialog",
+  "version": "1.0.0-SNAPSHOT",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/DreamworldSolutions/dw-dialog.git"
+  },
+  "keywords": [
+    "lit",
+    "input"
+  ],
+  "author": "Ruchita kheni",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DreamworldSolutions/dw-dialog/issues"
+  },
+  "homepage": "https://github.com/DreamworldSolutions/dw-dialog#readme",
+  "dependencies": {
+    "@material/dialog": "^3.1.0",
+    "lit-element": "^2.2.1"
+  },
+  "devDependencies": {
+    "@material/mwc-button": "^0.6.0"
+  }
+}
