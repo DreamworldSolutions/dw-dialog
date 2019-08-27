@@ -97,3 +97,5 @@ dw-dialog{
 | --dw-dialog-max-height | Max height of dialog |
 | --dw-dialog-footer-padding | Padding of footer area |
 | --dw-dialog-header-padding | padding of header area |
+| --dw-dialog-header-line-height | line height of heder container |
+| --dw-dialog-header-before-height | default height of heder container |
