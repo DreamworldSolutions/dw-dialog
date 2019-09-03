@@ -83,6 +83,17 @@ export class DwDialog extends LitElement {
           animation: slideInUp 0.2s forwards;
         }
 
+        :host([placement="bottom"]) .mdc-dialog .mdc-dialog__surface{
+          width: 100%;
+          min-width: var(--dw-dialog-min-width, 100%);
+          max-height: var(--dw-dialog-max-height, 100%);
+          border-radius: var(--dw-dialog-border-radius, 0);
+        }
+
+        :host([placement="bottom"]) .mdc-dialog .mdc-dialog__container{
+          width: 100%;
+        }
+
         @keyframes slideInUp {
           from {
             transform: translate3d(0, 100%, 0);
@@ -162,7 +173,7 @@ export class DwDialog extends LitElement {
             <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
             ${this._hasHeader ?
               html`
-                <h2 class="mdc-dialog__title" id="my-dialog-title"><slot name="header"></slot></h2>
+                <div class="mdc-dialog__title" id="my-dialog-title"><slot name="header"></slot></div>
               ` : html``
               }
 
