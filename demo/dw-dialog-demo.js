@@ -58,6 +58,7 @@ export class DwDialogDemo extends LitElement {
       <mwc-button raised @click="${this.openMultipleOverlayDialog}">Multiple overlay dialog</mwc-button>
       <mwc-button raised @click="${this.openCustomizedDialog}">Customized dialog</mwc-button>
       <mwc-button raised @click="${this.openWithoutBackdropDialog}">Without backdrop dialog</mwc-button>
+      <mwc-button raised @click="${this.openBottomPlacementDialog}">Bottom placement dialog</mwc-button>
 
       <dw-dialog id="alert">
         <div>Discard draft?</div>
@@ -129,6 +130,17 @@ export class DwDialogDemo extends LitElement {
             <mwc-button confirm>Ok</mwc-button>
           </div>
         </dw-dialog>
+
+        <dw-dialog id="bottomPlacement" placement="bottom" withoutBackdrop>
+          <span slot="header">The Wonderful Wizard of Oz</span>
+          <h5>Item 1</h5>
+          <h5>Item 2</h5>
+          <h5>Item 3</h5>
+          <h5>Item 4</h5>
+          <h5>Item 5</h5>
+          <h5>Item 6</h5>
+          <h5>Item 7</h5>
+        </dw-dialog>
     `;
   }
 
@@ -159,6 +171,11 @@ export class DwDialogDemo extends LitElement {
 
   openWithoutBackdropDialog() { 
     var elDialog = this.shadowRoot.querySelector('#withoutBackdrop');
+    elDialog.open();
+  }
+
+  openBottomPlacementDialog() { 
+    var elDialog = this.shadowRoot.querySelector('#bottomPlacement');
     elDialog.open();
   }
 }

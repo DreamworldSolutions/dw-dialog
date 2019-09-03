@@ -199,9 +199,6 @@ export const Style = css`
   .mdc-dialog--opening .mdc-dialog__scrim {
     transition: opacity 150ms linear; }
 
-  .mdc-dialog--opening .mdc-dialog__container {
-    transition: opacity 75ms linear, transform 150ms 0ms cubic-bezier(0, 0, 0.2, 1); }
-
   .mdc-dialog--closing .mdc-dialog__scrim,
   .mdc-dialog--closing .mdc-dialog__container {
     transition: opacity 75ms linear; }

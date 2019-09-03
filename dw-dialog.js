@@ -72,6 +72,34 @@ export class DwDialog extends LitElement {
         .mdc-dialog__title::before {
           height: var(--dw-dialog-header-before-height, 40px)
         }
+
+
+        /* STARTS: style for bottom placement */
+        :host([placement="bottom"]) .mdc-dialog__container{
+          align-items: flex-end;
+        }
+
+        :host([placement="bottom"]) .mdc-dialog--opening .mdc-dialog__container .mdc-dialog__surface{
+          animation: slideInUp 0.2s forwards;
+        }
+
+        @keyframes slideInUp {
+          from {
+            transform: translate3d(0, 100%, 0);
+          }
+
+          to {
+            transform: translate3d(0, 0, 0);
+          }
+        }
+        /* ENDS: style for bottom placement */
+
+
+        /* STARTS: style for center placement */
+        :host([placement="center"]) .mdc-dialog--opening .mdc-dialog__container {
+          transition: opacity 75ms linear, transform 150ms 0ms cubic-bezier(0, 0, 0.2, 1);
+        }
+        /* ENDS: style for center placement */
       `
     ];
   }
@@ -93,6 +121,12 @@ export class DwDialog extends LitElement {
        * Set to true to hide dialog backdrop(dialog__scrim)
        */
       withoutBackdrop: { type: Boolean, reflect: true },
+
+      /**
+       * Sets the placement of the dialog
+       * Possible value: `center`(Default) and `bottom`
+       */
+      placement: { type: String, reflect: true },
 
       /**
        * Instance of `MDCDialog` class
@@ -161,6 +195,7 @@ export class DwDialog extends LitElement {
     this.noCancelOnEscKey = false;
     this.noCancelOnOutsideClick = false;
     this.withoutBackdrop = false;
+    this.placement = 'center';
   }
 
   firstUpdated() {
