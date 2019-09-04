@@ -1,6 +1,6 @@
 {
-  "name": "@dw/dw-dialog",
-  "version": "1.0.4-SNAPSHOT",
+  "name": "@dreamworld/dw-dialog",
+  "version": "0.0.0-development",
   "description": "",
   "main": "index.js",
   "scripts": {
