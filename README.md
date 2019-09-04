@@ -14,6 +14,58 @@ npm install --save @dw/dw-dialog
   import '@dw/dw-dialog/dw-dialog';
 ```
 
+## Usage pattern
+
+- There is 2 ways to use dialog
+  1. extension
+  2. composition
+
+### Using extension
+
+- Provide 3 methods `_headerTemplate`, `_contentTemplate` and `_footerTemplate` to provide dialog's header, content and footer
+
+``` html
+  import { DwDialog } from '@dw/dw-dialog/dw-dialog';
+
+  class SampleDialog extends DwDialog{
+
+    static get styles() {
+      return [
+        Style,
+        css`
+          .mdc-dialog__title{
+            // Customize header's style from here
+          }
+
+          .mdc-dialog__content{
+            // Customize content's style from here
+          }
+
+          .mdc-dialog__actions{
+            // Customize footer's style from here
+          }
+        `
+      ]
+    }
+
+    get _headerTemplate() { return html`Title 1` }
+    get _contentTemplate() { return html`<h2>Content</h2>` }
+    get _footerTemplate() { return html`<button dismiss>Cancel</button>` }
+  }
+```
+
+### Using composition
+
+``` html
+  <dw-dialog>
+    <span slot="header">View dialog</span>
+    <div>Dialog's content</div>
+    <div slot="footer">
+      <button dismiss>Close</button>
+    </div>
+  </dw-dialog>
+```
+
 ## Example Usage
 
 ### Standard
@@ -23,7 +75,7 @@ npm install --save @dw/dw-dialog
   <span slot="header">Title</span>
   <div>Dialog content</div>
   <div slot="footer">
-    <button>Close</button>
+    <button dismiss>Close</button>
   </div>
 </dw-dialog>
 ```
@@ -35,7 +87,7 @@ npm install --save @dw/dw-dialog
   <span slot="header">Title</span>
   <div>Dialog content</div>
   <div slot="footer">
-    <button>Close</button>
+    <button dismiss>Close</button>
   </div>
 </dw-dialog>
 ```
@@ -47,7 +99,20 @@ npm install --save @dw/dw-dialog
   <span slot="header">Title</span>
   <div>Dialog content</div>
   <div slot="footer">
-    <button>Close</button>
+    <button dismiss>Close</button>
+    <button confirm>Save</button>
+  </div>
+</dw-dialog>
+```
+
+### Default opened
+
+```html
+<dw-dialog opened>
+  <span slot="header">Title</span>
+  <div>Dialog content</div>
+  <div slot="footer">
+    <button dismiss>Close</button>
   </div>
 </dw-dialog>
 ```
@@ -79,6 +144,13 @@ dw-dialog{
 - noCancelOnEscKey - Set to true to disable canceling the overlay with the ESC key.
 - noCancelOnOutsideClick - Set to true to disable canceling the overlay by clicking outside it.
 - withoutBackdrop - Set to true to hide dialog backdrop(dialog__scrim)
+- placement - Set the placement of dialog. possibles values are `center`(Default) and `bottom`
+- opened - Set to true to open the dialog. You can also use `open()` and `close()` mathod.
+
+## Attributes
+
+`dismiss` and `confirm` attribute indicates that interacting with it should close the dialog with the specified attribute. This action is then reflected via event.detail.action in the `dw-dialog-closed` event.
+
 
 ## Methods
 
@@ -99,3 +171,9 @@ dw-dialog{
 | --dw-dialog-header-padding | padding of header area |
 | --dw-dialog-header-line-height | line height of heder container |
 | --dw-dialog-header-before-height | default height of heder container |
+
+## Classes to be used when extending DwDialog class
+
+- mdc-dialog__title - For header's style
+- mdc-dialog__content - For content's style
+- mdc-dialog__actions - For footer's style

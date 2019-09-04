@@ -140,6 +140,12 @@ export class DwDialog extends LitElement {
       placement: { type: String, reflect: true },
 
       /**
+       * Opens dialog if true.
+       * Close dialog if false
+       */
+      opened: { type: Boolean },
+
+      /**
        * Instance of `MDCDialog` class
        */
       _mdcDialogInstance: {
@@ -173,20 +179,20 @@ export class DwDialog extends LitElement {
             <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
             ${this._hasHeader ?
               html`
-                <div class="mdc-dialog__title" id="my-dialog-title"><slot name="header"></slot></div>
+                <div class="mdc-dialog__title" id="my-dialog-title">${this._headerTemplate}</div>
               ` : html``
               }
 
             <!-- Dialog content -->
             <div class="mdc-dialog__content" id="my-dialog-content">
-              <slot></slot>
+              ${this._contentTemplate}
             </div>
 
             <!-- Dialog footer -->
             ${this._hasFooter ?
             html`
               <footer class="mdc-dialog__actions">
-                <slot name="footer"></slot>
+                ${this._footerTemplate}
               </footer>
             ` : html``
             }
@@ -224,6 +230,12 @@ export class DwDialog extends LitElement {
     }
   }
 
+  updated(changedProp) {
+    if (changedProp.has('opened')) { 
+      this._onOpenedChanged();
+    }
+  }
+
   /**
    * Opens the dialog.
    */
@@ -243,6 +255,24 @@ export class DwDialog extends LitElement {
    */
   layout() { 
     this._mdcDialogInstance.layout();
+  }
+
+  get _headerTemplate() { 
+    return html`
+      <slot name="header"></slot>
+    `;
+  }
+
+  get _contentTemplate() { 
+    return html`
+      <slot></slot>
+    `;
+  }
+
+  get _footerTemplate() { 
+    return html`
+      <slot name="footer"></slot>
+    `;
   }
 
   /**
@@ -310,6 +340,18 @@ export class DwDialog extends LitElement {
     });
     
     this.dispatchEvent(event);
+  }
+
+  _onOpenedChanged() { 
+    if (this.opened && !this._mdcDialogInstance.isOpen) { 
+      this.open();
+      return;
+    }
+
+    if (!this.opened && this._mdcDialogInstance.isOpen) { 
+      this.close();
+      return;
+    }
   }
 
 }
