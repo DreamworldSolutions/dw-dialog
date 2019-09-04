@@ -1,6 +1,6 @@
 {
-  "name": "@dreamworld/dw-dialog",
-  "version": "0.0.0-development",
+  "name": "@dw/dw-dialog",
+  "version": "1.0.4-SNAPSHOT",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -21,12 +21,15 @@
   },
   "homepage": "https://github.com/DreamworldSolutions/dw-dialog#readme",
   "dependencies": {
+    "lit-element": "^2.2.1",
     "@material/dialog": "^3.1.0",
-    "lit-element": "^2.2.1"
+    "@dw/material-styles": "^1.0.4-SNAPSHOT"
   },
   "devDependencies": {
     "semantic-release": "beta",
-    "@material/mwc-button": "^0.6.0"
+    "@material/mwc-button": "^0.6.0",
+    "@material/mwc-switch": "^0.7.1",
+    "@material/mwc-formfield": "^0.7.1"
   },
   "publishConfig": {
     "access": "public"

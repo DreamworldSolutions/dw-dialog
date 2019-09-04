@@ -20,6 +20,7 @@ export class DwDialog extends LitElement {
         :host {
           display: block;
           outline:none;
+          color: var(--mdc-theme-text-primary);
         }
 
         :host[hidden] {
@@ -62,6 +63,15 @@ export class DwDialog extends LitElement {
           padding: var(--dw-dialog-footer-padding, 8px);
         }
          /* ENDS dialog footer style */
+
+
+        .mdc-dialog .mdc-dialog__content {
+          color: var(--mdc-theme-text-secondary, rgba(0, 0, 0, 0.6));
+        }
+
+        .mdc-dialog .mdc-dialog__title {
+          color: var(--mdc-theme-text-primary, rgba(0, 0, 0, 0.87));
+        }
 
 
         /* Style for 'withoutBackdrop' */

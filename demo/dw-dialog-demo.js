@@ -9,16 +9,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 import { LitElement, html, css } from 'lit-element';
+import { ThemeStyle } from '@dw/material-styles/theme';
+import '@material/mwc-button/mwc-button.js';
+import '@material/mwc-switch';
+import '@material/mwc-formfield';
 import '../dw-dialog';
-import '@material/mwc-button/mwc-button.js'
   
 export class DwDialogDemo extends LitElement {
   static get styles() {
     return [
+      ThemeStyle,
       css`
         :host {
           display: block;
           outline:none;
+          height: 100vh;
+          overflow: hidden;
+          padding: 24px;
         }
 
         :host[hidden] {
@@ -46,12 +53,29 @@ export class DwDialogDemo extends LitElement {
         #customized-button{
           --mdc-theme-primary: #03A9F4;
         }
+
+        mwc-formfield{
+          display: block;
+          padding-bottom: 24px;
+          --mdc-theme-text-primary-on-background: var(--mdc-theme-text-primary);
+        }
       `
     ];
   }
 
   render() {
     return html`
+      <mwc-formfield label="Enable dark theme">
+         <mwc-switch @change="${(e) => {
+            if (e.target.checked) { 
+              this.setAttribute('dark-theme', e.detail);
+              return;
+            }
+            this.removeAttribute('dark-theme');
+           }}">
+          </mwc-switch>
+      </mwc-formfield>
+
       <mwc-button raised @click="${this.openAlertDialog}">Alert dialog</mwc-button>
       <mwc-button raised @click="${this.openConfirmationDialog}">Modal dialog</mwc-button>
       <mwc-button raised @click="${this.openScrollableDialog}">Scrollable dialog</mwc-button>
