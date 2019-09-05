@@ -5,13 +5,13 @@
 ## Installation
 
 ``` html
-npm install --save @dw/dw-dialog
+npm install --save @dreamworld/dw-dialog
 ```
 
 ## Usage
 
 ``` html
-  import '@dw/dw-dialog/dw-dialog';
+  import '@dreamworld/dw-dialog/dw-dialog';
 ```
 
 ## Usage pattern
@@ -25,7 +25,7 @@ npm install --save @dw/dw-dialog
 - Provide 3 methods `_headerTemplate`, `_contentTemplate` and `_footerTemplate` to provide dialog's header, content and footer
 
 ``` html
-  import { DwDialog } from '@dw/dw-dialog/dw-dialog';
+  import { DwDialog } from '@dreamworld/dw-dialog/dw-dialog';
 
   class SampleDialog extends DwDialog{
 

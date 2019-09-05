@@ -23,7 +23,7 @@
   "dependencies": {
     "lit-element": "^2.2.1",
     "@material/dialog": "^3.1.0",
-    "@dw/material-styles": "^1.0.4-SNAPSHOT"
+    "@dreamworld/material-styles": "^1.1.0"
   },
   "devDependencies": {
     "semantic-release": "beta",
