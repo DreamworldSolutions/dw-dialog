@@ -172,8 +172,8 @@ dw-dialog{
 | --dw-dialog-header-line-height | line height of heder container |
 | --dw-dialog-header-before-height | default height of heder container |
 
-## Classes to be used when extending DwDialog class
+## Id selector to be used when extending DwDialog class
 
-- mdc-dialog__title - For header's style
-- mdc-dialog__content - For content's style
-- mdc-dialog__actions - For footer's style
+- dialog-header - For header's style
+- dialog-content - For content's style
+- dialog-footer - For footer's style
