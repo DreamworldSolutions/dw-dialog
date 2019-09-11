@@ -164,8 +164,8 @@ npm install --save @dreamworld/dw-dialog
 | --dw-dialog-footer-padding | Padding of footer area |
 | --dw-dialog-header-padding | padding of header area |
 
-## Classes to be used when extending DwDialog class
+## Id selector to be used when extending DwDialog class
 
-- mdc-dialog__title - For header's style
-- mdc-dialog__content - For content's style
-- mdc-dialog__actions - For footer's style
+- dialog-header - For header's style
+- dialog-content - For content's style
+- dialog-footer - For footer's style
