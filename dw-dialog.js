@@ -187,11 +187,9 @@ export class DwDialog extends LitElement {
           <div class="mdc-dialog__surface">
 
             <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
-            ${this._hasHeader ?
-              html`
-                <div class="mdc-dialog__title" id="my-dialog-title">${this._headerTemplate}</div>
-              ` : html``
-              }
+
+            <!-- This is for to prevent header's dom rendering  when header is not available in light dom -->
+            ${this._headerTemplate ? html`${this._customHeaderTemplate}` : html`${this._defaultHeaderTemplate}`}
 
             <!-- Dialog content -->
             <div class="mdc-dialog__content" id="my-dialog-content">
@@ -199,13 +197,10 @@ export class DwDialog extends LitElement {
             </div>
 
             <!-- Dialog footer -->
-            ${this._hasFooter ?
-            html`
-              <footer class="mdc-dialog__actions">
-                ${this._footerTemplate}
-              </footer>
-            ` : html``
-            }
+
+            <!-- This is for to prevent footer's dom rendering  when footer is not available in light dom -->
+            ${this._footerTemplate ? html`${this._customFooterTemplate}` : html`${this._defaultFooterTemplate}`}
+            
           </div>
         </div>
 
@@ -267,21 +262,61 @@ export class DwDialog extends LitElement {
     this._mdcDialogInstance.layout();
   }
 
-  get _headerTemplate() { 
-    return html`
-      <slot name="header"></slot>
-    `;
-  }
-
   get _contentTemplate() { 
     return html`
       <slot></slot>
     `;
   }
 
-  get _footerTemplate() { 
+  /**
+   * used when this element is used by `Composition`
+   */
+  get _defaultHeaderTemplate() { 
+    if (!this._hasHeader) { 
+      return '';
+    }
+
     return html`
-      <slot name="footer"></slot>
+      <div class="mdc-dialog__title" id="my-dialog-title">
+        <slot name="header"></slot>
+      </div>
+    `;
+  }
+
+  /**
+   * used when this element is used by `Extension`
+   */
+  get _customHeaderTemplate() { 
+    return html`
+      <div class="mdc-dialog__title" id="my-dialog-title">
+        ${this._headerTemplate}
+      </div>
+    `;
+  }
+
+  /**
+   * used when this element is used by `Composition`
+   */
+  get _defaultFooterTemplate() { 
+    if (!this._hasFooter) { 
+      return '';
+    }
+
+    return html`
+      <footer class="mdc-dialog__actions">
+        <slot name="footer"></slot>
+      </footer>
+    `;
+  }
+
+  /**
+   * used when this element is used by `Extension`
+   */
+  get _customFooterTemplate() { 
+    return html`
+      <footer class="mdc-dialog__actions">
+        ${this._footerTemplate}
+      </footer>
     `;
   }
 
