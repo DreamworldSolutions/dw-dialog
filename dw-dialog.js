@@ -212,6 +212,9 @@ export class DwDialog extends LitElement {
     this.noCancelOnOutsideClick = false;
     this.withoutBackdrop = false;
     this.placement = 'center';
+    
+    this._onDialogOpened = this._onDialogOpened.bind(this);
+    this._onDialogClosed = this._onDialogClosed.bind(this);
   }
 
   firstUpdated() {
