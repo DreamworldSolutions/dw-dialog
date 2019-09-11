@@ -186,7 +186,7 @@ export class DwDialog extends LitElement {
             ${this._headerTemplate ? html`${this._customHeaderTemplate}` : html`${this._defaultHeaderTemplate}`}
 
             <!-- Dialog content -->
-            <div class="mdc-dialog__content" id="my-dialog-content">
+            <div class="mdc-dialog__content" id="dialog-content">
               ${this._contentTemplate}
             </div>
 
@@ -274,7 +274,7 @@ export class DwDialog extends LitElement {
     }
 
     return html`
-      <div class="mdc-dialog__title" id="my-dialog-title">
+      <div class="mdc-dialog__title">
         <slot name="header"></slot>
       </div>
     `;
@@ -285,7 +285,7 @@ export class DwDialog extends LitElement {
    */
   get _customHeaderTemplate() { 
     return html`
-      <div class="mdc-dialog__title" id="my-dialog-title">
+      <div class="mdc-dialog__title" id="dialog-header">
         ${this._headerTemplate}
       </div>
     `;
@@ -311,7 +311,7 @@ export class DwDialog extends LitElement {
    */
   get _customFooterTemplate() { 
     return html`
-      <footer class="mdc-dialog__actions">
+      <footer class="mdc-dialog__actions" id="dialog-footer">
         ${this._footerTemplate}
       </footer>
     `;
