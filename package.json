@@ -2,7 +2,7 @@
   "name": "@dreamworld/dw-dialog",
   "version": "0.0.0-development",
   "description": "",
-  "main": "index.js",
+  "main": "dw-dialog.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
