@@ -49,7 +49,6 @@ export class DwDialog extends LitElement {
         .mdc-dialog__title{
           background: var(--dw-dialog-header-background);
           padding: var(--dw-dialog-header-padding, 0px 24px 9px);
-          line-height: var(--dw-dialog-header-line-height, 40px);
         }
 
         .mdc-dialog.mdc-dialog--scrollable .mdc-dialog__title{
@@ -78,11 +77,6 @@ export class DwDialog extends LitElement {
         :host([withoutBackdrop]) .mdc-dialog--open .mdc-dialog__scrim {
           opacity: 0
         }
-
-        .mdc-dialog__title::before {
-          height: var(--dw-dialog-header-before-height, 40px)
-        }
-
 
         /* STARTS: style for bottom placement */
         :host([placement="bottom"]) .mdc-dialog__container{

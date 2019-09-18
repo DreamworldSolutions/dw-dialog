@@ -117,28 +117,6 @@ npm install --save @dreamworld/dw-dialog
 </dw-dialog>
 ```
 
-### Customize
-
-```html
-dw-dialog{
-  --dw-dialog-header-background: lightgreen;
-}
-```
-
-## Slots
-
-### For footer
-
-```html
-<span slot="header"></span>
-```
-
-### For footer
-
-``` html
-<span slot="footer"></span>
-```
-
 ## Properties
 
 - noCancelOnEscKey - Set to true to disable canceling the overlay with the ESC key.
@@ -150,6 +128,22 @@ dw-dialog{
 ## Attributes
 
 `dismiss` and `confirm` attribute indicates that interacting with it should close the dialog with the specified attribute. This action is then reflected via event.detail.action in the `dw-dialog-closed` event.
+
+`dismiss` and `confirm` mainly used with the footer action buttons to automatically close dialog on buttons click.
+
+### Example
+
+```html
+  <dw-dialog opened>
+    <div>Are you sure?</div>
+
+    <div slot="footer">
+      <button dismiss>No</button>
+      <button confirm>Yes</button>
+    </div>
+
+</dw-dialog>
+```
 
 
 ## Methods
@@ -169,8 +163,6 @@ dw-dialog{
 | --dw-dialog-max-height | Max height of dialog |
 | --dw-dialog-footer-padding | Padding of footer area |
 | --dw-dialog-header-padding | padding of header area |
-| --dw-dialog-header-line-height | line height of heder container |
-| --dw-dialog-header-before-height | default height of heder container |
 
 ## Classes to be used when extending DwDialog class
 
