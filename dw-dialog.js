@@ -150,6 +150,11 @@ export class DwDialog extends LitElement {
       opened: { type: Boolean },
 
       /**
+       * CSS selector used to focus an element when dialog is open.
+       */
+      autoFocusSelector: { type: String },
+
+      /**
        * Instance of `MDCDialog` class
        */
       _mdcDialogInstance: {
@@ -243,6 +248,10 @@ export class DwDialog extends LitElement {
    */
   open() { 
     this._mdcDialogInstance.open();
+
+    if (this.autoFocusSelector) { 
+      this._setFocusToElement();
+    }
   }
 
   /**
@@ -394,6 +403,16 @@ export class DwDialog extends LitElement {
       this.close();
       return;
     }
+  }
+
+  _setFocusToElement() { 
+    let el = this.shadowRoot.querySelector(this.autoFocusSelector);
+
+    if (!el) { 
+      el = this.querySelector(this.autoFocusSelector);
+    }
+
+    el && el.focus && el.focus();
   }
 
 }
