@@ -59,6 +59,11 @@ export class DwDialogDemo extends LitElement {
           padding-bottom: 24px;
           --mdc-theme-text-primary-on-background: var(--mdc-theme-text-primary);
         }
+
+        div mwc-button{
+          margin: 0;
+          margin-left: 8px;
+        }
       `
     ];
   }
@@ -83,6 +88,7 @@ export class DwDialogDemo extends LitElement {
       <mwc-button raised @click="${this.openCustomizedDialog}">Customized dialog</mwc-button>
       <mwc-button raised @click="${this.openWithoutBackdropDialog}">Without backdrop dialog</mwc-button>
       <mwc-button raised @click="${this.openBottomPlacementDialog}">Bottom placement dialog</mwc-button>
+      <mwc-button raised @click="${this.openAutoFocusableDialog}">Dialog with Auto-focus element</mwc-button>
 
       <dw-dialog id="alert">
         <div>Discard draft?</div>
@@ -165,6 +171,13 @@ export class DwDialogDemo extends LitElement {
           <h5>Item 6</h5>
           <h5>Item 7</h5>
         </dw-dialog>
+        
+        <dw-dialog id="autoFocus" autoFocusSelector="input">
+          <input placeholder="Enter your name">
+          <div slot="footer">
+            <mwc-button confirm>Ok</mwc-button>
+          </div>
+        </dw-dialog>
     `;
   }
 
@@ -200,6 +213,11 @@ export class DwDialogDemo extends LitElement {
 
   openBottomPlacementDialog() { 
     var elDialog = this.shadowRoot.querySelector('#bottomPlacement');
+    elDialog.open();
+  }
+
+  openAutoFocusableDialog() { 
+    var elDialog = this.shadowRoot.querySelector('#autoFocus');
     elDialog.open();
   }
 }
