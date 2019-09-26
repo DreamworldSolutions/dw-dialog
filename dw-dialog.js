@@ -371,6 +371,7 @@ export class DwDialog extends LitElement {
    * Tirggers `dw-dialog-closed` event when dialog is closed
    */
   _onDialogClosed(e) { 
+    this.opened = false;
     let event = new CustomEvent('dw-dialog-closed', {
       detail: e.detail,
       bubbles: true,
@@ -384,6 +385,7 @@ export class DwDialog extends LitElement {
    * Tirggers `dw-dialog-opened` event when dialog is opened
    */
   _onDialogOpened(e) { 
+    this.opened = true;
     let event = new CustomEvent('dw-dialog-opened', {
       detail: e.detail,
       bubbles: true,
