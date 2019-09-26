@@ -20,7 +20,7 @@ export class DwDialog extends LitElement {
         :host {
           display: block;
           outline:none;
-          color: var(--mdc-theme-text-primary);
+          color: var(--mdc-theme-text-primary); 
         }
 
         :host[hidden] {
