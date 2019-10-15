@@ -88,6 +88,7 @@ export class DwDialogDemo extends LitElement {
       <mwc-button raised @click="${this.openCustomizedDialog}">Customized dialog</mwc-button>
       <mwc-button raised @click="${this.openWithoutBackdropDialog}">Without backdrop dialog</mwc-button>
       <mwc-button raised @click="${this.openBottomPlacementDialog}">Bottom placement dialog</mwc-button>
+      <mwc-button raised @click="${this.openfitHeightDialog}">Dialog with full viewport height</mwc-button>
       <mwc-button raised @click="${this.openAutoFocusableDialog}">Dialog with Auto-focus element</mwc-button>
 
       <dw-dialog id="alert">
@@ -171,6 +172,17 @@ export class DwDialogDemo extends LitElement {
           <h5>Item 6</h5>
           <h5>Item 7</h5>
         </dw-dialog>
+
+        <dw-dialog id="fitHeight" placement="bottom" withoutBackdrop fit-height>
+          <span slot="header">The Wonderful Wizard of Oz</span>
+          <h5>Item 1</h5>
+          <h5>Item 2</h5>
+          <h5>Item 3</h5>
+          <h5>Item 4</h5>
+          <h5>Item 5</h5>
+          <h5>Item 6</h5>
+          <h5>Item 7</h5>
+        </dw-dialog>
         
         <dw-dialog id="autoFocus" autoFocusSelector="input">
           <input placeholder="Enter your name">
@@ -213,6 +225,11 @@ export class DwDialogDemo extends LitElement {
 
   openBottomPlacementDialog() { 
     var elDialog = this.shadowRoot.querySelector('#bottomPlacement');
+    elDialog.open();
+  }
+
+  openfitHeightDialog() {
+    var elDialog = this.shadowRoot.querySelector('#fitHeight');
     elDialog.open();
   }
 
