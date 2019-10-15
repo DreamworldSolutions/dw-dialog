@@ -123,6 +123,7 @@ npm install --save @dreamworld/dw-dialog
 - noCancelOnOutsideClick - Set to true to disable canceling the overlay by clicking outside it.
 - withoutBackdrop - Set to true to hide dialog backdrop(dialog__scrim)
 - placement - Set the placement of dialog. possibles values are `center`(Default) and `bottom`
+- `fit-height` - Sets the height of dialog to viewport height (fit to viewport). It is applicable only if `placement` is set to `bottom`.
 - opened - Set to true to open the dialog. You can also use `open()` and `close()` mathod.
 
 ## Attributes

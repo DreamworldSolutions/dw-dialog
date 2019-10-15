@@ -98,6 +98,11 @@ export class DwDialog extends LitElement {
           width: 100%;
         }
 
+        :host([placement="bottom"][fit-height]) .mdc-dialog,
+        :host([placement="bottom"][fit-height]) .mdc-dialog__surface{
+          height: 100vh;
+        }
+
         @keyframes slideInUp {
           from {
             transform: translate3d(0, 100%, 0);
@@ -142,6 +147,12 @@ export class DwDialog extends LitElement {
        * Possible value: `center`(Default) and `bottom`
        */
       placement: { type: String, reflect: true },
+
+      /**
+       * Sets dialog height to viewport height.
+       * It's applicable only when `placement` is set to `bottom`
+       */
+      fitHeight: { type: Boolean, reflect: true, attribute: 'fit-height' },
 
       /**
        * Opens dialog if true.
