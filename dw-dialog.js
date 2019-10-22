@@ -39,12 +39,12 @@ export class DwDialog extends LitElement {
 
         .mdc-dialog .mdc-dialog__surface{
           min-width: var(--dw-dialog-min-width, 280px);
+          max-width: var(--dw-dialog-max-width, 100%);
           min-height: var(--dw-dialog-min-height);
-          max-height: var(--dw-dialog-max-height, calc(100% - 32px));
+          max-height: var(--dw-dialog-max-height, 100%);
           border-radius: var(--dw-dialog-border-radius, 4px);
         }
         /* ENDS dialog container style */
-
 
         /* STARTS dialog header style */
         .mdc-dialog__title{
@@ -90,9 +90,6 @@ export class DwDialog extends LitElement {
 
         :host([placement="bottom"]) .mdc-dialog .mdc-dialog__surface{
           width: 100%;
-          min-width: var(--dw-dialog-min-width, 100%);
-          max-width: var(--dw-dialog-max-width, 100%);
-          max-height: var(--dw-dialog-max-height, 100%);
           border-radius: var(--dw-dialog-border-radius, 0);
         }
 
