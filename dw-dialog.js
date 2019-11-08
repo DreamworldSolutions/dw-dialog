@@ -20,7 +20,8 @@ export class DwDialog extends LitElement {
         :host {
           display: block;
           outline:none;
-          color: var(--mdc-theme-text-primary); 
+          color: var(--mdc-theme-text-primary);
+          z-index: 999;
         }
 
         :host[hidden] {
@@ -38,12 +39,12 @@ export class DwDialog extends LitElement {
 
         .mdc-dialog .mdc-dialog__surface{
           min-width: var(--dw-dialog-min-width, 280px);
+          max-width: var(--dw-dialog-max-width, 100%);
           min-height: var(--dw-dialog-min-height);
-          max-height: var(--dw-dialog-max-height, calc(100% - 32px));
+          max-height: var(--dw-dialog-max-height, 100%);
           border-radius: var(--dw-dialog-border-radius, 4px);
         }
         /* ENDS dialog container style */
-
 
         /* STARTS dialog header style */
         .mdc-dialog__title{
@@ -89,13 +90,17 @@ export class DwDialog extends LitElement {
 
         :host([placement="bottom"]) .mdc-dialog .mdc-dialog__surface{
           width: 100%;
-          min-width: var(--dw-dialog-min-width, 100%);
-          max-height: var(--dw-dialog-max-height, 100%);
           border-radius: var(--dw-dialog-border-radius, 0);
         }
 
         :host([placement="bottom"]) .mdc-dialog .mdc-dialog__container{
           width: 100%;
+        }
+        :host([opened][placement="bottom"][fit-height]),
+        :host([opened][placement="bottom"][fit-height]) .mdc-dialog__surface {
+          position: fixed;
+          top: 0;
+          bottom: 0;
         }
 
         @keyframes slideInUp {
@@ -144,10 +149,16 @@ export class DwDialog extends LitElement {
       placement: { type: String, reflect: true },
 
       /**
+       * Sets dialog height to viewport height.
+       * It's applicable only when `placement` is set to `bottom`
+       */
+      fitHeight: { type: Boolean, reflect: true, attribute: 'fit-height' },
+
+      /**
        * Opens dialog if true.
        * Close dialog if false
        */
-      opened: { type: Boolean },
+      opened: { type: Boolean, reflect: true },
 
       /**
        * CSS selector used to focus an element when dialog is open.
