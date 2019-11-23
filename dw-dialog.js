@@ -21,7 +21,6 @@ export class DwDialog extends LitElement {
           display: block;
           outline:none;
           color: var(--mdc-theme-text-primary);
-          z-index: 999;
         }
 
         :host[hidden] {
@@ -39,10 +38,11 @@ export class DwDialog extends LitElement {
 
         .mdc-dialog .mdc-dialog__surface{
           min-width: var(--dw-dialog-min-width, 280px);
-          max-width: var(--dw-dialog-max-width, 100%);
+          max-width: var(--dw-dialog-max-width, calc(100% - 32px));
           min-height: var(--dw-dialog-min-height);
-          max-height: var(--dw-dialog-max-height, 100%);
+          max-height: var(--dw-dialog-max-height, calc(100% - 32px));
           border-radius: var(--dw-dialog-border-radius, 4px);
+          box-shadow: 0px 2px 6px #ccc;
         }
         /* ENDS dialog container style */
 
@@ -69,10 +69,22 @@ export class DwDialog extends LitElement {
           color: var(--mdc-theme-text-secondary, rgba(0, 0, 0, 0.6));
         }
 
-        .mdc-dialog .mdc-dialog__title {
-          color: var(--mdc-theme-text-primary, rgba(0, 0, 0, 0.87));
+        :host(:not([scrolled-down])) .mdc-dialog footer {
+          box-shadow:  0 -1px 3px 0 rgba(0,0,0,0.12), 0 1px 2px 0 rgba(0,0,0,0.24);
         }
 
+        :host(:not([scrolled-up])) .mdc-dialog .mdc-dialog__title {
+          box-shadow: 0 1px 3px 0 rgba(0,0,0,0.12), 0 1px 2px 0 rgba(0,0,0,0.24);
+        }
+
+        .mdc-dialog .mdc-dialog__title {
+          color: var(--mdc-theme-text-primary, rgba(0, 0, 0, 0.87));
+          border-bottom: none !important;
+        }
+
+        .mdc-dialog footer {
+          border-top: 1px solid  var(--dw-dialog-divider-color, rgba(0, 0, 0, 0.12)) !important;
+        }
 
         /* Style for 'withoutBackdrop' */
         :host([withoutBackdrop]) .mdc-dialog--open .mdc-dialog__scrim {
@@ -90,6 +102,11 @@ export class DwDialog extends LitElement {
 
         :host([placement="bottom"]) .mdc-dialog .mdc-dialog__surface{
           width: 100%;
+          min-width: var(--dw-dialog-min-width, 100%);
+          max-width: var(--dw-dialog-max-width, 100%);
+          max-height: var(--dw-dialog-max-height, 100%);
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
           border-radius: var(--dw-dialog-border-radius, 0);
         }
 
@@ -101,6 +118,11 @@ export class DwDialog extends LitElement {
           position: fixed;
           top: 0;
           bottom: 0;
+        }
+
+        :host([opened][placement="bottom"][full-height]) .mdc-dialog__surface {
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
         }
 
         @keyframes slideInUp {
@@ -166,6 +188,16 @@ export class DwDialog extends LitElement {
       autoFocusSelector: { type: String },
 
       /**
+       * Output property. True when user scrolled to bottom of dialog content.
+       */
+      scrolledDown: { type: Boolean, reflect: true, attribute: 'scrolled-down' },
+
+      /**
+       * Output property.  True when user scrolled to top of dialog content.
+       */
+      scrolledUp: { type: Boolean, reflect: true, attribute: 'scrolled-up' },
+
+      /**
        * Instance of `MDCDialog` class
        */
       _mdcDialogInstance: {
@@ -186,6 +218,15 @@ export class DwDialog extends LitElement {
       _hasHeader: {
         type: Boolean,
         reflect: true
+      },
+
+      /**
+       * True when dialog height is equal to viewport.
+       */
+      _fullHeight: {
+        type: Boolean,
+        reflect: true,
+        attribute: 'full-height'
       }
     };
   }
@@ -228,9 +269,12 @@ export class DwDialog extends LitElement {
     this.noCancelOnOutsideClick = false;
     this.withoutBackdrop = false;
     this.placement = 'center';
+    this.scrolledDown = true;
+    this.scrolledUp = true;
     
     this._onDialogOpened = this._onDialogOpened.bind(this);
     this._onDialogClosed = this._onDialogClosed.bind(this);
+    this._onDialogScroll = this._onDialogScroll.bind(this);
   }
 
   firstUpdated() {
@@ -250,6 +294,7 @@ export class DwDialog extends LitElement {
 
   updated(changedProp) {
     if (changedProp.has('opened')) { 
+      this._manageFullHeight(); 
       this._onOpenedChanged();
     }
   }
@@ -277,6 +322,7 @@ export class DwDialog extends LitElement {
    */
   layout() { 
     this._mdcDialogInstance.layout();
+    this._manageFullHeight();
   }
 
   get _contentTemplate() { 
@@ -361,21 +407,29 @@ export class DwDialog extends LitElement {
   }
 
   /**
-   * Listens `MDCDialog:closed` and `MDCDialog:opened` events
+   * Listens `MDCDialog:closed`, `MDCDialog:opened` and scroll events
    */
   _listenEvents() { 
     let el = this.shadowRoot.querySelector('#dialogContainer');
     el.addEventListener('MDCDialog:opened', this._onDialogOpened);
     el.addEventListener('MDCDialog:closed', this._onDialogClosed);
+
+    //Bind scroll event of dialog content.
+    let scrollEl = this.shadowRoot.querySelector('#dialog-content');
+    scrollEl.addEventListener('scroll', this._onDialogScroll);
   }
 
   /**
-   * Unlistens `MDCDialog:closed` and `MDCDialog:opened` events
+   * Unlistens `MDCDialog:closed`, `MDCDialog:opened` and scroll events
    */
   _unlistenEvents() { 
     let el = this.shadowRoot.querySelector('#dialogContainer');
     el.removeEventListener('MDCDialog:closed', this._onDialogClosed);
     el.removeEventListener('MDCDialog:opened', this._onDialogOpened);
+
+    //Unbind scroll event of dialog content.
+    let scrollEl = this.shadowRoot.querySelector('#dialog-content');
+    scrollEl.removeEventListener('scroll', this._onDialogScroll);
   }
 
   /**
@@ -404,6 +458,34 @@ export class DwDialog extends LitElement {
     });
     
     this.dispatchEvent(event);
+  }
+
+  /**
+   * Manage `_fullHeight` property.
+   * If dialog height and viewport is equal then set `_fullHeight` as a true. otherwise set false.
+   * @protected
+   */
+  _manageFullHeight() {
+    let el = this.shadowRoot.querySelector('.mdc-dialog__surface');
+    this._fullHeight = el && window.innerHeight == el.offsetHeight;
+  }
+  
+  /**
+   * Invoked when user scroll in dialog content.
+   * Manage `scrollUp` or `scrollDown` property based on dialog content scroll position.
+   * @protected
+   */
+  _onDialogScroll() {
+    let scrollEl = this.shadowRoot.querySelector('#dialog-content');
+    if(!scrollEl) {
+      this.scrolledDown = true;
+      this.scrolledUp = true;
+      return;
+    }
+
+    let scrollLength = scrollEl.offsetHeight + scrollEl.scrollTop;
+    this.scrolledUp = scrollEl.scrollTop < 15;
+    this.scrolledDown = (scrollEl.scrollHeight - 15) <= scrollLength;
   }
 
   _onOpenedChanged() { 
