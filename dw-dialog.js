@@ -283,8 +283,10 @@ export class DwDialog extends LitElement {
 
   firstUpdated() {
     this._initDialog();
-    this._checkAvailableSlot();
     this._listenEvents();
+    this.updateComplete().then(()=> {
+      this._checkAvailableSlot();
+    });
   }
 
   disconnectedCallback() {
@@ -344,7 +346,7 @@ export class DwDialog extends LitElement {
     }
 
     return html`
-      <div class="mdc-dialog__title">
+      <div class="mdc-dialog__title" id="dialog-header">
         <slot name="header"></slot>
       </div>
     `;
@@ -370,7 +372,7 @@ export class DwDialog extends LitElement {
     }
 
     return html`
-      <footer class="mdc-dialog__actions">
+      <footer class="mdc-dialog__actions" id="dialog-footer">
         <slot name="footer"></slot>
       </footer>
     `;
@@ -402,9 +404,9 @@ export class DwDialog extends LitElement {
    * Sets `_hasHeader` and `_hasFooter` 
    * Based on these properties dom rendering happens
    */
-  _checkAvailableSlot() { 
-    let elHeader = this.querySelector('[slot="header"]');
-    let elFooter = this.querySelector('[slot="footer"]');
+  _checkAvailableSlot() {
+    let elHeader = this.shadowRoot.querySelector('#dialog-header');
+    let elFooter = this.shadowRoot.querySelector('#dialog-footer');
 
     this._hasHeader = !!elHeader;
     this._hasFooter = !!elFooter;
