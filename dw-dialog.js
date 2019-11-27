@@ -121,7 +121,7 @@ export class DwDialog extends LitElement {
         }
 
         :host(:not([_hasFooter])) .mdc-dialog .mdc-dialog__content {
-          padding-bottom: 8px;
+          padding-bottom: 12px;
         }
 
         :host([opened][placement="bottom"][full-height]) .mdc-dialog__surface {
