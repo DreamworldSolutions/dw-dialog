@@ -284,7 +284,7 @@ export class DwDialog extends LitElement {
   firstUpdated() {
     this._initDialog();
     this._listenEvents();
-    this.updateComplete().then(()=> {
+    this.updateComplete.then(()=> {
       this._checkAvailableSlot();
     });
   }
