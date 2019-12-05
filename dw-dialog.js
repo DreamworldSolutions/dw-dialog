@@ -289,6 +289,14 @@ export class DwDialog extends LitElement {
     });
   }
 
+  connectedCallback() {
+    super.connectedCallback && super.connectedCallback();
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('scroll', this._viewportHandler.bind(this));
+      window.visualViewport.addEventListener('resize', this._viewportHandler.bind(this));
+    }
+  }
+
   disconnectedCallback() {
     this._unlistenEvents();
 
@@ -303,6 +311,15 @@ export class DwDialog extends LitElement {
       this._manageFullHeight(); 
       this._onOpenedChanged();
     }
+  }
+
+  /**
+   * Resize dialog container on viewport resize.
+   * @param {Object} e Event
+   */
+  _viewportHandler(e) {
+    const container = this.shadowRoot.querySelector('#dialogContainer');
+    container.style.maxHeight = e.target.height + 'px';
   }
 
   /**
