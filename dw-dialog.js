@@ -405,8 +405,8 @@ export class DwDialog extends LitElement {
    * Based on these properties dom rendering happens
    */
   _checkAvailableSlot() {
-    let elHeader = this.shadowRoot.querySelector('#dialog-header');
-    let elFooter = this.shadowRoot.querySelector('#dialog-footer');
+    let elHeader = this.querySelector('[slot="header"]') || this.shadowRoot.querySelector('#dialog-header');
+    let elFooter = this.querySelector('[slot="footer"]') || this.shadowRoot.querySelector('#dialog-footer');
 
     this._hasHeader = !!elHeader;
     this._hasFooter = !!elFooter;
