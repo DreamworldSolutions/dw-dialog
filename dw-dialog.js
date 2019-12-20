@@ -279,6 +279,7 @@ export class DwDialog extends LitElement {
     this._onDialogOpened = this._onDialogOpened.bind(this);
     this._onDialogClosed = this._onDialogClosed.bind(this);
     this._onDialogScroll = this._onDialogScroll.bind(this);
+    this._visualViewPortHandler = this._viewportHandler.bind(this);
   }
 
   firstUpdated() {
@@ -292,8 +293,8 @@ export class DwDialog extends LitElement {
   connectedCallback() {
     super.connectedCallback && super.connectedCallback();
     if (window.visualViewport) {
-      window.visualViewport.addEventListener('scroll', this._viewportHandler.bind(this));
-      window.visualViewport.addEventListener('resize', this._viewportHandler.bind(this));
+      window.visualViewport.addEventListener('scroll', this._visualViewPortHandler);
+      window.visualViewport.addEventListener('resize', this._visualViewPortHandler);
     }
   }
 
@@ -454,6 +455,10 @@ export class DwDialog extends LitElement {
     //Unbind scroll event of dialog content.
     let scrollEl = this.shadowRoot.querySelector('#dialog-content');
     scrollEl.removeEventListener('scroll', this._onDialogScroll);
+
+    //Unbind visualViweport listeners.
+    window.visualViewport.removeEventListener('resize', this._visualViewPortHandler);
+    window.visualViewport.removeEventListener('scroll', this._visualViewPortHandler);
   }
 
   /**
