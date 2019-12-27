@@ -279,7 +279,10 @@ export class DwDialog extends LitElement {
     this._onDialogOpened = this._onDialogOpened.bind(this);
     this._onDialogClosed = this._onDialogClosed.bind(this);
     this._onDialogScroll = this._onDialogScroll.bind(this);
-    this._visualViewPortHandler = this._viewportHandler.bind(this);
+    
+    if (window.visualViewport) {
+      this._visualViewPortHandler = this._viewportHandler.bind(this);
+    }
   }
 
   firstUpdated() {
@@ -457,8 +460,10 @@ export class DwDialog extends LitElement {
     scrollEl.removeEventListener('scroll', this._onDialogScroll);
 
     //Unbind visualViweport listeners.
-    window.visualViewport.removeEventListener('resize', this._visualViewPortHandler);
-    window.visualViewport.removeEventListener('scroll', this._visualViewPortHandler);
+    if (window.visualViewport) {
+      window.visualViewport.removeEventListener('resize', this._visualViewPortHandler);
+      window.visualViewport.removeEventListener('scroll', this._visualViewPortHandler);
+    }
   }
 
   /**
