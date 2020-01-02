@@ -181,6 +181,11 @@ export class DwDialog extends LitElement {
       fitHeight: { type: Boolean, reflect: true, attribute: 'fit-height' },
 
       /**
+       * When set to `true` dialog will be fit to visual viewport always.
+       */
+      fitVisualViewport: { type: Boolean, reflect: true, attribute: 'fit-visual-viewport' },
+
+      /**
        * Opens dialog if true.
        * Close dialog if false
        */
@@ -295,7 +300,7 @@ export class DwDialog extends LitElement {
 
   connectedCallback() {
     super.connectedCallback && super.connectedCallback();
-    if (window.visualViewport) {
+    if (this.fitVisualViewport && window.visualViewport) {
       window.visualViewport.addEventListener('scroll', this._visualViewPortHandler);
       window.visualViewport.addEventListener('resize', this._visualViewPortHandler);
     }
@@ -460,7 +465,7 @@ export class DwDialog extends LitElement {
     scrollEl.removeEventListener('scroll', this._onDialogScroll);
 
     //Unbind visualViweport listeners.
-    if (window.visualViewport) {
+    if (this.fitVisualViewport && window.visualViewport) {
       window.visualViewport.removeEventListener('resize', this._visualViewPortHandler);
       window.visualViewport.removeEventListener('scroll', this._visualViewPortHandler);
     }
