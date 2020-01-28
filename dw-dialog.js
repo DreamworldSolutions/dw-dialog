@@ -324,7 +324,10 @@ export class DwDialog extends LitElement {
   _viewportHandler(e) {
     const container = this.shadowRoot.querySelector('#dialogContainer');
     container.style.maxHeight = e.target.height + 'px';
-    container.style.transform = 'translateY(' + e.target.offsetTop + 'px)';
+    const containerTop = container.getBoundingClientRect().top;
+    if (containerTop !== 0) {
+      container.style.transform = 'translateY(' + e.target.offsetTop + 'px)';
+    }
   }
 
   /**
