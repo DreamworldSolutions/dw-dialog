@@ -324,8 +324,12 @@ export class DwDialog extends LitElement {
     const container = this.shadowRoot.querySelector('#dialogContainer');
     container.style.maxHeight = e.target.height + 'px';
     const containerTop = container.getBoundingClientRect().top;
+    // This condition required due to behavior of CSS's fixed property. 
+    // For reference visit : https://developer.mozilla.org/en-US/docs/Web/CSS/position 
     if (containerTop !== 0) {
       container.style.transform = 'translateY(' + e.target.offsetTop + 'px)';
+    } else {
+      container.style.transform = 'none';
     }
   }
 
