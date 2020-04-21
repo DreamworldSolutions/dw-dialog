@@ -107,7 +107,6 @@ export class DwDialog extends LitElement {
           max-height: var(--dw-dialog-max-height, 100%);
           border-bottom-left-radius: 0;
           border-bottom-right-radius: 0;
-          border-radius: var(--dw-dialog-border-radius, 0);
         }
 
         :host([placement="bottom"]) .mdc-dialog .mdc-dialog__container{
