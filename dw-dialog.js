@@ -457,12 +457,18 @@ export class DwDialog extends LitElement {
    */
   _unlistenEvents() { 
     let el = this.shadowRoot.querySelector('#dialogContainer');
-    el.removeEventListener('MDCDialog:closed', this._onDialogClosed);
-    el.removeEventListener('MDCDialog:opened', this._onDialogOpened);
+    if (!el) {
+      console.warn('dw-dialog : Somehow dialog is disconnected already before "_unlistenEvents" execution.');
+    }
+    el && el.removeEventListener('MDCDialog:closed', this._onDialogClosed);
+    el && el.removeEventListener('MDCDialog:opened', this._onDialogOpened);
 
     //Unbind scroll event of dialog content.
     let scrollEl = this.shadowRoot.querySelector('#dialog-content');
-    scrollEl.removeEventListener('scroll', this._onDialogScroll);
+    if (!scrollEl) {
+      console.warn('dw-dialog : Somehow dialog is disconnected already before "_unlistenEvents" execution.');
+    }
+    scrollEl && scrollEl.removeEventListener('scroll', this._onDialogScroll);
 
     //Unbind visualViweport listeners.
     if (window.visualViewport) {
