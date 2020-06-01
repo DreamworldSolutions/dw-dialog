@@ -336,11 +336,13 @@ export class DwDialog extends LitElement {
    * Opens the dialog.
    */
   open() { 
-    this._mdcDialogInstance.open();
+    this.updateComplete.then(() => {
+      this._mdcDialogInstance && this._mdcDialogInstance.open();
 
-    if (this.autoFocusSelector) { 
-      this._setFocusToElement();
-    }
+      if (this.autoFocusSelector) { 
+        this._setFocusToElement();
+      }
+    })
   }
 
   /**
