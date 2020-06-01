@@ -531,15 +531,17 @@ export class DwDialog extends LitElement {
   }
 
   _onOpenedChanged() { 
-    if (this.opened && !this._mdcDialogInstance.isOpen) { 
-      this.open();
-      return;
-    }
-
-    if (!this.opened && this._mdcDialogInstance.isOpen) { 
-      this.close();
-      return;
-    }
+    this.updateComplete.then(() => {
+      if (this.opened && !this._mdcDialogInstance.isOpen) { 
+        this.open();
+        return;
+      }
+  
+      if (!this.opened && this._mdcDialogInstance.isOpen) { 
+        this.close();
+        return;
+      }
+    })
   }
 
   _setFocusToElement() { 
