@@ -284,16 +284,13 @@ export class DwDialog extends LitElement {
     }
   }
 
-  firstUpdated() {
-    this._initDialog();
-    this._listenEvents();
-    this.updateComplete.then(()=> {
-      this._checkAvailableSlot();
-    });
-  }
-
   connectedCallback() {
     super.connectedCallback && super.connectedCallback();
+    this.updateComplete.then(() => {
+      this._initDialog();
+      this._listenEvents();
+      this._checkAvailableSlot();
+    })
     if (window.visualViewport) {
       window.visualViewport.addEventListener('resize', this._visualViewPortHandler);
     }
@@ -336,11 +333,12 @@ export class DwDialog extends LitElement {
    * Opens the dialog.
    */
   open() { 
-    this._mdcDialogInstance.open();
-
-    if (this.autoFocusSelector) { 
-      this._setFocusToElement();
-    }
+    this.updateComplete.then(() => {
+      this._mdcDialogInstance.open();
+      if (this.autoFocusSelector) { 
+        this._setFocusToElement();
+      }
+    })
   }
 
   /**
@@ -533,15 +531,17 @@ export class DwDialog extends LitElement {
   }
 
   _onOpenedChanged() { 
-    if (this.opened && !this._mdcDialogInstance.isOpen) { 
-      this.open();
-      return;
-    }
-
-    if (!this.opened && this._mdcDialogInstance.isOpen) { 
-      this.close();
-      return;
-    }
+    this.updateComplete.then(() => {
+      if (this.opened && !this._mdcDialogInstance.isOpen) { 
+        this.open();
+        return;
+      }
+  
+      if (!this.opened && this._mdcDialogInstance.isOpen) { 
+        this.close();
+        return;
+      }
+    })
   }
 
   _setFocusToElement() { 
