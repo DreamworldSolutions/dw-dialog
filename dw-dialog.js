@@ -278,10 +278,7 @@ export class DwDialog extends LitElement {
     this._onDialogOpened = this._onDialogOpened.bind(this);
     this._onDialogClosed = this._onDialogClosed.bind(this);
     this._onDialogScroll = this._onDialogScroll.bind(this);
-    
-    if (window.visualViewport) {
-      this._visualViewPortHandler = this._viewportHandler.bind(this);
-    }
+    this._viewportHandler = this._viewportHandler.bind(this);
   }
 
   connectedCallback() {
@@ -292,7 +289,7 @@ export class DwDialog extends LitElement {
       this._checkAvailableSlot();
     })
     if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', this._visualViewPortHandler);
+      window.visualViewport.addEventListener('resize', this._viewportHandler);
     }
   }
 
@@ -313,10 +310,16 @@ export class DwDialog extends LitElement {
   }
 
   /**
-   * Resize dialog container on viewport resize.
+   * When dialog is opened then only resize dialog container on viewport resize.
+   * Otherwise, do nothing.
    * @param {Object} e Event
    */
   _viewportHandler(e) {
+
+    if(!this.opened) {
+      return;
+    }
+
     const container = this.shadowRoot.querySelector('#dialogContainer');
     container.style.maxHeight = e.target.height + 'px';
     const containerTop = container.getBoundingClientRect().top;
@@ -470,7 +473,7 @@ export class DwDialog extends LitElement {
 
     //Unbind visualViweport listeners.
     if (window.visualViewport) {
-      window.visualViewport.removeEventListener('resize', this._visualViewPortHandler);
+      window.visualViewport.removeEventListener('resize', this._viewportHandler);
     }
   }
 
