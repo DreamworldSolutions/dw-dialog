@@ -323,8 +323,8 @@ export class DwDialog extends LitElement {
     const offsetTop = e.target.offsetTop;
     // This condition required due to behavior of CSS's fixed property. 
     // For reference visit : https://developer.mozilla.org/en-US/docs/Web/CSS/position 
-    console.log('container top', containerTop);
-    console.log('offsetTop', offsetTop);
+    console.log('container top', containerTop, this.tagName);
+    console.log('offsetTop', offsetTop, this.tagName);
     if (containerTop !== 0) {
       container.style.transform = 'translateY(' + offsetTop + 'px)';
     } else {
