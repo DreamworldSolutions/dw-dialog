@@ -22,16 +22,19 @@
   "homepage": "https://github.com/DreamworldSolutions/dw-dialog#readme",
   "dependencies": {
     "@dreamworld/material-styles": "^1.1.0",
-    "@material/dialog": "^7.0.0",
-    "lit-element": "^2.3.1"
+    "@material/dialog": "^3.1.0",
+    "lit-element": "^2.2.1"
   },
   "devDependencies": {
-    "@material/mwc-button": "^0.17.2",
-    "@material/mwc-formfield": "^0.17.2",
-    "@material/mwc-switch": "^0.17.2",
-    "semantic-release": "17.1.1"
+    "@material/mwc-button": "^0.6.0",
+    "@material/mwc-formfield": "^0.7.1",
+    "@material/mwc-switch": "^0.7.1",
+    "semantic-release": "16.0.0-beta.23"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "resolutions": {
+    "@semantic-release/npm": "5.2.0-beta.5"
   }
 }
