@@ -532,12 +532,12 @@ export class DwDialog extends LitElement {
 
   _onOpenedChanged() { 
     this.updateComplete.then(() => {
-      if (this.opened && !this._mdcDialogInstance.isOpen) { 
+      if (this.opened && this._mdcDialogInstance && !this._mdcDialogInstance.isOpen) { 
         this.open();
         return;
       }
   
-      if (!this.opened && this._mdcDialogInstance.isOpen) { 
+      if (!this.opened && this._mdcDialogInstance && this._mdcDialogInstance.isOpen) { 
         this.close();
         return;
       }
