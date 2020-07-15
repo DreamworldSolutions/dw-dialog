@@ -319,6 +319,7 @@ export class DwDialog extends LitElement {
    * @param {Object} e Event
    */
   _viewportHandler(e) {
+    console.log(this.tagName, e);
     const tick = () => {
       const container = this.shadowRoot.querySelector('#dialogContainer');
       container.style.maxHeight = e.target.height + 'px';
