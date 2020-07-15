@@ -317,16 +317,20 @@ export class DwDialog extends LitElement {
    * @param {Object} e Event
    */
   _viewportHandler(e) {
-    const container = this.shadowRoot.querySelector('#dialogContainer');
-    container.style.maxHeight = e.target.height + 'px';
-    const containerTop = container.getBoundingClientRect().top;
-    // This condition required due to behavior of CSS's fixed property. 
-    // For reference visit : https://developer.mozilla.org/en-US/docs/Web/CSS/position 
-    if (containerTop !== 0) {
-      container.style.transform = 'translateY(' + e.target.offsetTop + 'px)';
-    } else {
-      container.style.transform = 'none';
+    const tick = () => {
+      const container = this.shadowRoot.querySelector('#dialogContainer');
+      container.style.maxHeight = e.target.height + 'px';
+      const containerTop = Math.abs(Math.trunc(container.getBoundingClientRect().top));
+      const offsetTop = e.target.offsetTop;
+      // This condition required due to behavior of CSS's fixed property. 
+      // For reference visit : https://developer.mozilla.org/en-US/docs/Web/CSS/position 
+      if (containerTop !== 0 && offsetTop !== 0) {
+        container.style.transform = 'translateY(' + offsetTop + 'px)';
+      } else {
+        container.style.transform = 'none';
+      }
     }
+    window.requestAnimationFrame(tick);
   }
 
   /**
