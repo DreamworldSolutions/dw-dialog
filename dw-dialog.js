@@ -11,6 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 import { LitElement, html, css } from 'lit-element';
 import { MDCDialog } from './component';
 import { Style } from './mwc-dialog-css';
+import debounce from 'lodash-es/debounce';
   
 export class DwDialog extends LitElement {
   static get styles() {
@@ -280,7 +281,7 @@ export class DwDialog extends LitElement {
     this._onDialogScroll = this._onDialogScroll.bind(this);
     
     if (window.visualViewport) {
-      this._visualViewPortHandler = this._viewportHandler.bind(this);
+      this._visualViewPortHandler = debounce(this._viewportHandler.bind(this), 50);
     }
   }
 
