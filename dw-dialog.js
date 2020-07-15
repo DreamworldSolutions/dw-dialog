@@ -326,7 +326,7 @@ export class DwDialog extends LitElement {
     console.log(this.tagName, 'targetHeight', e.target.height);
     console.log(this.tagName, 'containerTop', containerTop);
     console.log(this.tagName, 'targetOffsetTop', offsetTop);
-    if (containerTop !== 0) {
+    if (containerTop !== 0 && offsetTop !== 0) {
       container.style.transform = 'translateY(' + offsetTop + 'px)';
     } else {
       container.style.transform = 'none';
