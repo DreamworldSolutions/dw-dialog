@@ -320,7 +320,7 @@ export class DwDialog extends LitElement {
     const animate = () => {
       const header = this.shadowRoot.querySelector('#dialog-header');
       const footer = this.shadowRoot.querySelector('#dialog-footer');
-      if (header) {
+      if (header && this.fitHeight) {
         header.style.transform = 'translateY(' + e.target.offsetTop + 'px)';
       }
 
