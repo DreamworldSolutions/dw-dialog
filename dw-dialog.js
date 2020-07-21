@@ -293,6 +293,7 @@ export class DwDialog extends LitElement {
     })
     if (window.visualViewport) {
       window.visualViewport.addEventListener('resize', this._visualViewPortHandler);
+      window.visualViewport.addEventListener('scroll', this._visualViewPortHandler);
     }
   }
 
@@ -476,6 +477,7 @@ export class DwDialog extends LitElement {
     //Unbind visualViweport listeners.
     if (window.visualViewport) {
       window.visualViewport.removeEventListener('resize', this._visualViewPortHandler);
+      window.visualViewport.removeEventListener('scroll', this._visualViewPortHandler);
     }
   }
 
