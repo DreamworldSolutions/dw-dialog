@@ -8,7 +8,8 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-import { LitElement, html, css } from 'lit-element';
+import { html, css } from 'lit-element';
+import { LitElement } from '@dreamworld/pwa-helpers/lit-element.js';
 import { MDCDialog } from './component';
 import { Style } from './mwc-dialog-css';
   
@@ -303,9 +304,12 @@ export class DwDialog extends LitElement {
       this._mdcDialogInstance.destroy();
       this._mdcDialogInstance = null;
     }
+
+    super.disconnectedCallback && super.disconnectedCallback();
   }
 
   updated(changedProp) {
+    super.updated && super.updated(changedProp);
     if (changedProp.has('opened')) { 
       this._manageFullHeight(); 
       this._onOpenedChanged();
