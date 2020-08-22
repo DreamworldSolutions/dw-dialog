@@ -26,6 +26,7 @@
     "lit-element": "^2.2.1"
   },
   "devDependencies": {
+    "@dreamworld/pwa-helpers": "^1.8.0",
     "@material/mwc-button": "^0.6.0",
     "@material/mwc-formfield": "^0.7.1",
     "@material/mwc-switch": "^0.7.1",
