@@ -1,18 +1,13 @@
-/**
-@license
-Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
 
 import { html, css } from 'lit-element';
 import { LitElement } from '@dreamworld/pwa-helpers/lit-element.js';
 import { MDCDialog } from './component';
 import { Style } from './mwc-dialog-css';
   
+/**
+ * Behaviours:
+ *  - When `fit` is set to dialog, it does not initialize dialog with `MDCDialog` instead it renders `dw-fit-dialog`
+ */
 export class DwDialog extends LitElement {
   static get styles() {
     return [
@@ -181,6 +176,12 @@ export class DwDialog extends LitElement {
       fitHeight: { type: Boolean, reflect: true, attribute: 'fit-height' },
 
       /**
+       * It's input property.
+       * It's constant property.
+       */
+      fit: { type: Boolean, reflect: true },
+
+      /**
        * Opens dialog if true.
        * Close dialog if false
        */
@@ -236,6 +237,7 @@ export class DwDialog extends LitElement {
   }
 
   render() {
+    /* TODO: When `fit` is `true`, renders `dw-fit-dialot` */
     return html`
       <div id="dialogContainer" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
         <div class="mdc-dialog__container">
@@ -267,6 +269,7 @@ export class DwDialog extends LitElement {
 
   constructor() { 
     super();
+    
     this._hasHeader = false;
     this._hasFooter = false;
     this.noCancelOnEscKey = false;
@@ -451,6 +454,7 @@ export class DwDialog extends LitElement {
     el.addEventListener('MDCDialog:closed', this._onDialogClosed);
 
     //Bind scroll event of dialog content.
+    //TODO: When `fit` dialog, scrollEl is document.scrollingElement
     let scrollEl = this.shadowRoot.querySelector('#dialog-content');
     scrollEl.addEventListener('scroll', this._onDialogScroll);
   }
