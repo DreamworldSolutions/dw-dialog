@@ -9,26 +9,30 @@ npm install --save @dreamworld/dw-dialog
 ```
 
 ## Usage
-
+### `dw-dialog`
 ``` html
-  import '@dreamworld/dw-dialog/dw-dialog';
+  import '@dreamworld/dw-dialog/dw-dialog.js';
+```
+### `dw-fit-dialog`
+``` html
+    import '@dreamworld/dw-dialog/dw-fit-dialog.js';
 ```
 
 ## Usage pattern
 
-- There is 2 ways to use dialog
+- There is 2 ways to use `dw-dialog`
   1. extension
   2. composition
 
-### Using extension
+- `dw-fit-dialog` can be used by extention only.
 
+### Using extension (`dw-dialog)
 - Provide 3 methods `_headerTemplate`, `_contentTemplate` and `_footerTemplate` to provide dialog's header, content and footer
 
 ``` html
   import { DwDialog } from '@dreamworld/dw-dialog/dw-dialog';
 
   class SampleDialog extends DwDialog{
-
     static get styles() {
       return [
         Style,
@@ -52,6 +56,41 @@ npm install --save @dreamworld/dw-dialog
     get _contentTemplate() { return html`<h2>Content</h2>` }
     get _footerTemplate() { return html`<button dismiss>Cancel</button>` }
   }
+```
+
+### Using extension (`dw-fit-dialog`)
+- Provide 3 methods `_headerTemplate`, `_contentTemplate` and `_footerTemplate` to provide dialog's header, content and footer
+
+``` html
+  import { DwFitDialog } from '@dreamworld/dw-dialog/dw-dialog';
+
+  class MyFitDialog extends DwFitDialog{
+
+    static get styles() {
+      return [
+        Style,
+        css`
+          header {
+            // Customize header's style from here
+          }
+
+          .mdc-dialog__content{
+            // Customize content's style from here
+          }
+
+          footer {
+            // Customize footer's style from here
+          }
+        `
+      ]
+    }
+
+    get _headerTemplate() { return html`Title 1` }
+    get _contentTemplate() { return html`<h2>Content</h2>` }
+    get _footerTemplate() { return html`<button dismiss>Cancel</button>` }
+  }
+
+  window.customElements.define('my-fit-dialog', MyFitDialog);
 ```
 
 ### Using composition
@@ -118,13 +157,16 @@ npm install --save @dreamworld/dw-dialog
 ```
 
 ## Properties
-
+### `dw-dialog`
 - noCancelOnEscKey - Set to true to disable canceling the overlay with the ESC key.
 - noCancelOnOutsideClick - Set to true to disable canceling the overlay by clicking outside it.
 - withoutBackdrop - Set to true to hide dialog backdrop(dialog__scrim)
 - placement - Set the placement of dialog. possibles values are `center`(Default) and `bottom`
 - `fit-height` - Sets the height of dialog to viewport height (fit to viewport). It is applicable only if `placement` is set to `bottom`.
-- opened - Set to true to open the dialog. You can also use `open()` and `close()` mathod.
+- opened - Set to true to open the dialog. You can also use `open()` and `close()` method.
+
+### `dw-fit-dialog`
+  - opened - Set to `true` to open the dialog. You can use `open` and `close` method as well to open/close dialog.
 
 ## Attributes
 
@@ -148,13 +190,17 @@ npm install --save @dreamworld/dw-dialog
 
 
 ## Methods
-
+### `dw-dialog`
 - open - Opens the dialog.
 - close - Closes the dialog
 - layout - Recalculates layout and automatically adds/removes modifier classes e.g. --scrollable.
 
-## CSS Custom Properties
+### `dw-fit-dialog`
+- open - Opens dialog
+- close - Closes dialog.
 
+## CSS Custom Properties
+### `dw-dialog`
 | Name  | Description |
 | ----  | ----------- |
 | --dw-dialog-header-background | Background color of the header |
@@ -164,6 +210,15 @@ npm install --save @dreamworld/dw-dialog
 | --dw-dialog-max-height | Max height of dialog |
 | --dw-dialog-footer-padding | Padding of footer area |
 | --dw-dialog-header-padding | padding of header area |
+
+### `dw-fit-dialog`
+| Name  | Description |
+| ----  | ----------- |
+| --dw-fit-dialog-header-height | Height of header. Default is `56px` |
+| --dw-fit-dialog-footer-height | Height of footer. Default is `56px` |
+| --dw-fit-dialog-header-background | Background color of Header |
+| --dw-fit-dialog-content-background | Background color of Content |
+| --dw-fit-dialog-footer-background | Background color of Footer |
 
 ## Id selector to be used when extending DwDialog class
 

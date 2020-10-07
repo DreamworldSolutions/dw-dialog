@@ -15,6 +15,7 @@ import '@material/mwc-button/mwc-button.js';
 import '@material/mwc-switch';
 import '@material/mwc-formfield';
 import '../dw-dialog';
+import './parent-fit-dialog.js';
   
 export class DwDialogDemo extends LitElement {
   static get styles() {
@@ -91,6 +92,7 @@ export class DwDialogDemo extends LitElement {
       <mwc-button raised @click="${this.openBottomPlacementDialog}">Bottom placement dialog</mwc-button>
       <mwc-button raised @click="${this.openfitHeightDialog}">Dialog with full viewport height</mwc-button>
       <mwc-button raised @click="${this.openAutoFocusableDialog}">Dialog with Auto-focus element</mwc-button>
+      <mwc-button raised @click="${this.openFitDalog}">Open Fit dialog</mwc-button>
 
       <dw-dialog id="alert">
         <div>Discard draft?</div>
@@ -191,6 +193,8 @@ export class DwDialogDemo extends LitElement {
             <mwc-button confirm>Ok</mwc-button>
           </div>
         </dw-dialog>
+
+        <parent-fit-dialog id="fit"></parent-fit-dialog>
     `;
   }
 
@@ -237,6 +241,11 @@ export class DwDialogDemo extends LitElement {
   openAutoFocusableDialog() { 
     var elDialog = this.shadowRoot.querySelector('#autoFocus');
     elDialog.open();
+  }
+
+  openFitDalog() {
+    const dialogEl = this.renderRoot.querySelector('#fit');
+    dialogEl.open();
   }
 }
 

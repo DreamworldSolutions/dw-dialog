@@ -23,7 +23,8 @@
   "dependencies": {
     "@dreamworld/material-styles": "^1.1.0",
     "@material/dialog": "^3.1.0",
-    "lit-element": "^2.2.1"
+    "lit-element": "^2.2.1",
+    "lodash-es": "^4.17.15"
   },
   "devDependencies": {
     "@dreamworld/pwa-helpers": "^1.8.0",
