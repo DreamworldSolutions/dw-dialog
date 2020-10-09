@@ -64,7 +64,7 @@ export class DwFitDialog extends LitElement {
           left: 50% !important;
           transform: translate3d(-50%, 0, 0);
           z-index: 101;
-          animation: slideInUpHeaderFooter 0.2s forwards;
+          
         }
 
         header, .header {
@@ -114,7 +114,6 @@ export class DwFitDialog extends LitElement {
           padding: 12px 16px;
           max-width: var(--dw-fit-dialog-max-width, 768px);
           margin: 0px auto;
-          animation: slideInUpContent 0.2s forwards;
         }
 
         .mdc-dialog__container[has-header] .mdc-dialog__content {
@@ -133,28 +132,6 @@ export class DwFitDialog extends LitElement {
           padding-bottom: 12px;
         }
         /* END Content */
-
-        /* START Animation */
-        @keyframes slideInUpContent {
-          from {
-            transform: translate3d(0, 100vh, 0);
-          }
-
-          to {
-            transform: translate3d(0, 0, 0);
-          }
-        }
-
-        @keyframes slideInUpHeaderFooter {
-          from {
-            transform: translate3d(-50%, 100vh, 0);
-          }
-
-          to {
-            transform: translate3d(-50%, 0, 0);
-          }
-        }
-        /* END Animation */
 
         #overlay {
           position: fixed;
