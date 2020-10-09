@@ -116,6 +116,15 @@ export class DwFitDialog extends LitElement {
           margin: 0px auto;
         }
 
+        .mdc-dialog__container:not([has-header]) header,
+        .mdc-dialog__container:not([has-header]) .header{
+          display: none;
+        }
+
+        .mdc-dialog__container:not([has-footer]) footer {
+          display: none;
+        }
+
         .mdc-dialog__container[has-header] .mdc-dialog__content {
           padding-top: 56px;
         }
@@ -395,15 +404,17 @@ export class DwFitDialog extends LitElement {
   }
 
   /**
-   * Listen `scroll` event.
+   * Listen `scroll` event & `click` event of "dismiss".
    */
   _listenEvents() {
-    this._onScrollHandler = this._onScrollHandler.bind(this);
-    document.addEventListener('scroll', this._onScrollHandler);
+    this.updateComplete.then(() => {
+      this._onScrollHandler = this._onScrollHandler.bind(this);
+      document.addEventListener('scroll', this._onScrollHandler);
 
-    this._dismissEl = this.renderRoot.querySelector('[dismiss]');
-    this.close = this.close.bind(this);
-    this._dismissEl && this._dismissEl.addEventListener('click', this.close);
+      this._dismissEl = this.renderRoot.querySelector('[dismiss]');
+      this.close = this.close.bind(this);
+      this._dismissEl && this._dismissEl.addEventListener('click', this.close);
+    })
   }
 
   /**
