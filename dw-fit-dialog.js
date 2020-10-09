@@ -98,7 +98,7 @@ export class DwFitDialog extends LitElement {
 
         .mdc-dialog__container[opened] .mdc-dialog__content{
           box-sizing: border-box;
-          background: var(--dw-fit-dialog-content-background, lightgray);
+          background: var(--dw-fit-dialog-content-background, #FFF);
           position: absolute;
           top: 0;
           left: 0;
@@ -232,9 +232,9 @@ export class DwFitDialog extends LitElement {
       return;
     }
 
-    this._onOpenedChanged(val);
     this._opened = val;
     this.requestUpdate('opened', oldVal);
+    this._onOpenedChanged(val);
   }
 
   /**
