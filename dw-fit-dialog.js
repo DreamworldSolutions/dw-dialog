@@ -400,6 +400,10 @@ export class DwFitDialog extends LitElement {
   _listenEvents() {
     this._onScrollHandler = this._onScrollHandler.bind(this);
     document.addEventListener('scroll', this._onScrollHandler);
+
+    this._dismissEl = this.renderRoot.querySelector('[dismiss]');
+    this.close = this.close.bind(this);
+    this._dismissEl && this._dismissEl.addEventListener('click', this.close);
   }
 
   /**
@@ -407,6 +411,7 @@ export class DwFitDialog extends LitElement {
    */
   _unlistenEvents() {
     document.removeEventListener('scroll', this._onScrollHandler);
+    this._dismissEl && this._dismissEl.removeEventListener('click', this.close);
   }
 }
 
