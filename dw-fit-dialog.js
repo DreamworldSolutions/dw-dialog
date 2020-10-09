@@ -127,7 +127,7 @@ export class DwFitDialog extends LitElement {
         }
 
         .mdc-dialog__container:not([has-footer]) footer {
-          display: none;
+          display: none !important;
         }
 
         .mdc-dialog__container[has-header] .mdc-dialog__content {
