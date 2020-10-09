@@ -28,6 +28,8 @@ import findIndex from 'lodash-es/findIndex';
  *      - `--dw-fit-dialog-header-background`: Background color of Header
  * *    - `--dw-fit-dialog-content-background`: Background color of Content
  *      - `--dw-fit-dialog-footer-background`: Background color of Footer
+ *      - `--dw-fit-dialog-max-width`: Maximum width of dialog. Default is 768px.
+ *      - `--dw-fit-dialog-overlay-color`: Overlay color of dialog. Default is rgba(0,0,0,0.4);
  *  
  */
 export class DwFitDialog extends LitElement {
@@ -49,15 +51,20 @@ export class DwFitDialog extends LitElement {
 
         /* START Header & Footer */
         header, .header, footer{
+          box-sizing: border-box;
           display: flex;
           align-items: center;
           justify-content: space-between;
           position: fixed !important;
-          left: 0 !important;
-          right: 0 !important;
-          z-index: 101;
-          box-sizing: border-box;
+          width: 100%;          
           padding: 0px 16px;
+          width: 100%;
+          max-width: var(--dw-fit-dialog-max-width, 768px);
+          right: auto;
+          left: 50% !important;
+          transform: translate3d(-50%, 0, 0);
+          z-index: 101;
+          animation: slideInUpHeaderFooter 0.2s forwards;
         }
 
         header, .header {
@@ -105,7 +112,9 @@ export class DwFitDialog extends LitElement {
           right: 0;
           min-height: 100vh;
           padding: 12px 16px;
-          z-index: 100;
+          max-width: var(--dw-fit-dialog-max-width, 768px);
+          margin: 0px auto;
+          animation: slideInUpContent 0.2s forwards;
         }
 
         .mdc-dialog__container[has-header] .mdc-dialog__content {
@@ -126,16 +135,39 @@ export class DwFitDialog extends LitElement {
         /* END Content */
 
         /* START Animation */
-        @keyframes slideInUp {
+        @keyframes slideInUpContent {
           from {
-            transform: translate3d(0, 100%, 0);
+            transform: translate3d(0, 100vh, 0);
           }
 
           to {
             transform: translate3d(0, 0, 0);
           }
         }
+
+        @keyframes slideInUpHeaderFooter {
+          from {
+            transform: translate3d(-50%, 100vh, 0);
+          }
+
+          to {
+            transform: translate3d(-50%, 0, 0);
+          }
+        }
         /* END Animation */
+
+        #overlay {
+          position: fixed;
+          width: 100%;
+          height: 100%;
+          top: 0; 
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: var(--dw-fit-dialog-overlay-color, rgba(0,0,0,0.4));
+          z-index: 100;
+          cursor: pointer;
+        }
       `
     ];
   }
@@ -145,6 +177,7 @@ export class DwFitDialog extends LitElement {
       <div class="mdc-dialog__container" ?opened=${this.opened} ?scroll-locked="${this.scrollLocked}"
         ?has-header=${this._hasHeader} ?has-footer=${this._hasFooter} ?scrolled-down=${this.scrolledDown}
         ?scrolled-up=${this.scrolledUp}>
+        <div id="overlay"></div>
         ${this._customHeaderTemplate}
       
         <div class="mdc-dialog__content" id="dialog-content">

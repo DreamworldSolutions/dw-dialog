@@ -219,6 +219,8 @@ npm install --save @dreamworld/dw-dialog
 | --dw-fit-dialog-header-background | Background color of Header |
 | --dw-fit-dialog-content-background | Background color of Content |
 | --dw-fit-dialog-footer-background | Background color of Footer |
+| --dw-fit-dialog-max-width | Maximum width of dialog. Default is 768px |
+| --dw-fit-dialog-overlay-color | Overlay color of dialog. Default is rgba(0,0,0,0.4) |
 
 ## Id selector to be used when extending DwDialog class
 
