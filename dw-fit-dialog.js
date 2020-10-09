@@ -93,6 +93,11 @@ export class DwFitDialog extends LitElement {
         .mdc-dialog__container:not([scrolled-down]) footer {
           box-shadow:  0 -1px 3px 0 rgba(0,0,0,0.12), 0 1px 2px 0 rgba(0,0,0,0.24);
         }  
+
+        .mdc-dialog__container[modal-dialog-opened] header,
+        .mdc-dialog__container[modal-dialog-opened] footer {
+          z-index: 99;
+        }
         /* END Header & Footer */
 
         /* START Content */
@@ -133,7 +138,8 @@ export class DwFitDialog extends LitElement {
           padding-bottom: 56px;
         }
 
-        .mdc-dialog__container[opened][scroll-locked] .mdc-dialog__content{
+        .mdc-dialog__container[opened][scroll-locked] .mdc-dialog__content,
+        .mdc-dialog__container[opened][modal-dialog-opened] .mdc-dialog__content {
           position: fixed;
         }
 
@@ -162,15 +168,16 @@ export class DwFitDialog extends LitElement {
     return html`
       <div class="mdc-dialog__container" ?opened=${this.opened} ?scroll-locked="${this.scrollLocked}"
         ?has-header=${this._hasHeader} ?has-footer=${this._hasFooter} ?scrolled-down=${this.scrolledDown}
-        ?scrolled-up=${this.scrolledUp}>
+        ?scrolled-up=${this.scrolledUp} ?modal-dialog-opened=${this._modalDialogOpened}>
         <div id="overlay"></div>
-        ${this._customHeaderTemplate}
       
         <div class="mdc-dialog__content" id="dialog-content">
+          ${this._customHeaderTemplate}
           ${this._contentTemplate}
+          ${this._customFooterTemplate}
         </div>
       
-        ${this._customFooterTemplate}
+        
       </div>
       
     `;
@@ -237,6 +244,11 @@ export class DwFitDialog extends LitElement {
        * `true` when footer template is provided.
        */
       _hasFooter: { type: Boolean },
+
+      /**
+       * When it's `true`, then decrease z-index of `header` & `footer`.
+       */
+      _modalDialogOpened: { type: Boolean, reflect: true, attribute: 'modal-dialog-opened' }
 
     };
   }
