@@ -398,9 +398,9 @@ export class DwFitDialog extends LitElement {
    */
   _onScrollHandler() {
     const scrollEl = document.scrollingElement;
-    let scrollLength = scrollEl.offsetHeight + scrollEl.scrollTop;
+    let scrollLength = scrollEl.clientHeight + scrollEl.scrollTop;
     this.scrolledUp = scrollEl.scrollTop < 15;
-    this.scrolledDown = (scrollEl.scrollHeight - 15) <= scrollLength;
+    this.scrolledDown = (scrollEl.scrollHeight - 15) <= scrollLength
   }
 
   /**
