@@ -278,11 +278,10 @@ export class DwFitDialog extends LitElement {
     return this.renderRootEl.attachShadow({ mode: 'open' });
   }
 
-  connectedCallback() {
-    super.connectedCallback && super.connectedCallback();
-    this.updateComplete.then(() => {
-      this._checkHeaderAndFooter();
-    })
+  updated(changedProps) {
+    super.updated && super.updated(changedProps);
+    this._hasHeader = !!this._headerTemplate;
+    this._hasFooter = !!this._footerTemplate;
   }
 
   /**
@@ -392,17 +391,6 @@ export class DwFitDialog extends LitElement {
     this._restoreScroll();
 
     this.dispatchEvent(new CustomEvent('dw-fit-dialog-closed', { bubbles: false, composed: false }));
-  }
-
-  /**
-   * Sets `_hasHeader` and `_hasFooter` 
-   * Based on these properties styling is applied.
-   */
-  _checkHeaderAndFooter() {
-    const headerEl = this.renderRoot.querySelector('#dialog-header');
-    const footerEl = this.renderRoot.querySelector('#dialog-footer');
-    this._hasHeader = headerEl && headerEl.textContent.trim();
-    this._hasFooter = footerEl && footerEl.textContent.trim();
   }
 
   /**
