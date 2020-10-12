@@ -279,7 +279,6 @@ export class DwDialog extends LitElement {
     this._onDialogOpened = this._onDialogOpened.bind(this);
     this._onDialogClosed = this._onDialogClosed.bind(this);
     this._onDialogScroll = this._onDialogScroll.bind(this);
-    this._viewportHandler = this._viewportHandler.bind(this);
   }
 
   connectedCallback() {
@@ -289,9 +288,6 @@ export class DwDialog extends LitElement {
       this._listenEvents();
       this._checkAvailableSlot();
     })
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', this._viewportHandler);
-    }
   }
 
   disconnectedCallback() {
@@ -307,30 +303,6 @@ export class DwDialog extends LitElement {
     if (changedProp.has('opened')) { 
       this._manageFullHeight(); 
       this._onOpenedChanged();
-    }
-  }
-
-  /**
-   * When dialog is opened then only resize dialog container on viewport resize.
-   * Otherwise, do nothing.
-   * @param {Object} e Event
-   */
-  _viewportHandler(e) {
-
-    if(!this.opened) {
-      return;
-    }
-
-    const container = this.shadowRoot.querySelector('#dialogContainer');
-    container.style.maxHeight = e.target.height + 'px';
-    const containerTop = Math.abs(Math.trunc(container.getBoundingClientRect().top));
-    const offsetTop = e.target.offsetTop;
-    // This condition required due to behavior of CSS's fixed property. 
-    // For reference visit : https://developer.mozilla.org/en-US/docs/Web/CSS/position 
-    if (containerTop !== 0 && offsetTop !== 0) {
-      container.style.transform = 'translateY(' + offsetTop + 'px)';
-    } else {
-      container.style.transform = 'none';
     }
   }
 
@@ -472,11 +444,6 @@ export class DwDialog extends LitElement {
       console.warn('dw-dialog : Somehow dialog is disconnected already before "_unlistenEvents" execution.');
     }
     scrollEl && scrollEl.removeEventListener('scroll', this._onDialogScroll);
-
-    //Unbind visualViweport listeners.
-    if (window.visualViewport) {
-      window.visualViewport.removeEventListener('resize', this._viewportHandler);
-    }
   }
 
   /**
