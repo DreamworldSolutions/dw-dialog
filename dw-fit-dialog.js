@@ -13,6 +13,7 @@ import findIndex from 'lodash-es/findIndex';
  *    
  *  - On dialog opened,
  *    - Locks scroll for all other dialogs & unlocks scroll for last opened dialog.
+ *    - When element is provided to be auto focused, focuses into it.
  * 
  *  - On dialog closed,
  *    - When any other dialog is opened then restores it's previous scroll.
@@ -248,7 +249,12 @@ export class DwFitDialog extends LitElement {
       /**
        * When it's `true`, then decrease z-index of `header` & `footer`.
        */
-      _modalDialogOpened: { type: Boolean, reflect: true, attribute: 'modal-dialog-opened' }
+      _modalDialogOpened: { type: Boolean, reflect: true, attribute: 'modal-dialog-opened' },
+
+      /**
+       * CSS selector used to focus an element when dialog is open.
+       */
+      autoFocusSelector: { type: String },
 
     };
   }
@@ -375,6 +381,11 @@ export class DwFitDialog extends LitElement {
     window.openedDwFitDialogsInstances.push({ element: this });
 
     this.dispatchEvent(new CustomEvent('dw-fit-dialog-opened', { bubbles: false, composed: false }));
+    if (this.autoFocusSelector) {
+      this.updateComplete.then(() => {
+        this._setFocusToElement();
+      });
+    }
   }
 
   /**
@@ -423,6 +434,14 @@ export class DwFitDialog extends LitElement {
   _unlistenEvents() {
     document.removeEventListener('scroll', this._onScrollHandler);
     this._dismissEl && this._dismissEl.removeEventListener('click', this.close);
+  }
+
+  /**
+   * Sets focus into provided auto focusable element.
+   */
+  _setFocusToElement() { 
+    const el = this.renderRoot.querySelector(this.autoFocusSelector);
+    el && el.focus && el.focus();
   }
 }
 
