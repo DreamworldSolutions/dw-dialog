@@ -178,7 +178,7 @@ export class DwFitDialog extends LitElement {
           ${this._customFooterTemplate}
         </div>
       
-        
+      
       </div>
       
     `;
@@ -439,9 +439,11 @@ export class DwFitDialog extends LitElement {
   /**
    * Sets focus into provided auto focusable element.
    */
-  _setFocusToElement() { 
-    const el = this.renderRoot.querySelector(this.autoFocusSelector);
-    el && el.focus && el.focus();
+  _setFocusToElement() {
+    setTimeout(() => {
+      const el = this.renderRoot.querySelector(this.autoFocusSelector);
+      el && el.focus && el.focus();
+    }, 0);
   }
 }
 
