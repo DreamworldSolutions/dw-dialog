@@ -67,7 +67,7 @@ export class DwDialog extends LitElement {
 
 
         .mdc-dialog .mdc-dialog__content {
-          color: var(--mdc-theme-text-secondary, rgba(0, 0, 0, 0.6));
+          color: var(--mdc-theme-text-primary, rgba(0, 0, 0, 0.87));
         }
 
         :host(:not([scrolled-down])) .mdc-dialog footer {
