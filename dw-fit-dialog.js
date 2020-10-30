@@ -443,6 +443,9 @@ export class DwFitDialog extends LitElement {
     setTimeout(() => {
       const el = this.renderRoot.querySelector(this.autoFocusSelector);
       el && el.focus && el.focus();
+      setTimeout(() => {
+        el && el.scrollIntoView(false);
+      }, 400);
     }, 0);
   }
 }
