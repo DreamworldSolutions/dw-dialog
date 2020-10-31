@@ -438,11 +438,15 @@ export class DwFitDialog extends LitElement {
 
   /**
    * Sets focus into provided auto focusable element.
+   * After 400 seconds, scrolls bottom of text field into viewport.
    */
   _setFocusToElement() {
     setTimeout(() => {
       const el = this.renderRoot.querySelector(this.autoFocusSelector);
       el && el.focus && el.focus();
+      setTimeout(() => {
+        el && el.scrollIntoView(false);
+      }, 400);
     }, 0);
   }
 }
