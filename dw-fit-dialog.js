@@ -375,8 +375,10 @@ export class DwFitDialog extends LitElement {
     if (!isEmpty(window.openedDwFitDialogsInstances)) {
       const lastInstance = window.openedDwFitDialogsInstances[window.openedDwFitDialogsInstances.length - 1];
       lastInstance.scrollTop = document.scrollingElement.scrollTop;
-      document.scrollingElement.scrollTop = 0;
       lastInstance.element.lockScroll();
+      setTimeout(() => {
+        document.scrollingElement.scrollTop = 0;
+      })
     }
     window.openedDwFitDialogsInstances.push({ element: this });
 
