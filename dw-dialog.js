@@ -322,7 +322,7 @@ export class DwDialog extends LitElement {
    * Closes the dialog
    */
   close() { 
-    this._mdcDialogInstance.close();
+    this._mdcDialogInstance && this._mdcDialogInstance.close();
   }
 
   /**
