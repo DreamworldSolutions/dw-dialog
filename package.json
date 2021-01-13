@@ -28,9 +28,9 @@
   },
   "devDependencies": {
     "@dreamworld/pwa-helpers": "^1.8.0",
-    "@material/mwc-button": "update-mwc",
-    "@material/mwc-formfield": "update-mwc",
-    "@material/mwc-switch": "update-mwc",
+    "@material/mwc-button": "0.20.0",
+    "@material/mwc-formfield": "0.20.0",
+    "@material/mwc-switch": "0.20.0",
     "semantic-release": "17.0.8"
   },
   "publishConfig": {

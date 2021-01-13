@@ -149,7 +149,7 @@
     lit-element "^2.3.0"
     tslib "^2.0.1"
 
-"@material/mwc-button@update-mwc":
+"@material/mwc-button@0.20.0":
   version "0.20.0"
   resolved "https://registry.yarnpkg.com/@material/mwc-button/-/mwc-button-0.20.0.tgz#2942edb504f4cee4d8f55b667b8538f27084b772"
   integrity sha512-kqQpeuLfaqfH4PZbENT9rwx1sgeFPLHuKy5M31ZeKG1deRTxw11FDGeMxSkePfm1QFfY6DNTsIAG5qC56tUNlw==
@@ -160,7 +160,7 @@
     lit-html "^1.1.2"
     tslib "^2.0.1"
 
-"@material/mwc-formfield@update-mwc":
+"@material/mwc-formfield@0.20.0":
   version "0.20.0"
   resolved "https://registry.yarnpkg.com/@material/mwc-formfield/-/mwc-formfield-0.20.0.tgz#dd3e25778aad624a0d13f5b8a33c95bf1aa3883f"
   integrity sha512-Rrk2ah5gNHD4O/yYWdwHvH3kGddaZXbdiZPCTpYDlTHG63CMUsAENJy8Fu8ZCC23nxbWfBeejtbB/Da+0VZWig==
@@ -191,7 +191,7 @@
     lit-html "^1.1.2"
     tslib "^2.0.1"
 
-"@material/mwc-switch@update-mwc":
+"@material/mwc-switch@0.20.0":
   version "0.20.0"
   resolved "https://registry.yarnpkg.com/@material/mwc-switch/-/mwc-switch-0.20.0.tgz#e4b3c3f512e7c2c497f07828795aa543320e81f9"
   integrity sha512-1++EESLaVGdRQTpm0t5Z5Il/3IZTSaMzBYb/21AVM2SkNqWG5/2ycd+cj4BhfViIBjPXi0Ajcz4nhxHE/6SRjw==
