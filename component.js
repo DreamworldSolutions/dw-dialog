@@ -82,7 +82,6 @@ var MDCDialog = /** @class */ (function (_super) {
 
     MDCDialog.prototype.initialize = function () {
         var e_1, _a;
-        console.log(this.root, this.root)
         var container = this.root.querySelector(strings.CONTAINER_SELECTOR);
         if (!container) {
             throw new Error("Dialog component requires a " + strings.CONTAINER_SELECTOR + " container element");
