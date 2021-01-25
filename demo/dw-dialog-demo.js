@@ -16,6 +16,8 @@ import '@material/mwc-switch';
 import '@material/mwc-formfield';
 import '../dw-dialog';
 import './parent-fit-dialog.js';
+import './my-popover-dialog.js';
+import './my-composite-dialog.js';
   
 export class DwDialogDemo extends LitElement {
   static get styles() {
@@ -93,6 +95,10 @@ export class DwDialogDemo extends LitElement {
       <mwc-button raised @click="${this.openfitHeightDialog}">Dialog with full viewport height</mwc-button>
       <mwc-button raised @click="${this.openAutoFocusableDialog}">Dialog with Auto-focus element</mwc-button>
       <mwc-button raised @click="${this.openFitDalog}">Open Fit dialog</mwc-button>
+      <mwc-button raised @click=${this.openpopoverDialog}>Open Popover dialog</mwc-button>
+      <mwc-button raised @click=${this.openCompositeModalDialog}>Open Composite modal dialog</mwc-button>
+      <mwc-button raised @click=${this.openCompositeFitDialog}>Open Composite fit dialog</mwc-button>
+      <mwc-button raised @click=${this.openCompositePopoverDialog}>Open Composite Popover dialog</mwc-button>
 
       <dw-dialog id="alert">
         <div>Discard draft?</div>
@@ -195,6 +201,10 @@ export class DwDialogDemo extends LitElement {
         </dw-dialog>
 
         <parent-fit-dialog id="fit"></parent-fit-dialog>
+
+        <my-popover-dialog id="popover" .popoverPlacement=${'bottom-end'} ></my-popover-dialog>
+
+        <my-composite-dialog id="composite"></my-composite-dialog>
     `;
   }
 
@@ -246,6 +256,31 @@ export class DwDialogDemo extends LitElement {
   openFitDalog() {
     const dialogEl = this.renderRoot.querySelector('#fit');
     dialogEl.open();
+  }
+
+  openpopoverDialog(e) {
+    const dialogEl = this.renderRoot.querySelector('#popover');
+    const triggerEl = e.target;
+    dialogEl && dialogEl.open(triggerEl);
+  }
+
+  openCompositeModalDialog() {
+    const dialog = this.renderRoot.querySelector('my-composite-dialog');
+    dialog.type = 'modal';
+    dialog.open();
+  }
+
+  openCompositeFitDialog() {
+    const dialog = this.renderRoot.querySelector('my-composite-dialog');
+    dialog.type = 'fit';
+    dialog.open();
+  }
+
+  openCompositePopoverDialog(e) {
+    const dialog = this.renderRoot.querySelector('my-composite-dialog');
+    dialog.type = 'popover';
+    const triggerEl = e.target;
+    dialog.open(triggerEl);
   }
 }
 
