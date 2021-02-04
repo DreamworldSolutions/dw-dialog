@@ -29,6 +29,7 @@ export const DwCompositeBaseDialogMixin = (baseElement) => class DwCompositeBase
    * Sets or Removes attribute to/from "renderRoot" element.
    */
   attributeChangedCallback(name, oldValue, newValue) {
+    super.attributeChangedCallback(name, oldValue, newValue);
     if (newValue !== null && newValue !== undefined) {
       this._renderRootEl.setAttribute(name, newValue);
     } else {
