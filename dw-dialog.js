@@ -451,12 +451,12 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
       return;
     }
     this.updateComplete.then(() => {
-      if (this.opened && this._mdcDialogInstance && !this._mdcDialogInstance.isOpen) { 
+      if (opened) { 
         this.open();
         return;
       }
   
-      if (!this.opened && this._mdcDialogInstance && this._mdcDialogInstance.isOpen) { 
+      if (!opened) { 
         this.close();
         return;
       }
