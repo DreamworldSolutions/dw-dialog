@@ -18,7 +18,6 @@ export const popoverStyle = css`
     border-radius: var(--dw-popover-border-radius, 4px);
     background: var(--mdc-theme-surface, #FFF);
     min-width: var(--dw-popover-min-width, 280px);
-    max-width: var(--dw-popover-max-width, 500px);
     overflow: auto;
     z-index: 101;
   }
@@ -29,6 +28,7 @@ export const popoverStyle = css`
     top: 0;
     background: var(--mdc-theme-surface, #FFF);
     padding: 16px;
+    z-index: 1;
   }
 
   :host([type="popover"]) header {

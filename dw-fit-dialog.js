@@ -192,6 +192,10 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
       super.open(triggerEl);
       return;
     }
+
+    if (this.opened) {
+      return;
+    }
     this.opened = true;
     document.body.appendChild(this._renderRootEl);
   }
@@ -203,6 +207,9 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
   close() {
     if (this.type !== 'fit') {
       super.close();
+      return;
+    }
+    if (!this.opened) {
       return;
     }
     this.opened = false;
@@ -258,9 +265,10 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
    */
   _onDialogOpened() {
     if (this.type !== 'fit') {
-      super._onOpenedChanged();
+      super._onDialogOpened();
       return;
     }
+    this.open();
     this._listenEvents();
 
     if (!isEmpty(window.openedDwFitDialogsInstances)) {
@@ -299,6 +307,7 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
     this._restoreScroll();
 
     this.dispatchEvent(new CustomEvent('dw-fit-dialog-closed', { bubbles: false, composed: false }));
+    this.close();
   }
 
   /**
