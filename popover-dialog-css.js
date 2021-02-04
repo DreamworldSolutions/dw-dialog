@@ -18,6 +18,7 @@ export const popoverStyle = css`
     border-radius: var(--dw-popover-border-radius, 4px);
     background: var(--mdc-theme-surface, #FFF);
     min-width: var(--dw-popover-min-width, 280px);
+    width: var(--dw-popover-width, 280px);
     overflow: auto;
     z-index: 101;
   }

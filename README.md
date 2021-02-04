@@ -328,7 +328,8 @@ npm install --save @dreamworld/dw-dialog
 ### dw-popover-dialog
 | Name  | Description |
 | ----  | ----------- |
-| --dw-popover-min-width | Minimum width of popover  |
+| --dw-popover-min-width | Minimum width of popover. Default is 280px.  |
+| --dw-popover-width | Width of popover. Default is 280px.  |
 | --dw-popover-overlay-background | Background styleing of popover overlay. Default is `rgba(0, 0, 0, 0.3)`  |
 | --dw-popover-animation-time | Animation time for popup dialog. Default is `0.3s`  |
 

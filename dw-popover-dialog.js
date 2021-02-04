@@ -15,8 +15,8 @@ import { DwCompositeBaseDialogMixin } from './dw-composite-base-dialog-mixin.js'
  * Usage: 
  *  - This element can be used by extention only. e.g `<my-popover-dialog></my-popover-dialog>`
  *  - CSS properties:
- *    - `--dw-popover-min-width`: Minimum width of popover dialog.
- *    - `--dw-popover-max-width`: Maximum width of popover dialog.
+ *    - `--dw-popover-min-width`: Minimum width of popover dialog. Default is 280px
+ *    - `--dw-popover-width`: Width of popover dialog. Default is 280px.
  *    - `--dw-popover-overlay-background`: Background of popover overlay. Default is `rgba(0, 0, 0, 0.3)`
  *    - `--dw-popover-animation-time`: Animation time of popover. Default is 0.3s
  *  - Events:
@@ -70,7 +70,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       popoverPlacement: { type: String },
 
       /**
-       * width of popover dialog. Default is 350;
+       * width of popover dialog. Default is 1000;
        */
       popoverMaxWidth: { type: Number },
 
@@ -124,7 +124,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
     this.popoverAnimation = 'dropdown';
     this.popoverOffset = [0, 0];
     this.type = 'popover';
-    this.popoverMaxWidth = 500;
+    this.popoverMaxWidth = 1000;
   }
 
   /**
@@ -142,7 +142,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       trigger: 'manual',
       interactive: true,
       hideOnClick: false, //Note: interactive does not work in shadowDOM, so explicitly sets it to `false` & closes dialog from `onClickOutside` handler.
-      appendTo: dialog.parentNode,
+      appendTo: 'parent',
       onClickOutside(instance, event) { 
         const path = event.path;
         for (let el of path) {
@@ -163,8 +163,8 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
         dialog._sheet = document.createElement('style');
         dialog._sheet.id = 'popover-style';
         dialog._sheet.innerHTML = externalStyle.cssText;
-        dialog.parentNode.appendChild(dialog._sheet);
-        dialog.parentNode.appendChild(dialog._overlay);
+        triggerEl.parentNode.appendChild(dialog._sheet);
+        triggerEl.parentNode.appendChild(dialog._overlay);
       },
       onHidden() {
         if (dialog.isConnected) {
