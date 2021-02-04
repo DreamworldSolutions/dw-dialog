@@ -178,12 +178,9 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
    * @param {Object} triggerEl Trigger Element for which popover dialog should be opened.
    */
   open(triggerElement) {
+    
     if (this.type !== 'popover') {
       super.open();
-      return;
-    }
-
-    if (this.opened) {
       return;
     }
 
@@ -254,6 +251,8 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       super._onDialogOpened();
       return;
     }
+
+    this.open();
     const event = new CustomEvent('dw-dialog-opened', { bubbles: false });
     this.dispatchEvent(event);
   }
@@ -266,8 +265,10 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       super._onDialogClosed();
       return;
     }
+
     const event = new CustomEvent('dw-dialog-closed', { bubbles: false });
     this.dispatchEvent(event);
+    this.close();
   }
 
   disconnectedCallback() {
