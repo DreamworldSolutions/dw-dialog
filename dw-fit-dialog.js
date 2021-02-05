@@ -193,9 +193,6 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
       return;
     }
 
-    if (this.opened) {
-      return;
-    }
     this.opened = true;
     document.body.appendChild(this._renderRootEl);
   }
@@ -209,9 +206,7 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
       super.close();
       return;
     }
-    if (!this.opened) {
-      return;
-    }
+    
     this.opened = false;
     this.shadowRoot.appendChild(this._renderRootEl);
   }
