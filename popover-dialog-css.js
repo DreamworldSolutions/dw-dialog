@@ -49,6 +49,7 @@ export const externalStyle = css`
     left:0; 
     right:0; 
     background: var(--dw-popover-overlay-background, rgba(0,0,0,0.3));
+    will-change: opacity, transform;
     animation-name: fadeIn;
     animation-duration: var(--dw-popover-animation-time, 0.3s);
   }
@@ -58,11 +59,13 @@ export const externalStyle = css`
   }
 
   .tippy-box[data-animation="dropdown"] {
+    will-change: opacity, transform, transform-origin;
     animation-name: dropdown;
     animation-duration: var(--dw-popover-animation-time, 0.3s);
   }
 
   .tippy-box[data-animation="scale"] {
+    will-change: opacity, transform;
     animation-name: scale;
     animation-duration: var(--dw-popover-animation-time, 0.3s);
   }
