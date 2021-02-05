@@ -39,15 +39,6 @@ export const popoverStyle = css`
   :host([type="popover"]) footer {
     bottom: 0;
   }
-
-  #overlay {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.5);
-  }
 `
 
 export const externalStyle = css`
@@ -68,6 +59,11 @@ export const externalStyle = css`
 
   .tippy-box[data-animation="dropdown"] {
     animation-name: dropdown;
+    animation-duration: var(--dw-popover-animation-time, 0.3s);
+  }
+
+  .tippy-box[data-animation="scale"] {
+    animation-name: scale;
     animation-duration: var(--dw-popover-animation-time, 0.3s);
   }
 
@@ -94,4 +90,15 @@ export const externalStyle = css`
       opacity: 1;
     }
   }
+
+  @keyframes scale {
+  from {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
 `

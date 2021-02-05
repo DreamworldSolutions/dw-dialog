@@ -257,7 +257,7 @@ npm install --save @dreamworld/dw-dialog
 - `triggerElement` - It's used to anchor popover dialog.
 - `showTrigger` - When it's set to `true`, shows trigger element when dialog is opened. By default it's falsy.
 - `offset` - Offset of the popoever dialog. It's used only when `showTrigger` is set to `true` otherwise sets position of dialog based on trigger element's position.
-- `popoverAnimation` - Animation of `popover` dialog. Possible values: `expand` or `dropdown`. Default is `dropdown`.
+- `popoverAnimation` - Animation of `popover` dialog. Possible values: `scale` or `dropdown`. Default is `dropdown`.
 - `popoverPlacement` - Placement of `poppover` dialog in respect of `triggerElement`. Possible values: `bottom-start` & `bottom-end`. Default is `bottom-start`.
 - `popoverMaxWidth` - Maximum width of popover.
 ### `dw-fit-dialog`
@@ -289,7 +289,6 @@ npm install --save @dreamworld/dw-dialog
 - open - Opens the dialog.
 - close - Closes the dialog
 - layout - Recalculates layout and automatically adds/removes modifier classes e.g. --scrollable.
-- refreshPopoverMaxHeiht - Refresh maximum height of popover dialog based on position of it's trigger element.
 
 ### `dw-fit-dialog`
 - open - Opens dialog
@@ -299,6 +298,7 @@ npm install --save @dreamworld/dw-dialog
 ### `dw-popover-dialog`
 - open: Opens dialog.
 - close: Closes dialog.
+- refreshMaxHeight - Refresh maximum height of popover dialog based on position of it's trigger element.
 
 ## CSS Custom Properties
 ### `dw-dialog`

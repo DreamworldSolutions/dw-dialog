@@ -202,7 +202,7 @@ export class DwDialogDemo extends LitElement {
 
         <parent-fit-dialog id="fit"></parent-fit-dialog>
 
-        <my-popover-dialog id="popover" .popoverPlacement=${'bottom-end'} ></my-popover-dialog>
+        <my-popover-dialog id="popover" .popoverPlacement=${'bottom-end'} .popoverAnimation=${'scale'}></my-popover-dialog>
 
         <my-composite-dialog id="composite"></my-composite-dialog>
     `;

@@ -20,7 +20,7 @@ import { DwCompositeBaseDialogMixin } from './dw-composite-base-dialog-mixin.js'
  *    - `--dw-popover-overlay-background`: Background of popover overlay. Default is `rgba(0, 0, 0, 0.3)`
  *    - `--dw-popover-animation-time`: Animation time of popover. Default is 0.3s
  *  - Events:
- *    - Dispatches `dw-popover-opened` & `dw-popover-closed` events.
+ *    - Dispatches `dw-dialog-opened` & `dw-dialog-closed` events.
  * Implementaiton Notes:
  *  - Extends `DwComposeBaseDialogMixin`
  *  - Renders popover using tippy.js
@@ -36,30 +36,32 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
   static get properties() {
     return {
       /**
-       * Opens dialog if true.
-       * Close dialog if false
+       * Opens dialog when true.
+       * Closes dialog when false
        */
       opened: { type: Boolean, reflect: true },
 
       /**
-       * It's trigger element for which `popover` dialog is opened.
+       * Trigger element for which `popover` dialog is opened.
        */
       triggerElement: { type: Object },
 
       /**
-       * When it's `true`, it hides hides `triggerElement` when `popover` dialog is opened.
+       * When it's `true`, it hides `triggerElement` when `popover` dialog is opened.
        */
       showTrigger: { type: Boolean },
 
       /**
-       * It's horizontal & vertical offset from `triggerElement` value in pixel. 
+       * It's horizontal & vertical offset from `triggerElement`. Value is in pixel. 
        * Default is [0, 0]
        */
       popoverOffset: { type: Array },
 
       /**
        * Animation of popover dialog. 
-       * Possible values are: 'dropdown' or 'expand'. Default is 'dropdown'
+       * Possible values are: 'dropdown' or 'scale'. Default is 'dropdown'
+       * Note: To apply custom animation, style should be imported explicitly where trigger element exists.
+ *     * e.g: if popoverAnimation is "fadeIn" then animation styling should be applied on `.tippy-box[data-animation="fadeIn"]` selector.
        */
       popoverAnimation: { type: String },
 
@@ -70,7 +72,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       popoverPlacement: { type: String },
 
       /**
-       * width of popover dialog. Default is 1000;
+       * Maximum width of popover dialog. Default is 1000;
        */
       popoverMaxWidth: { type: Number },
 

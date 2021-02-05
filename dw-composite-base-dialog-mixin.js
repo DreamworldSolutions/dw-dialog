@@ -1,5 +1,5 @@
 /**
- * Pupose: Costimzes renderRoot of element & proxies attribute of element to host element.
+ * Purpose: Costimzes renderRoot of element & proxies attribute of element to host element.
  * @param {Object} baseElement Base Element
  */
 export const DwCompositeBaseDialogMixin = (baseElement) => class DwCompositeBaseDialog extends baseElement {
