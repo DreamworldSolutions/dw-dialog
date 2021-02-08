@@ -242,7 +242,7 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
    */
   _onOpenedChanged(opened) {
     if (this.type !== 'fit') {
-      super._onOpenedChanged();
+      super._onOpenedChanged(opened);
       return;
     }
     if (opened) {
