@@ -72,11 +72,6 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       popoverPlacement: { type: String },
 
       /**
-       * Maximum width of popover dialog. Default is 1000;
-       */
-      popoverMaxWidth: { type: Number },
-
-      /**
       * Input property. When it's `true`, it's height will be full (up to the bottom of viewport)
       */
       fullHeight: { type: Boolean },
@@ -136,7 +131,6 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
     this.popoverAnimation = 'dropdown';
     this.popoverOffset = [0, 0];
     this.type = 'popover';
-    this.popoverMaxWidth = 1000;
   }
 
   updated(changedProps) {
@@ -158,7 +152,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       placement: dialog.popoverPlacement,
       offset,
       content: dialog._renderRootEl,
-      maxWidth: this.popoverMaxWidth,
+      maxWidth: 'none',
       trigger: 'manual',
       interactive: true,
       hideOnClick: false, //Note: interactive does not work in shadowDOM, so explicitly sets it to `false` & closes dialog from `onClickOutside` handler.
