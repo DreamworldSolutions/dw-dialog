@@ -79,7 +79,17 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       /**
       * Input property. When it's `true`, it's height will be full (up to the bottom of viewport)
       */
-      fullHeight: { type: Boolean }
+      fullHeight: { type: Boolean },
+
+      /**
+       * `true` when header template is provided.
+       */
+      _hasHeader: { type: Boolean, reflect: true, attribute: 'has-header' },
+
+      /**
+       * `true` when footer template is provided.
+       */
+      _hasFooter: { type: Boolean, reflect: true, attribute: 'has-footer' },
     };
   }
 
@@ -129,11 +139,19 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
     this.popoverMaxWidth = 1000;
   }
 
+  updated(changedProps) {
+    super.updated && super.updated(changedProps);
+    if (this.type === 'popover') {
+      this._hasHeader = !!this._headerTemplate;
+      this._hasFooter = !!this._footerTemplate;
+    }
+  }
+
   /**
    * Initializes tippy & shows it.
    * @param {Object} triggerEl Trigger Element
    */
-  _initTippy(triggerEl) {
+  _init(triggerEl) {
     const dialog = this;
     const offset = this.showTrigger ? dialog.popoverOffset : [0, -(triggerEl.offsetHeight)]
     this._tippyInstance = tippy(triggerEl, {
@@ -145,7 +163,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       interactive: true,
       hideOnClick: false, //Note: interactive does not work in shadowDOM, so explicitly sets it to `false` & closes dialog from `onClickOutside` handler.
       appendTo: 'parent',
-      onClickOutside(instance, event) { 
+      onClickOutside(instance, event) {
         const path = event.path;
         for (let el of path) {
           if (dialog.renderRoot === el) {
@@ -187,7 +205,6 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
    * @param {Object} triggerEl Trigger Element for which popover dialog should be opened.
    */
   open(triggerElement) {
-    
     if (this.type !== 'popover') {
       super.open();
       return;
@@ -201,7 +218,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
 
     this.opened = true;
     this.updateComplete.then(() => {
-      this._initTippy(triggerEl);
+      this._init(triggerEl);
     })
   }
 
@@ -274,35 +291,32 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       super._onDialogClosed();
       return;
     }
-
+    this.close();
     const event = new CustomEvent('dw-dialog-closed', { bubbles: false });
     this.dispatchEvent(event);
-    this.close();
   }
 
   disconnectedCallback() {
-    if (this.type !== 'popover') {
-      super.disconnectedCallback && super.disconnectedCallback();
-      return;
+    if (this.type === 'popover') {
+      if (this._overlay) {
+        this._overlay.remove();
+        this._overlay = null;
+      }
+
+      if (this._sheet) {
+        this._sheet.remove();
+        this._sheet = null;
+      }
+
+      if (this._tippyInstance) {
+        this._tippyInstance.hide();
+        this._tippyInstance.destroy();
+        this._tippyInstance = null;
+        this.opened = false;
+      }
     }
 
-    if (this._overlay) {
-      this._overlay.remove();
-      this._overlay = null;
-    }
-
-    if (this._sheet) {
-      this._sheet.remove();
-      this._sheet = null;
-    }
-
-    if (this._tippyInstance) {
-      this._tippyInstance.hide();
-      this._tippyInstance.destroy();
-      this._tippyInstance = null;
-      this.opened = false;
-    }
-    super.disconnectedCallback && super.disconnectedCallback();
+    super.disconnectedCallback();
   }
 }
 

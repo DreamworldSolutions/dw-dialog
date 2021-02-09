@@ -166,21 +166,19 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
   * Unlistens events.
    */
   disconnectedCallback() {
-    if (this.type !== 'fit') {
-      super.disconnectedCallback && super.disconnectedCallback();
-      return;
+    if (this.type === 'fit') {
+      const index = findIndex(window.openedDwFitDialogsInstances, (o) => o.element === this);
+      if (index >= 0) {
+        window.openedDwFitDialogsInstances.splice(index, 1);
+      }
+
+      this._restoreScroll();
+
+      this.renderRootEl && this.renderRootEl.remove();
+
+      this._unlistenEvents();
     }
-    const index = findIndex(window.openedDwFitDialogsInstances, (o) => o.element === this);
-    if (index >= 0) {
-      window.openedDwFitDialogsInstances.splice(index, 1);
-    }
-
-    this._restoreScroll();
-
-    this.renderRootEl && this.renderRootEl.remove();
-
-    this._unlistenEvents();
-    super.disconnectedCallback && super.disconnectedCallback();
+    super.disconnectedCallback();
   }
 
   /**
@@ -206,7 +204,7 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
       super.close();
       return;
     }
-    
+
     this.opened = false;
     this.shadowRoot.appendChild(this._renderRootEl);
   }

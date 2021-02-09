@@ -171,15 +171,13 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
   }
 
   disconnectedCallback() {
-    if (this.type !== 'modal') {
-      super.disconnectedCallback();
-      return;
-    }
-    this._unlistenEvents();
+    if (this.type === 'modal') {
+      this._unlistenEvents();
 
-    if (this._mdcDialogInstance) {
-      this._mdcDialogInstance.destroy();
-      this._mdcDialogInstance = null;
+      if (this._mdcDialogInstance) {
+        this._mdcDialogInstance.destroy();
+        this._mdcDialogInstance = null;
+      }
     }
     super.disconnectedCallback();
   }
@@ -238,11 +236,7 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
   }
 
   get _contentTemplate() { 
-    if (this.type !== 'modal') { 
-      return html`${super._contentTemplate}`
-    }
-
-    return html`<slot></slot>`;
+    return html`${this.type !== 'modal' ? html`${super._contentTemplate}` : html`<slot></slot>`}`
   }
 
   /**
@@ -317,7 +311,7 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
    */
   _checkAvailableSlot() {
     if (this.type !== 'modal') {
-      super._checkAvailableSlot();
+      super._checkAvailableSlot && super._checkAvailableSlot();
       return;
     }
     let elHeader = this.querySelector('[slot="header"]') || this.renderRoot.querySelector('#dialog-header');
