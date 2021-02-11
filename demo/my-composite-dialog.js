@@ -1,6 +1,7 @@
 
 import { html, css } from 'lit-element';
 import { DwCompositeDialog } from '../dw-composite-dialog.js';
+import './my-popover-dialog.js';
 
 
 export class MyCompositeDialog extends DwCompositeDialog {
@@ -14,6 +15,10 @@ export class MyCompositeDialog extends DwCompositeDialog {
     return [
       super.styles,
       css`
+        :host {
+          --dw-popover-width: 500px;
+        }
+
         #dialog-header {
           color: red;
           padding: 24px;
@@ -33,7 +38,15 @@ export class MyCompositeDialog extends DwCompositeDialog {
   }
 
   get _contentTemplate() {
-    return html`<h2>My Composite Content</h2><h2>My Composite Content</h2><h2>My Composite Content</h2><h2>My Composite Content</h2><h2>My Composite Content</h2><h2>My Composite Content</h2><h2>My Composite Content</h2><h2>My Composite Content</h2><h2>My Composite Content</h2><h2>My Composite Content</h2><h2>My Composite Content</h2><h2>My Composite Content</h2><h2>My Composite Content</h2><h2>My Composite Content</h2>`
+    return html`
+      <button id="child-anchor" @click=${this._openChildPopover}>Open Nested Popover.</button>
+      <my-popover-dialog></my-popover-dialog>
+    `
+  }
+
+  _openChildPopover() {
+    const triggerEl = this.renderRoot.querySelector('#child-anchor');
+    this.renderRoot.querySelector('my-popover-dialog').open(triggerEl);
   }
 
   get _footerTemplate() {
