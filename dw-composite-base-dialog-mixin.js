@@ -39,7 +39,6 @@ export const DwCompositeBaseDialogMixin = (baseElement) => class DwCompositeBase
 
   disconnectedCallback() {
     this._renderRootEl && this._renderRootEl.remove();
-    this._renderRootEl = null;
     super.disconnectedCallback();
   }
 }
