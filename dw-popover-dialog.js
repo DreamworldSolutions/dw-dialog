@@ -160,11 +160,11 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       onClickOutside(instance, event) {
         const path = event.path;
         for (let el of path) {
-          if (dialog.renderRoot === el) {
+          if (dialog._overlay === el) {
+            dialog.close();
             return;
           }
         }
-        dialog.close();
       },
       animation: this.popoverAnimation,
       popperOptions: {
