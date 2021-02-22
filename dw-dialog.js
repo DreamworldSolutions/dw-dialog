@@ -201,6 +201,9 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
       return;
     }
     this.updateComplete.then(() => {
+      if (this._mdcDialogInstance) {
+        return;
+      }
       this._initDialog();
       this._listenEvents();
       this._checkAvailableSlot();
