@@ -212,6 +212,9 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
 
     this.opened = true;
     this.updateComplete.then(() => {
+      if (this._tippyInstance) {
+        return;
+      }
       this._init(triggerEl);
     })
   }
