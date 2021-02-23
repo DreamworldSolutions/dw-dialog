@@ -198,25 +198,22 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
    * Opens popover dialog.
    * @param {Object} triggerEl Trigger Element for which popover dialog should be opened.
    */
-  open(triggerElement) {
+  async open(triggerElement) {
     if (this.type !== 'popover') {
       super.open();
       return;
     }
-
+    this.opened = true;
+    await this.updateComplete;
     const triggerEl = triggerElement || this.triggerElement;
     if (!triggerEl) {
       console.warn('Trigger element is not provided for popover.');
       return;
     }
-
-    this.opened = true;
-    this.updateComplete.then(() => {
-      if (this._tippyInstance) {
-        return;
-      }
-      this._init(triggerEl);
-    })
+    if (this._tippyInstance) {
+      return;
+    }
+    this._init(triggerEl);
   }
 
   /**
