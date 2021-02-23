@@ -217,7 +217,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
   }
 
   /**
- * Closes the dialog
+ * Closes the dialog.
  */
   close() {
     if (this.type !== 'popover') {
