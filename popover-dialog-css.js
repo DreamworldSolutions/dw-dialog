@@ -57,6 +57,7 @@ export const externalStyle = css`
     will-change: opacity, transform;
     animation-name: fadeIn;
     animation-duration: var(--dw-popover-animation-time, 0.3s);
+    z-index: 1;
   }
 
   .tippy-box:focus {
