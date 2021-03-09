@@ -1,152 +1,14 @@
-/**
-@license
-Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
+
 
 import { html, css } from 'lit-element';
 import { LitElement } from '@dreamworld/pwa-helpers/lit-element.js';
 import { MDCDialog } from './component';
-import { Style } from './mwc-dialog-css';
+import { ModalDialogStyles } from './mwc-dialog-css';
   
-export class DwDialog extends LitElement {
+export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends baseElement {
   static get styles() {
     return [
-      Style,
-      css`
-        :host {
-          display: block;
-          outline:none;
-          color: var(--mdc-theme-text-primary);
-        }
-
-        :host[hidden] {
-          display: none;
-        }
-
-        /* STARTS dialog container style */
-        :host(:not([_hasHeader])) .mdc-dialog.mdc-dialog--scrollable .mdc-dialog__surface{
-          padding-top: 8px;
-        }
-
-        :host(:not([_hasFooter])) .mdc-dialog.mdc-dialog--scrollable .mdc-dialog__surface{
-          padding-bottom: 8px;
-        }
-
-        .mdc-dialog .mdc-dialog__surface{
-          min-width: var(--dw-dialog-min-width, 280px);
-          max-width: var(--dw-dialog-max-width, calc(100% - 32px));
-          min-height: var(--dw-dialog-min-height);
-          max-height: var(--dw-dialog-max-height, calc(100% - 32px));
-          border-radius: var(--dw-dialog-border-radius, 4px);
-          box-shadow: 0px 2px 6px #ccc;
-        }
-        /* ENDS dialog container style */
-
-        /* STARTS dialog header style */
-        .mdc-dialog__title{
-          background: var(--dw-dialog-header-background);
-          padding: var(--dw-dialog-header-padding, 0px 24px 9px);
-        }
-
-        .mdc-dialog.mdc-dialog--scrollable .mdc-dialog__title{
-          border-color: var(--dw-dialog-divider-color, rgba(0, 0, 0, 0.12));
-        }
-         /* ENDS dialog header style */
-
-        /* STARTS dialog footer style */
-        .mdc-dialog__actions{
-          background: var(--dw-dialog-footer-background);
-          padding: var(--dw-dialog-footer-padding, 8px);
-        }
-         /* ENDS dialog footer style */
-
-
-        .mdc-dialog .mdc-dialog__content {
-          color: var(--mdc-theme-text-primary, rgba(0, 0, 0, 0.87));
-        }
-
-        :host(:not([scrolled-down])) .mdc-dialog footer {
-          box-shadow:  0 -1px 3px 0 rgba(0,0,0,0.12), 0 1px 2px 0 rgba(0,0,0,0.24);
-        }
-
-        :host(:not([scrolled-up])) .mdc-dialog .mdc-dialog__title {
-          box-shadow: 0 1px 3px 0 rgba(0,0,0,0.12), 0 1px 2px 0 rgba(0,0,0,0.24);
-        }
-
-        .mdc-dialog .mdc-dialog__title {
-          color: var(--mdc-theme-text-primary, rgba(0, 0, 0, 0.87));
-          border-bottom: none !important;
-        }
-
-        .mdc-dialog footer {
-          border-top: 1px solid  var(--dw-dialog-divider-color, rgba(0, 0, 0, 0.12)) !important;
-        }
-
-        /* Style for 'withoutBackdrop' */
-        :host([withoutBackdrop]) .mdc-dialog--open .mdc-dialog__scrim {
-          opacity: 0
-        }
-
-        /* STARTS: style for bottom placement */
-        :host([placement="bottom"]) .mdc-dialog__container{
-          align-items: flex-end;
-        }
-
-        :host([placement="bottom"]) .mdc-dialog--opening .mdc-dialog__container .mdc-dialog__surface{
-          animation: slideInUp 0.2s forwards;
-        }
-
-        :host([placement="bottom"]) .mdc-dialog .mdc-dialog__surface{
-          width: 100%;
-          min-width: var(--dw-dialog-min-width, 100%);
-          max-width: var(--dw-dialog-max-width, 100%);
-          max-height: var(--dw-dialog-max-height, 100%);
-          border-bottom-left-radius: 0;
-          border-bottom-right-radius: 0;
-        }
-
-        :host([placement="bottom"]) .mdc-dialog .mdc-dialog__container{
-          width: 100%;
-        }
-        :host([opened][placement="bottom"][fit-height]),
-        :host([opened][placement="bottom"][fit-height]) .mdc-dialog__surface {
-          position: fixed;
-          top: 0;
-          bottom: 0;
-        }
-
-        :host(:not([_hasFooter])) .mdc-dialog .mdc-dialog__content {
-          padding-bottom: 12px;
-        }
-
-        :host([opened][placement="bottom"][full-height]) .mdc-dialog__surface {
-          border-top-left-radius: 0;
-          border-top-right-radius: 0;
-        }
-
-        @keyframes slideInUp {
-          from {
-            transform: translate3d(0, 100%, 0);
-          }
-
-          to {
-            transform: translate3d(0, 0, 0);
-          }
-        }
-        /* ENDS: style for bottom placement */
-
-
-        /* STARTS: style for center placement */
-        :host([placement="center"]) .mdc-dialog--opening .mdc-dialog__container {
-          transition: opacity 75ms linear, transform 150ms 0ms cubic-bezier(0, 0, 0.2, 1);
-        }
-        /* ENDS: style for center placement */
-      `
+      ModalDialogStyles
     ];
   }
 
@@ -200,6 +62,12 @@ export class DwDialog extends LitElement {
        * Output property.  True when user scrolled to top of dialog content.
        */
       scrolledUp: { type: Boolean, reflect: true, attribute: 'scrolled-up' },
+       
+      /**
+       * This property is used to separate style of this dialog.
+       * It's mainly used when this dialog is used as a `dw-composite-dialog`
+       */
+      type: { type: String, reflect: true },
 
       /**
        * Instance of `MDCDialog` class
@@ -213,7 +81,8 @@ export class DwDialog extends LitElement {
        */
       _hasFooter: {
         type: Boolean,
-        reflect: true
+        reflect: true,
+        attribute: 'has-footer'
       },
       
       /**
@@ -221,7 +90,8 @@ export class DwDialog extends LitElement {
        */
       _hasHeader: {
         type: Boolean,
-        reflect: true
+        reflect: true,
+        attribute: 'has-header'
       },
 
       /**
@@ -235,7 +105,25 @@ export class DwDialog extends LitElement {
     };
   }
 
+  get opened() {
+    return this._opened;
+  }
+
+  set opened(val) {
+    const oldVal = this._opened;
+    if (oldVal === val) {
+      return;
+    }
+    this._opened = val;
+    this.requestUpdate('opened', oldVal);
+    this._onOpenedChanged(val);
+  }
+
   render() {
+    if (this.type !== 'modal') {
+      return html`${super.render()}`
+    }
+
     return html`
       <div id="dialogContainer" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
         <div class="mdc-dialog__container">
@@ -267,6 +155,7 @@ export class DwDialog extends LitElement {
 
   constructor() { 
     super();
+    this.type = 'modal';
     this._hasHeader = false;
     this._hasFooter = false;
     this.noCancelOnEscKey = false;
@@ -281,47 +170,59 @@ export class DwDialog extends LitElement {
     this._onDialogScroll = this._onDialogScroll.bind(this);
   }
 
-  connectedCallback() {
-    super.connectedCallback && super.connectedCallback();
-    this.updateComplete.then(() => {
-      this._initDialog();
-      this._listenEvents();
-      this._checkAvailableSlot();
-    })
-  }
-
   disconnectedCallback() {
-    this._unlistenEvents();
+    if (this.type === 'modal') {
+      this._unlistenEvents();
 
-    if (this._mdcDialogInstance) {
-      this._mdcDialogInstance.destroy();
-      this._mdcDialogInstance = null;
+      if (this._mdcDialogInstance) {
+        this._mdcDialogInstance.destroy();
+        this._mdcDialogInstance = null;
+      }
     }
+    super.disconnectedCallback();
   }
 
-  updated(changedProp) {
-    if (changedProp.has('opened')) { 
+  updated(changedProps) {
+    super.updated(changedProps);
+    if (this.type !== 'modal') {
+      return;
+    }
+    if (changedProps.has('opened')) { 
       this._manageFullHeight(); 
-      this._onOpenedChanged();
     }
   }
 
   /**
    * Opens the dialog.
    */
-  open() { 
+  open(triggerEl) { 
+    if (this.type !== 'modal') {
+      super.open(triggerEl)
+      return;
+    }
     this.updateComplete.then(() => {
+      if (this._mdcDialogInstance) {
+        return;
+      }
+      this._initDialog();
+      this._listenEvents();
+      this._checkAvailableSlot();
       this._mdcDialogInstance.open();
       if (this.autoFocusSelector) { 
         this._setFocusToElement();
       }
     })
+      
   }
 
   /**
    * Closes the dialog
    */
   close() { 
+    if (this.type !== 'modal') {
+      super.close();
+      return;
+    }
     this._mdcDialogInstance && this._mdcDialogInstance.close();
   }
 
@@ -329,14 +230,16 @@ export class DwDialog extends LitElement {
    * Recalculates layout and automatically adds/removes modifier classes e.g. --scrollable.
    */
   layout() { 
+    if (this.type !== 'modal') {
+      super.layout()
+      return;
+    }
     this._mdcDialogInstance.layout();
     this._manageFullHeight();
   }
 
   get _contentTemplate() { 
-    return html`
-      <slot></slot>
-    `;
+    return html`${this.type !== 'modal' ? html`${super._contentTemplate}` : html`<slot></slot>`}`
   }
 
   /**
@@ -396,7 +299,10 @@ export class DwDialog extends LitElement {
    * Sets `scrimClickAction` and `escapeKeyAction` based on user setting.
    */
   _initDialog() { 
-    const el = this.shadowRoot.querySelector('.mdc-dialog');
+    if (this.type !== 'modal') {
+      return;
+    }
+    const el = this.renderRoot.querySelector('.mdc-dialog');
     this._mdcDialogInstance = new MDCDialog(el);
     this._mdcDialogInstance.scrimClickAction = this.noCancelOnOutsideClick ? '' : 'close';
     this._mdcDialogInstance.escapeKeyAction = this.noCancelOnEscKey ? '' : 'close';
@@ -407,8 +313,12 @@ export class DwDialog extends LitElement {
    * Based on these properties dom rendering happens
    */
   _checkAvailableSlot() {
-    let elHeader = this.querySelector('[slot="header"]') || this.shadowRoot.querySelector('#dialog-header');
-    let elFooter = this.querySelector('[slot="footer"]') || this.shadowRoot.querySelector('#dialog-footer');
+    if (this.type !== 'modal') {
+      super._checkAvailableSlot && super._checkAvailableSlot();
+      return;
+    }
+    let elHeader = this.querySelector('[slot="header"]') || this.renderRoot.querySelector('#dialog-header');
+    let elFooter = this.querySelector('[slot="footer"]') || this.renderRoot.querySelector('#dialog-footer');
 
     this._hasHeader = !!elHeader;
     this._hasFooter = !!elFooter;
@@ -418,12 +328,16 @@ export class DwDialog extends LitElement {
    * Listens `MDCDialog:closed`, `MDCDialog:opened` and scroll events
    */
   _listenEvents() { 
-    let el = this.shadowRoot.querySelector('#dialogContainer');
+    if (this.type !== 'modal') {
+      super._listenEvents();
+      return;
+    }
+    let el = this.renderRoot.querySelector('#dialogContainer');
     el.addEventListener('MDCDialog:opened', this._onDialogOpened);
     el.addEventListener('MDCDialog:closed', this._onDialogClosed);
 
     //Bind scroll event of dialog content.
-    let scrollEl = this.shadowRoot.querySelector('#dialog-content');
+    let scrollEl = this.renderRoot.querySelector('#dialog-content');
     scrollEl.addEventListener('scroll', this._onDialogScroll);
   }
 
@@ -431,7 +345,11 @@ export class DwDialog extends LitElement {
    * Unlistens `MDCDialog:closed`, `MDCDialog:opened` and scroll events
    */
   _unlistenEvents() { 
-    let el = this.shadowRoot.querySelector('#dialogContainer');
+    if (this.type !== 'modal') {
+      super._unlistenEvents();
+      return;
+    }
+    let el = this.renderRoot.querySelector('#dialogContainer');
     if (!el) {
       console.warn('dw-dialog : Somehow dialog is disconnected already before "_unlistenEvents" execution.');
     }
@@ -439,7 +357,7 @@ export class DwDialog extends LitElement {
     el && el.removeEventListener('MDCDialog:opened', this._onDialogOpened);
 
     //Unbind scroll event of dialog content.
-    let scrollEl = this.shadowRoot.querySelector('#dialog-content');
+    let scrollEl = this.renderRoot.querySelector('#dialog-content');
     if (!scrollEl) {
       console.warn('dw-dialog : Somehow dialog is disconnected already before "_unlistenEvents" execution.');
     }
@@ -450,6 +368,10 @@ export class DwDialog extends LitElement {
    * Tirggers `dw-dialog-closed` event when dialog is closed
    */
   _onDialogClosed(e) { 
+    if (this.type !== 'modal') {
+      super._onDialogClosed();
+      return;
+    }
     this.opened = false;
     let event = new CustomEvent('dw-dialog-closed', {
       detail: e.detail,
@@ -458,12 +380,22 @@ export class DwDialog extends LitElement {
     });
     
     this.dispatchEvent(event);
+    this._unlistenEvents();
+
+    if (this._mdcDialogInstance) {
+      this._mdcDialogInstance.destroy();
+      this._mdcDialogInstance = null;
+    }
   }
 
    /**
    * Tirggers `dw-dialog-opened` event when dialog is opened
    */
   _onDialogOpened(e) { 
+    if (this.type !== 'modal') {
+      super._onDialogOpened();
+      return;
+    }
     this.opened = true;
     let event = new CustomEvent('dw-dialog-opened', {
       detail: e.detail,
@@ -480,7 +412,11 @@ export class DwDialog extends LitElement {
    * @protected
    */
   _manageFullHeight() {
-    let el = this.shadowRoot.querySelector('.mdc-dialog__surface');
+    if (this.type !== 'modal') {
+      super._manageFullHeight();
+      return;
+    }
+    let el = this.renderRoot.querySelector('.mdc-dialog__surface');
     this._fullHeight = el && window.innerHeight == el.offsetHeight;
   }
   
@@ -490,7 +426,11 @@ export class DwDialog extends LitElement {
    * @protected
    */
   _onDialogScroll() {
-    let scrollEl = this.shadowRoot.querySelector('#dialog-content');
+    if (this.type !== 'modal') {
+      super._onDialogScroll();
+      return;
+    }
+    let scrollEl = this.renderRoot.querySelector('#dialog-content');
     if(!scrollEl) {
       this.scrolledDown = true;
       this.scrolledUp = true;
@@ -502,14 +442,18 @@ export class DwDialog extends LitElement {
     this.scrolledDown = (scrollEl.scrollHeight - 15) <= scrollLength;
   }
 
-  _onOpenedChanged() { 
+  _onOpenedChanged(opened) { 
+    if (this.type !== 'modal') {
+      super._onOpenedChanged(opened);
+      return;
+    }
     this.updateComplete.then(() => {
-      if (this.opened && this._mdcDialogInstance && !this._mdcDialogInstance.isOpen) { 
+      if (opened) { 
         this.open();
         return;
       }
   
-      if (!this.opened && this._mdcDialogInstance && this._mdcDialogInstance.isOpen) { 
+      if (!opened) { 
         this.close();
         return;
       }
@@ -517,7 +461,11 @@ export class DwDialog extends LitElement {
   }
 
   _setFocusToElement() { 
-    let el = this.shadowRoot.querySelector(this.autoFocusSelector);
+    if (this.type !== 'modal') {
+      super._setFocusToElement();
+      return;
+    }
+    let el = this.renderRoot.querySelector(this.autoFocusSelector);
 
     if (!el) { 
       el = this.querySelector(this.autoFocusSelector);
@@ -527,5 +475,7 @@ export class DwDialog extends LitElement {
   }
 
 }
+
+export const DwDialog = DwModalDialogMixin(LitElement);
 
 window.customElements.define('dw-dialog', DwDialog);

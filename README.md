@@ -1,6 +1,10 @@
 # dw-dialog
 
 - A dialog element with Material Design styling. [More detail](https://github.com/material-components/material-components-web/tree/master/packages/mdc-dialog)
+- Provides 3 types of dialog.
+  - modal
+  - fit
+  - popover
 
 ## Installation
 
@@ -15,22 +19,33 @@ npm install --save @dreamworld/dw-dialog
 ```
 ### `dw-fit-dialog`
 ``` html
-    import '@dreamworld/dw-dialog/dw-fit-dialog.js';
+    import { DwFitDialog } from '@dreamworld/dw-dialog/dw-fit-dialog.js';
+```
+
+### `dw-popover-dialog`
+``` html
+    import { DwPopoverDialog } from '@dreamworld/dw-dialog/dw-popover-dialog.js';
+```
+
+### `dw-composite-dialog`
+``` html
+    import { DwCompositeDialog } from '@dreamworld/dw-dialog/dw-composite-dialog.js';
 ```
 
 ## Usage pattern
 
-- There is 2 ways to use `dw-dialog`
+- There is 2 ways to use dialog.
   1. extension
   2. composition
 
-- `dw-fit-dialog` can be used by extention only.
+- `dw-fit-dialog`, `dw-popover-dialog` & `dw-composite-dialog` can be used by extention only.
 
-### Using extension (`dw-dialog)
+### Using extension
+#### dw-dialog
 - Provide 3 methods `_headerTemplate`, `_contentTemplate` and `_footerTemplate` to provide dialog's header, content and footer
 
 ``` html
-  import { DwDialog } from '@dreamworld/dw-dialog/dw-dialog';
+  import { DwDialog } from '@dreamworld/dw-dialog/dw-dialog.js';
 
   class SampleDialog extends DwDialog{
     static get styles() {
@@ -58,11 +73,11 @@ npm install --save @dreamworld/dw-dialog
   }
 ```
 
-### Using extension (`dw-fit-dialog`)
+#### dw-fit-dialog
 - Provide 3 methods `_headerTemplate`, `_contentTemplate` and `_footerTemplate` to provide dialog's header, content and footer
 
 ``` html
-  import { DwFitDialog } from '@dreamworld/dw-dialog/dw-dialog';
+  import { DwFitDialog } from '@dreamworld/dw-dialog/dw-dialog.js';
 
   class MyFitDialog extends DwFitDialog{
 
@@ -93,8 +108,81 @@ npm install --save @dreamworld/dw-dialog
   window.customElements.define('my-fit-dialog', MyFitDialog);
 ```
 
+#### dw-popover-dialog
+- Provide 3 methods `_headerTemplate`, `_contentTemplate` and `_footerTemplate` to provide dialog's header, content and footer
+
+``` html
+  import { DwPopoverDialog } from '@dreamworld/dw-dialog/dw-popover-dialog.js';
+
+  class MyPopoverDialog extends DwPopoverDialog{
+    constructor(){
+      super();
+      this.triggerElement; //This is mandatory property.
+    }
+
+    static get styles() {
+      return [
+        css`
+          header {
+            // Customize header's style from here
+          }
+
+          .mdc-dialog__content{
+            // Customize content's style from here
+          }
+
+          footer {
+            // Customize footer's style from here
+          }
+        `
+      ]
+    }
+
+    get _headerTemplate() { return html`Title 1` }
+    get _contentTemplate() { return html`<h2>Content</h2>` }
+    get _footerTemplate() { return html`<button dismiss>Cancel</button>` }
+  }
+
+  window.customElements.define('my-popover-dialog', MyPopoverDialog);
+```
+
+#### dw-composite-dialog
+- Provide 3 methods `_headerTemplate`, `_contentTemplate` and `_footerTemplate` to provide dialog's header, content and footer
+
+``` html
+  import { DwCompositeDialog } from '@dreamworld/dw-dialog/dw-composite-dialog.js';
+
+  class MyCompositeDialog extends DwCompositeDialog{
+
+    static get styles() {
+      return [
+        css`
+          header {
+            // Customize header's style from here
+          }
+
+          .mdc-dialog__content{
+            // Customize content's style from here
+          }
+
+          footer {
+            // Customize footer's style from here
+          }
+        `
+      ]
+    }
+
+    get _headerTemplate() { return html`Title 1` }
+    get _contentTemplate() { return html`<h2>Content</h2>` }
+    get _footerTemplate() { return html`<button dismiss>Cancel</button>` }
+  }
+
+  window.customElements.define('my-popover-dialog', MyPopoverDialog);
+```
+
 ### Using composition
 
+#### dw-dialog
 ``` html
   <dw-dialog>
     <span slot="header">View dialog</span>
@@ -165,6 +253,12 @@ npm install --save @dreamworld/dw-dialog
 - `fit-height` - Sets the height of dialog to viewport height (fit to viewport). It is applicable only if `placement` is set to `bottom`.
 - opened - Set to true to open the dialog. You can also use `open()` and `close()` method.
 
+### `dw-popover-dialog
+- `triggerElement` - It's used to anchor popover dialog.
+- `showTrigger` - When it's set to `true`, shows trigger element when dialog is opened. By default it's falsy.
+- `offset` - Offset of the popoever dialog. It's used only when `showTrigger` is set to `true` otherwise sets position of dialog based on trigger element's position.
+- `popoverAnimation` - Animation of `popover` dialog. Possible values: `scale` or `dropdown`. Default is `dropdown`.
+- `popoverPlacement` - Placement of `poppover` dialog in respect of `triggerElement`. Possible values: `bottom-start` & `bottom-end`. Default is `bottom-start`.
 ### `dw-fit-dialog`
   - opened - Set to `true` to open the dialog. You can use `open` and `close` method as well to open/close dialog.
 
@@ -199,6 +293,12 @@ npm install --save @dreamworld/dw-dialog
 - open - Opens dialog
 - close - Closes dialog.
 
+
+### `dw-popover-dialog`
+- open: Opens dialog.
+- close: Closes dialog.
+- refreshMaxHeight - Refresh maximum height of popover dialog based on position of it's trigger element.
+
 ## CSS Custom Properties
 ### `dw-dialog`
 | Name  | Description |
@@ -220,7 +320,17 @@ npm install --save @dreamworld/dw-dialog
 | --dw-fit-dialog-content-background | Background color of Content |
 | --dw-fit-dialog-footer-background | Background color of Footer |
 | --dw-fit-dialog-max-width | Maximum width of dialog. Default is 768px |
-| --dw-fit-dialog-overlay-color | Overlay color of dialog. Default is rgba(0,0,0,0.4) |
+| --dw-fit-dialog-overlay-color | Overlay color of dialog. Default is `rgba(0,0,0,0.4)` |
+| --dw-fit-dialog-animation-time | Animation time of dialog. Default is `0.3s` |
+
+
+### dw-popover-dialog
+| Name  | Description |
+| ----  | ----------- |
+| --dw-popover-min-width | Minimum width of popover. Default is 280px.  |
+| --dw-popover-width | Width of popover. Default is 280px.  |
+| --dw-popover-overlay-background | Background styleing of popover overlay. Default is `rgba(0, 0, 0, 0.3)`  |
+| --dw-popover-animation-time | Animation time for popup dialog. Default is `0.3s`  |
 
 ## Id selector to be used when extending DwDialog class
 

@@ -3,6 +3,8 @@ import { html, css } from 'lit-element';
 import { LitElement } from '@dreamworld/pwa-helpers/lit-element.js';
 import isEmpty from 'lodash-es/isEmpty';
 import findIndex from 'lodash-es/findIndex';
+import { fitDialogStyles } from './fit-dialog-styles.js';
+import { DwCompositeBaseDialogMixin } from './dw-composite-base-dialog-mixin.js';
 
 /**
  * Behaviours:
@@ -33,154 +35,30 @@ import findIndex from 'lodash-es/findIndex';
  *      - `--dw-fit-dialog-overlay-color`: Overlay color of dialog. Default is rgba(0,0,0,0.4);
  *  
  */
-export class DwFitDialog extends LitElement {
+export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCompositeBaseDialogMixin(baseElement) {
   static get styles() {
     return [
-      css`
-        /* START Container */
-        .mdc-dialog__container{
-          display: none;
-        }  
-
-        .mdc-dialog__container[opened]{
-          display: block;
-        }
-
-        /* END Container  */     
-
-        
-
-        /* START Header & Footer */
-        header, .header, footer{
-          box-sizing: border-box;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          position: fixed !important;
-          width: 100%;          
-          padding: 0px 16px;
-          width: 100%;
-          max-width: var(--dw-fit-dialog-max-width, 768px);
-          right: auto;
-          left: 50% !important;
-          transform: translate3d(-50%, 0, 0);
-          z-index: 101;
-          
-        }
-
-        header, .header {
-          background: var(--dw-fit-dialog-header-background, #FFF);
-          top: 0 !important;
-          height: var(--dw-fit-dialog-header-height, 56px);
-          color: var(--mdc-theme-text-primary, rgba(0, 0, 0, 0.87));
-          border-bottom: none !important;
-        }
-
-        .mdc-dialog__container:not([scrolled-up]) header {
-          box-shadow: 0 1px 3px 0 rgba(0,0,0,0.12), 0 1px 2px 0 rgba(0,0,0,0.24);
-        }
-
-        footer{
-          background: var(--dw-fit-dialog-footer-background, #FFF);
-          bottom: 0 !important;
-          height: var(--dw-fit-dialog-footer-height, 56px);
-          border-top: 1px solid  var(--dw-fit-dialog-divider-color, rgba(0, 0, 0, 0.12));
-        }
-
-        footer kerika-button {
-          flex: 1 1 1e-09px;
-        }
-
-        .mdc-dialog__container:not([scrolled-down]) footer {
-          box-shadow:  0 -1px 3px 0 rgba(0,0,0,0.12), 0 1px 2px 0 rgba(0,0,0,0.24);
-        }  
-
-        .mdc-dialog__container[modal-dialog-opened] header,
-        .mdc-dialog__container[modal-dialog-opened] footer {
-          z-index: 99;
-        }
-        /* END Header & Footer */
-
-        /* START Content */
-        #dialog-content {
-          box-sizing: border-box;
-          color: var(--mdc-theme-text-secondary, rgba(0, 0, 0, 0.6));
-          min-height: 100vh;
-          z-index: 100;
-        }
-
-        .mdc-dialog__container[opened] .mdc-dialog__content{
-          box-sizing: border-box;
-          background: var(--dw-fit-dialog-content-background, #FFF);
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          min-height: 100vh;
-          padding: 12px 16px;
-          max-width: var(--dw-fit-dialog-max-width, 768px);
-          margin: 0px auto;
-        }
-
-        .mdc-dialog__container:not([has-header]) header,
-        .mdc-dialog__container:not([has-header]) .header{
-          display: none;
-        }
-
-        .mdc-dialog__container:not([has-footer]) footer {
-          display: none !important;
-        }
-
-        .mdc-dialog__container[has-header] .mdc-dialog__content {
-          padding-top: 56px;
-        }
-
-        .mdc-dialog__container[has-footer] .mdc-dialog__content {
-          padding-bottom: 56px;
-        }
-
-        .mdc-dialog__container[opened][scroll-locked] .mdc-dialog__content,
-        .mdc-dialog__container[opened][modal-dialog-opened] .mdc-dialog__content {
-          position: fixed;
-        }
-
-        .mdc-dialog__container:not([has-footer]) .mdc-dialog__content {
-          padding-bottom: 12px;
-        }
-        /* END Content */
-
-        #overlay {
-          position: fixed;
-          width: 100%;
-          height: 100%;
-          top: 0; 
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background-color: var(--dw-fit-dialog-overlay-color, rgba(0,0,0,0.4));
-          z-index: 100;
-          cursor: pointer;
-        }
-      `
+      fitDialogStyles
     ];
   }
 
   render() {
+    if (this.type !== 'fit') {
+      return html`${super.render()}`;
+    }
+
     return html`
-      <div class="mdc-dialog__container" ?opened=${this.opened} ?scroll-locked="${this.scrollLocked}"
-        ?has-header=${this._hasHeader} ?has-footer=${this._hasFooter} ?scrolled-down=${this.scrolledDown}
-        ?scrolled-up=${this.scrolledUp} ?modal-dialog-opened=${this._modalDialogOpened}>
-        <div id="overlay"></div>
-      
-        <div class="mdc-dialog__content" id="dialog-content">
-          ${this._customHeaderTemplate}
-          ${this._contentTemplate}
-          ${this._customFooterTemplate}
+        <div class="mdc-dialog__container" ?opened=${this.opened} ?scroll-locked="${this.scrollLocked}"
+          ?has-header=${this._hasHeader} ?has-footer=${this._hasFooter} ?scrolled-down=${this.scrolledDown}
+          ?scrolled-up=${this.scrolledUp} ?modal-dialog-opened=${this._modalDialogOpened}>
+          <div id="overlay"></div>
+        
+          <div class="mdc-dialog__content" id="dialog-content">
+            ${this._customHeaderTemplate}
+            ${this._contentTemplate}
+            ${this._customFooterTemplate}
+          </div>
         </div>
-      
-      
-      </div>
-      
     `;
   }
 
@@ -211,6 +89,7 @@ export class DwFitDialog extends LitElement {
     window.openedDwFitDialogsInstances = window.openedDwFitDialogsInstances || [];
     this.scrolledDown = true;
     this.scrolledUp = true;
+    this.type = 'fit';
   }
 
   static get properties() {
@@ -219,33 +98,32 @@ export class DwFitDialog extends LitElement {
        * Opens dialog if true.
        * Close dialog if false
        */
-      opened: { type: Boolean },
+      opened: { type: Boolean, reflect: true },
 
       /**
        * When it's `true`, scroll is locked.
        */
-      scrollLocked: { type: Boolean },
+      scrollLocked: { type: Boolean, reflect: true, attribute: 'scroll-locked' },
 
       /**
        * Output property. True when user scrolled to bottom of dialog content.
        */
-      scrolledDown: { type: Boolean },
+      scrolledDown: { type: Boolean, reflect: true, attribute: 'scrolled-down' },
 
       /**
        * Output property.  True when user scrolled to top of dialog content.
        */
-      scrolledUp: { type: Boolean },
+      scrolledUp: { type: Boolean, reflect: true, attribute: 'scrolled-up' },
 
       /**
        * `true` when header template is provided.
        */
-      _hasHeader: { type: Boolean },
+      _hasHeader: { type: Boolean, reflect: true, attribute: 'has-header' },
 
       /**
        * `true` when footer template is provided.
        */
-      _hasFooter: { type: Boolean },
-
+      _hasFooter: { type: Boolean, reflect: true, attribute: 'has-footer' },
       /**
        * When it's `true`, then decrease z-index of `header` & `footer`.
        */
@@ -274,15 +152,6 @@ export class DwFitDialog extends LitElement {
     this._onOpenedChanged(val);
   }
 
-  /**
-   * Creates & appends `renderRootEl` element into `body`
-   * Note: `renderRootEl` is created here because `createRenderRoot` is called from `constructor`.
-   */
-  createRenderRoot() {
-    this.renderRootEl = document.createElement('div');
-    document.body.appendChild(this.renderRootEl);
-    return this.renderRootEl.attachShadow({ mode: 'open' });
-  }
 
   updated(changedProps) {
     super.updated && super.updated(changedProps);
@@ -297,25 +166,33 @@ export class DwFitDialog extends LitElement {
   * Unlistens events.
    */
   disconnectedCallback() {
-    const index = findIndex(window.openedDwFitDialogsInstances, (o) => o.element === this);
-    if (index >= 0) {
-      window.openedDwFitDialogsInstances.splice(index, 1);
+    if (this.type === 'fit') {
+      const index = findIndex(window.openedDwFitDialogsInstances, (o) => o.element === this);
+      if (index >= 0) {
+        window.openedDwFitDialogsInstances.splice(index, 1);
+      }
+
+      this._restoreScroll();
+
+      this.renderRootEl && this.renderRootEl.remove();
+
+      this._unlistenEvents();
     }
-
-    this._restoreScroll();
-
-    this.renderRootEl && this.renderRootEl.remove();
-
-    this._unlistenEvents();
-    super.connectedCallback && super.connectedCallback();
+    super.disconnectedCallback();
   }
 
   /**
    * Opens the dialog.
    * Sets `opened` to `true`
    */
-  open() {
+  open(triggerEl) {
+    if (this.type !== 'fit') {
+      super.open(triggerEl);
+      return;
+    }
+
     this.opened = true;
+    document.body.appendChild(this._renderRootEl);
   }
 
   /**
@@ -323,7 +200,13 @@ export class DwFitDialog extends LitElement {
    * Sets `opened` to `false`
    */
   close() {
+    if (this.type !== 'fit') {
+      super.close();
+      return;
+    }
+
     this.opened = false;
+    this.shadowRoot.appendChild(this._renderRootEl);
   }
 
   /**
@@ -356,6 +239,10 @@ export class DwFitDialog extends LitElement {
    * @param {Boolean} opened Opened
    */
   _onOpenedChanged(opened) {
+    if (this.type !== 'fit') {
+      super._onOpenedChanged(opened);
+      return;
+    }
     if (opened) {
       this._onDialogOpened();
     } else {
@@ -370,6 +257,11 @@ export class DwFitDialog extends LitElement {
    * Dispatches `dw-fit-dialog-opened` event.
    */
   _onDialogOpened() {
+    if (this.type !== 'fit') {
+      super._onDialogOpened();
+      return;
+    }
+    this.open();
     this._listenEvents();
 
     if (!isEmpty(window.openedDwFitDialogsInstances)) {
@@ -397,6 +289,10 @@ export class DwFitDialog extends LitElement {
    * Dispatches `dw-fit-dialog-closed` event.
    */
   _onDialogClosed() {
+    if (this.type !== 'fit') {
+      super._onDialogClosed();
+      return;
+    }
     this._unlistenEvents();
 
     window.openedDwFitDialogsInstances.splice(window.openedDwFitDialogsInstances.length - 1, 1);
@@ -404,12 +300,17 @@ export class DwFitDialog extends LitElement {
     this._restoreScroll();
 
     this.dispatchEvent(new CustomEvent('dw-fit-dialog-closed', { bubbles: false, composed: false }));
+    this.close();
   }
 
   /**
    * Manages `scrolledUp` or `scrolledDown` properties based on scroll position.
    */
   _onScrollHandler() {
+    if (this.type !== 'fit') {
+      super._onScrollHandler();
+      return;
+    }
     const scrollEl = document.scrollingElement;
     let scrollLength = scrollEl.clientHeight + scrollEl.scrollTop;
     this.scrolledUp = scrollEl.scrollTop < 15;
@@ -420,6 +321,10 @@ export class DwFitDialog extends LitElement {
    * Listen `scroll` event & `click` event of "dismiss".
    */
   _listenEvents() {
+    if (this.type !== 'fit') {
+      super._listenEvents();
+      return;
+    }
     this.updateComplete.then(() => {
       this._onScrollHandler = this._onScrollHandler.bind(this);
       document.addEventListener('scroll', this._onScrollHandler);
@@ -434,6 +339,10 @@ export class DwFitDialog extends LitElement {
    * Unlistens `scroll` event.
    */
   _unlistenEvents() {
+    if (this.type !== 'fit') {
+      super._unlistenEvents();
+      return;
+    }
     document.removeEventListener('scroll', this._onScrollHandler);
     this._dismissEl && this._dismissEl.removeEventListener('click', this.close);
   }
@@ -443,6 +352,10 @@ export class DwFitDialog extends LitElement {
    * After 400 seconds, scrolls bottom of text field into viewport.
    */
   _setFocusToElement() {
+    if (this.type !== 'fit') {
+      super._setFocusToElement();
+      return;
+    }
     setTimeout(() => {
       const el = this.renderRoot.querySelector(this.autoFocusSelector);
       el && el.focus && el.focus();
@@ -453,4 +366,5 @@ export class DwFitDialog extends LitElement {
   }
 }
 
+export const DwFitDialog = DwFitDialogMixin(LitElement)
 window.customElements.define('dw-fit-dialog', DwFitDialog);
