@@ -75,13 +75,13 @@ export const ModalDialogStyles = css`
 
   @media (max-width: 592px) {
     :host([type="modal"]) .mdc-dialog .mdc-dialog__surface {
-      max-width: calc(100vw - 32px);
+      max-width: var(--dw-dialog-max-width, calc(100vw - 32px));
     }
   }
 
   @media (min-width: 592px) {
     :host([type="modal"]) .mdc-dialog .mdc-dialog__surface {
-      max-width: 560px;
+      max-width: var(--dw-dialog-max-width, 560px);
     }
   }
 
