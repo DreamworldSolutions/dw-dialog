@@ -188,7 +188,6 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
           dialog._sheet.remove();
           dialog.close();
         }
-
       },
     });
     this._tippyInstance.show();
