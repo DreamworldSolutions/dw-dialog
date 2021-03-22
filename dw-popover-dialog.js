@@ -158,7 +158,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       hideOnClick: false, //Note: interactive does not work in shadowDOM, so explicitly sets it to `false` & closes dialog from `onClickOutside` handler.
       appendTo: 'parent',
       onClickOutside(instance, event) {
-        const path = event.path;
+        const path = event.composedPath && event.composedPath() || event.path;
         for (let el of path) {
           if (dialog._overlay === el) {
             dialog.close();
@@ -188,7 +188,6 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
           dialog._sheet.remove();
           dialog.close();
         }
-
       },
     });
     this._tippyInstance.show();
