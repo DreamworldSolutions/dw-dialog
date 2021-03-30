@@ -76,6 +76,20 @@ export const externalStyle = css`
     animation-duration: var(--dw-popover-animation-time, 0.3s);
   }
 
+  .tippy-box[data-animation="expand"] {
+    will-change: transform, transform-origin;
+    animation-name: expand;
+    animation-duration: var(--dw-popover-animation-time, 0.3s);
+  }
+
+  .tippy-box[data-animation="expand"][data-placement="bottom-start"] {
+    transform-origin: top left;
+  }
+
+  .tippy-box[data-animation="expand"][data-placement="bottom-end"] {
+    transform-origin: top right;
+  }
+
   @keyframes dropdown {
     from {
       opacity: 0;
@@ -108,6 +122,16 @@ export const externalStyle = css`
 
   50% {
     opacity: 1;
+  }
+}
+
+@keyframes expand {
+  from {
+    transform: scale(0)
+  }
+
+  50% {
+    transform: scale(1)
   }
 }
 `

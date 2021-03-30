@@ -131,6 +131,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
     this.popoverAnimation = 'dropdown';
     this.popoverOffset = [0, 0];
     this.type = 'popover';
+    this.__onKeyDown = this.__onKeyDown.bind(this);
   }
 
   updated(changedProps) {
@@ -179,6 +180,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
         dialog._sheet.innerHTML = externalStyle.cssText;
         triggerEl.parentNode.appendChild(dialog._sheet);
         triggerEl.parentNode.appendChild(dialog._overlay);
+        dialog.__listenEvents();
       },
       onHidden() {
         if (dialog.isConnected) {
@@ -187,6 +189,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
           dialog._overlay.remove();
           dialog._sheet.remove();
           dialog.close();
+          dialog.__unlistenEvents();
         }
       },
     });
@@ -289,6 +292,35 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
     this.dispatchEvent(event);
   }
 
+  /**
+   * Listens Events.
+   * @private
+   */
+  __listenEvents() {
+    document.addEventListener('keydown', this.__onKeyDown, { capture: true });
+  }
+
+  /**
+   * Unlistens Events.
+   * @private
+   */
+  __unlistenEvents() {
+    document.removeEventListener('keydown', this.__onKeyDown, { capture: true });
+  }
+
+  /**
+   * Closes dialog on `ESC`.
+   * @param {Object} e Event
+   */
+  __onKeyDown(e) {
+    const keyCode = e.keyCode || e.which;
+    if(keyCode === 27) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.close();
+    }
+  }
+
   disconnectedCallback() {
     if (this.type === 'popover') {
       if (this._overlay) {
@@ -307,6 +339,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
         this._tippyInstance = null;
         this.opened = false;
       }
+      this.__unlistenEvents();
     }
 
     super.disconnectedCallback();
