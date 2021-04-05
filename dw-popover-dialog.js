@@ -77,6 +77,12 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       fullHeight: { type: Boolean },
 
       /**
+       * Input property.
+       * When `true`, flips dialog when no space availabe.
+       */
+      flipEnabled: { type: Boolean },
+
+      /**
        * `true` when header template is provided.
        */
       _hasHeader: { type: Boolean, reflect: true, attribute: 'has-header' },
@@ -169,10 +175,9 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       },
       animation: this.popoverAnimation,
       popperOptions: {
-        modifiers: [{ name: 'flip', enabled: false }]
+        modifiers: [{ name: 'flip', enabled: dialog.flipEnabled }]
       },
       onCreate() {
-        dialog.refreshMaxHeight(triggerEl);
         dialog._overlay = document.createElement('div');
         dialog._overlay.id = 'popover-overlay';
         dialog._sheet = document.createElement('style');
@@ -181,6 +186,23 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
         triggerEl.parentNode.appendChild(dialog._sheet);
         triggerEl.parentNode.appendChild(dialog._overlay);
         dialog.__listenEvents();
+      },
+      onMount: (instance) => {
+        setTimeout(() => {
+          const tippyBox = instance.popper.querySelector('.tippy-box');
+          const placement = tippyBox.getAttribute('data-placement');
+          let maxHeight;
+          if (placement === 'bottom-start' || placement === 'bottom-end') {
+            maxHeight = window.innerHeight - tippyBox.getBoundingClientRect().top;
+          } else {
+            maxHeight = tippyBox.getBoundingClientRect().bottom;
+          }
+          const surface = this.renderRoot.querySelector('#popover_dialog__surface');
+          surface.style.maxHeight = `${maxHeight}px`;
+          if (this.fullHeight) {
+            surface.style.height = `${maxHeight}px`;
+          }
+        }, 50); //tippy.js updates `data-placement` attribute after some time when flip needed. so setting height after 50 milliseconds.
       },
       onHidden() {
         if (dialog.isConnected) {
@@ -232,21 +254,6 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       this._tippyInstance = null;
       this.opened = false;
     }
-  }
-
-  /**
-   * Refreshes maximum height of popover dialog based on `triggerElement`'s position.
-   * @param {Object} triggerElement Trigger element.
-   */
-  refreshMaxHeight(triggerElement) {
-    this.updateComplete.then(() => {
-      const surface = this.renderRoot.querySelector('#popover_dialog__surface');
-      const maxHeight = `${window.innerHeight - triggerElement.getBoundingClientRect().top}px`;
-      surface.style.maxHeight = maxHeight;
-      if (this.fullHeight) {
-        surface.style.height = maxHeight;
-      }
-    })
   }
 
   /**
