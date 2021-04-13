@@ -19,7 +19,6 @@ export const popoverStyle = css`
   }
 
   #popover_dialog__surface {
-    box-shadow: var(--dw-popover-box-shadow, 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12));
     border-radius: var(--dw-popover-border-radius, 4px);
     background: var(--mdc-theme-surface, #FFF);
     min-width: var(--dw-popover-min-width, 280px);
@@ -60,6 +59,10 @@ export const externalStyle = css`
     z-index: 1;
   }
 
+  .tippy-box {
+    box-shadow: var(--dw-popover-box-shadow, 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12));
+  }
+
   .tippy-box:focus {
     outline: none;
   }
@@ -74,6 +77,28 @@ export const externalStyle = css`
     will-change: opacity, transform;
     animation-name: scale;
     animation-duration: var(--dw-popover-animation-time, 0.3s);
+  }
+
+  .tippy-box[data-animation="expand"] {
+    will-change: transform, transform-origin;
+    animation-name: expand;
+    animation-duration: var(--dw-popover-animation-time, 0.3s);
+  }
+
+  .tippy-box[data-animation="expand"][data-placement="bottom-start"] {
+    transform-origin: top left;
+  }
+
+  .tippy-box[data-animation="expand"][data-placement="bottom-end"] {
+    transform-origin: top right;
+  }
+
+  .tippy-box[data-animation="expand"][data-placement="top-start"] {
+    transform-origin: bottom left;
+  }
+
+  .tippy-box[data-animation="expand"][data-placement="top-end"] {
+    transform-origin: bottom right;
   }
 
   @keyframes dropdown {
@@ -108,6 +133,16 @@ export const externalStyle = css`
 
   50% {
     opacity: 1;
+  }
+}
+
+@keyframes expand {
+  from {
+    transform: scale(0)
+  }
+
+  50% {
+    transform: scale(1)
   }
 }
 `
