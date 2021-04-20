@@ -89,10 +89,6 @@ export const ModalDialogStyles = css`
     max-height: calc(100% - 32px);
   }
 
-  :host([type="modal"]) .mdc-dialog .mdc-dialog__surface {
-    border-radius: 4px;
-  }
-
   :host([type="modal"]) .mdc-dialog__scrim {
     opacity: 0;
     z-index: -1;
