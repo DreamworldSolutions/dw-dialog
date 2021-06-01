@@ -83,6 +83,11 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       flipEnabled: { type: Boolean },
 
       /**
+       * Element in which content will be appened. Default is parent element of trigger element.
+       */
+      appendTo: { type: Object },
+
+      /**
        * `true` when header template is provided.
        */
       _hasHeader: { type: Boolean, reflect: true, attribute: 'has-header' },
@@ -137,6 +142,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
     this.popoverAnimation = 'dropdown';
     this.popoverOffset = [0, 0];
     this.type = 'popover';
+    this.appendTo = 'parent';
     this.__onKeyDown = this.__onKeyDown.bind(this);
   }
 
@@ -163,7 +169,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       trigger: 'manual',
       interactive: true,
       hideOnClick: false, //Note: interactive does not work in shadowDOM, so explicitly sets it to `false` & closes dialog from `onClickOutside` handler.
-      appendTo: 'parent',
+      appendTo: dialog.appendTo,
       onClickOutside(instance, event) {
         const path = event.composedPath && event.composedPath() || event.path;
         for (let el of path) {
@@ -183,8 +189,9 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
         dialog._sheet = document.createElement('style');
         dialog._sheet.id = 'popover-style';
         dialog._sheet.innerHTML = externalStyle.cssText;
-        triggerEl.parentNode.appendChild(dialog._sheet);
-        triggerEl.parentNode.appendChild(dialog._overlay);
+        const parentEl = dialog.appendTo === 'parent' ? triggerEl.parentNode : dialog.appendTo;
+        parentEl.appendChild(dialog._sheet);
+        parentEl.appendChild(dialog._overlay);
         dialog.__listenEvents();
       },
       onMount: (instance) => {
