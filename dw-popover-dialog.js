@@ -88,6 +88,11 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       appendTo: { type: Object },
 
       /**
+       * When `true`, no overlay is shown.
+       */
+      noOverlay: { type: Boolean },
+
+      /**
        * `true` when header template is provided.
        */
       _hasHeader: { type: Boolean, reflect: true, attribute: 'has-header' },
@@ -171,27 +176,31 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       hideOnClick: false, //Note: interactive does not work in shadowDOM, so explicitly sets it to `false` & closes dialog from `onClickOutside` handler.
       appendTo: dialog.appendTo,
       onClickOutside(instance, event) {
+        const tippyBox = instance.popper.querySelector('.tippy-box');
         const path = event.composedPath && event.composedPath() || event.path;
         for (let el of path) {
-          if (dialog._overlay === el) {
-            dialog.close();
+          if (tippyBox === el) {
             return;
           }
         }
+        dialog.close();
       },
       animation: this.popoverAnimation,
       popperOptions: {
         modifiers: [{ name: 'flip', enabled: dialog.flipEnabled }]
       },
       onCreate() {
-        dialog._overlay = document.createElement('div');
-        dialog._overlay.id = 'popover-overlay';
         dialog._sheet = document.createElement('style');
         dialog._sheet.id = 'popover-style';
         dialog._sheet.innerHTML = externalStyle.cssText;
         const parentEl = dialog.appendTo === 'parent' ? triggerEl.parentNode : dialog.appendTo;
         parentEl.appendChild(dialog._sheet);
-        parentEl.appendChild(dialog._overlay);
+        if (!dialog.noOverlay) {
+          dialog._overlay = document.createElement('div');
+          dialog._overlay.id = 'popover-overlay';
+          parentEl.appendChild(dialog._overlay);
+        }
+        
         dialog.__listenEvents();
       },
       onMount: (instance) => {
@@ -215,7 +224,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
         if (dialog.isConnected) {
           dialog.opened = false;
           dialog.shadowRoot.appendChild(dialog._renderRootEl)
-          dialog._overlay.remove();
+          dialog._overlay && dialog._overlay.remove();
           dialog._sheet.remove();
           dialog.close();
           dialog.__unlistenEvents();
