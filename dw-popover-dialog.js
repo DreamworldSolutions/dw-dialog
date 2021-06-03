@@ -194,7 +194,8 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
           name: 'preventOverflow',
           options: {
             altAxis: true,
-            padding: dialog.boundaryPadding
+            padding: dialog.boundaryPadding,
+            tether: false
           },
         }]
       },
