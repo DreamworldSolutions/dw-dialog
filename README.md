@@ -256,7 +256,7 @@ npm install --save @dreamworld/dw-dialog
 ### `dw-popover-dialog
 - `triggerElement` - It's used to anchor popover dialog.
 - `showTrigger` - When it's set to `true`, shows trigger element when dialog is opened. By default it's falsy.
-- `offset` - Offset of the popoever dialog. It's used only when `showTrigger` is set to `true` otherwise sets position of dialog based on trigger element's position.
+- `popoverOffset` - Offset of the popoever dialog. It's used only when `showTrigger` is set to `true` otherwise sets position of dialog based on trigger element's position.
 - `popoverAnimation` - Animation of `popover` dialog. Possible values: `scale` or `dropdown`. Default is `dropdown`.
 - `popoverPlacement` - Placement of `poppover` dialog in respect of `triggerElement`. Possible values: `bottom-start`, `bottom-end`,  `left`, `right` etc.. See referrence: https://atomiks.github.io/tippyjs/v6/all-props/#placement
 - `hasOverlay` - When `true` shows overlay around dialog. Default is `false`.
