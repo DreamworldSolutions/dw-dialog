@@ -278,6 +278,7 @@ export class DwDialogDemo extends LitElement {
   openCompositePopoverDialog(e) {
     const dialog = this.renderRoot.querySelector('my-composite-dialog');
     dialog.type = 'popover';
+    dialog.appendTo = document.body;
     const triggerEl = e.target;
     dialog.open(triggerEl);
   }

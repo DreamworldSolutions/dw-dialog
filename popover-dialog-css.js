@@ -23,6 +23,8 @@ export const popoverStyle = css`
     background: var(--mdc-theme-surface, #FFF);
     min-width: var(--dw-popover-min-width, 280px);
     width: var(--dw-popover-width, 280px);
+    height: var(--dw-popover-height, auto);
+    max-height: var(--dw-popover-max-height, 90vh);
     overflow: auto;
     z-index: 101;
   }
