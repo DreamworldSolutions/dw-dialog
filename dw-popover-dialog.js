@@ -328,7 +328,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
    * @private
    */
   __listenEvents() {
-    document.addEventListener('keydown', this.__onKeyDown);
+    document.addEventListener('keydown', this.__onKeyDown, { capture: true });
   }
 
   /**
@@ -336,7 +336,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
    * @private
    */
   __unlistenEvents() {
-    document.removeEventListener('keydown', this.__onKeyDown);
+    document.removeEventListener('keydown', this.__onKeyDown, { capture: true });
   }
 
   /**
