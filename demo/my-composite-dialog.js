@@ -46,7 +46,10 @@ export class MyCompositeDialog extends DwCompositeDialog {
 
   _openChildPopover() {
     const triggerEl = this.renderRoot.querySelector('#child-anchor');
-    this.renderRoot.querySelector('my-popover-dialog').open(triggerEl);
+    const dialog = this.renderRoot.querySelector('my-popover-dialog');
+    dialog.showTrigger = true;
+    dialog.popoverPlacement = 'right-start';
+    dialog.open(triggerEl);
   }
 
   get _footerTemplate() {

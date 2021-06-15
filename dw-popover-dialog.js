@@ -17,13 +17,18 @@ import { DwCompositeBaseDialogMixin } from './dw-composite-base-dialog-mixin.js'
  *  - CSS properties:
  *    - `--dw-popover-min-width`: Minimum width of popover dialog. Default is 280px
  *    - `--dw-popover-width`: Width of popover dialog. Default is 280px.
+ *    - `--dw-popover-height`: Height of popover dialog. Default is auto.
+ *    - `--dw-popover-max-height`: Maximum height of dialog. Default is 90vh.
  *    - `--dw-popover-overlay-background`: Background of popover overlay. Default is `rgba(0, 0, 0, 0.3)`
  *    - `--dw-popover-animation-time`: Animation time of popover. Default is 0.3s
  *  - Events:
  *    - Dispatches `dw-dialog-opened` & `dw-dialog-closed` events.
+ * 
  * Implementaiton Notes:
  *  - Extends `DwComposeBaseDialogMixin`
  *  - Renders popover using tippy.js
+ *  - When nested popover is opened, On escape closes only last opened dialog.
+ *  - When content resized, adjusts it's position automatically.
  *
  */
 export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog extends DwCompositeBaseDialogMixin(baseElement) {
@@ -67,20 +72,26 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
 
       /**
        * Sets the placement of the popover dialog
-       * Possible value: `bottom-start` or `bottom-end`
+       * Possible values: See referrence: https://atomiks.github.io/tippyjs/v6/all-props/#placement
        */
       popoverPlacement: { type: String },
 
       /**
-      * Input property. When it's `true`, it's height will be full (up to the bottom of viewport)
-      */
-      fullHeight: { type: Boolean },
+       * Input property.
+       * Applies virtual padding to the boundary. Default is 8. 
+       * For more detail visit this: https://popper.js.org/docs/v2/utils/detect-overflow/#padding
+       */
+      boundaryPadding: { type: Number },
 
       /**
-       * Input property.
-       * When `true`, flips dialog when no space availabe.
+       * Element in which content will be appened. Default is parent element of trigger element.
        */
-      flipEnabled: { type: Boolean },
+      appendTo: { type: Object },
+
+      /**
+       * When `true`, shows overlay.
+       */
+      hasOverlay: { type: Boolean, reflect: true, attribute: 'has-overlay' },
 
       /**
        * `true` when header template is provided.
@@ -137,6 +148,8 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
     this.popoverAnimation = 'dropdown';
     this.popoverOffset = [0, 0];
     this.type = 'popover';
+    this.appendTo = 'parent';
+    this.boundaryPadding = 8;
     this.__onKeyDown = this.__onKeyDown.bind(this);
   }
 
@@ -154,7 +167,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
    */
   _init(triggerEl) {
     const dialog = this;
-    const offset = this.showTrigger ? dialog.popoverOffset : [0, -(triggerEl.offsetHeight)]
+    const offset = this.showTrigger ? dialog.popoverOffset : [0, -(triggerEl.offsetHeight)];
     this._tippyInstance = tippy(triggerEl, {
       placement: dialog.popoverPlacement,
       offset,
@@ -163,55 +176,67 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       trigger: 'manual',
       interactive: true,
       hideOnClick: false, //Note: interactive does not work in shadowDOM, so explicitly sets it to `false` & closes dialog from `onClickOutside` handler.
-      appendTo: 'parent',
+      appendTo: dialog.appendTo,
       onClickOutside(instance, event) {
+        const tippyBox = instance.popper.querySelector('.tippy-box');
         const path = event.composedPath && event.composedPath() || event.path;
         for (let el of path) {
-          if (dialog._overlay === el) {
-            dialog.close();
+          if (tippyBox === el) {
             return;
           }
         }
+        dialog.close();
       },
       animation: this.popoverAnimation,
       popperOptions: {
-        modifiers: [{ name: 'flip', enabled: dialog.flipEnabled }]
+        modifiers: [
+        {
+          name: 'preventOverflow',
+          options: {
+            altAxis: true,
+            padding: dialog.boundaryPadding,
+            tether: false
+          },
+        }]
       },
       onCreate() {
-        dialog._overlay = document.createElement('div');
-        dialog._overlay.id = 'popover-overlay';
         dialog._sheet = document.createElement('style');
         dialog._sheet.id = 'popover-style';
         dialog._sheet.innerHTML = externalStyle.cssText;
-        triggerEl.parentNode.appendChild(dialog._sheet);
-        triggerEl.parentNode.appendChild(dialog._overlay);
+        const parentEl = dialog.appendTo === 'parent' ? triggerEl.parentNode : dialog.appendTo;
+        parentEl.appendChild(dialog._sheet);
+        if (dialog.hasOverlay) {
+          dialog._overlay = document.createElement('div');
+          dialog._overlay.id = 'popover-overlay';
+          parentEl.appendChild(dialog._overlay);
+        }
+        
         dialog.__listenEvents();
+        if (!window.__dwPopoverInstances) {
+          window.__dwPopoverInstances = [];
+        }
+        window.__dwPopoverInstances.push(dialog);
       },
-      onMount: (instance) => {
-        setTimeout(() => {
-          const tippyBox = instance.popper.querySelector('.tippy-box');
-          const placement = tippyBox.getAttribute('data-placement');
-          let maxHeight;
-          if (placement === 'bottom-start' || placement === 'bottom-end') {
-            maxHeight = window.innerHeight - tippyBox.getBoundingClientRect().top;
-          } else {
-            maxHeight = tippyBox.getBoundingClientRect().bottom;
-          }
-          const surface = this.renderRoot.querySelector('#popover_dialog__surface');
-          surface.style.maxHeight = `${maxHeight}px`;
-          if (this.fullHeight) {
-            surface.style.height = `${maxHeight}px`;
-          }
-        }, 50); //tippy.js updates `data-placement` attribute after some time when flip needed. so setting height after 50 milliseconds.
+      onShow(instance) {
+        //On reisze content, sets content of tippy again to manage dialog position.
+        dialog._resizeObserver = new ResizeObserver(entries => {
+          instance.setContent(dialog._renderRootEl);
+        });
+        const content = dialog.renderRoot.querySelector('#dialog-content');
+        content && dialog._resizeObserver.observe(content);
       },
       onHidden() {
         if (dialog.isConnected) {
           dialog.opened = false;
           dialog.shadowRoot.appendChild(dialog._renderRootEl)
-          dialog._overlay.remove();
+          dialog._overlay && dialog._overlay.remove();
           dialog._sheet.remove();
           dialog.close();
           dialog.__unlistenEvents();
+          if (window.__dwPopoverInstances && window.__dwPopoverInstances.length) {
+            window.__dwPopoverInstances.pop();
+          }
+          dialog._resizeObserver && dialog._resizeObserver.disconnect();
         }
       },
     });
@@ -324,7 +349,8 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
     if(keyCode === 27) {
       e.preventDefault();
       e.stopPropagation();
-      this.close();
+      const lastOpenedDialog = window.__dwPopoverInstances.slice(-1)[0]
+      lastOpenedDialog && lastOpenedDialog.close();
     }
   }
 

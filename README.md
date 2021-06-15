@@ -256,9 +256,12 @@ npm install --save @dreamworld/dw-dialog
 ### `dw-popover-dialog
 - `triggerElement` - It's used to anchor popover dialog.
 - `showTrigger` - When it's set to `true`, shows trigger element when dialog is opened. By default it's falsy.
-- `offset` - Offset of the popoever dialog. It's used only when `showTrigger` is set to `true` otherwise sets position of dialog based on trigger element's position.
+- `popoverOffset` - Offset of the popoever dialog. It's used only when `showTrigger` is set to `true` otherwise sets position of dialog based on trigger element's position.
 - `popoverAnimation` - Animation of `popover` dialog. Possible values: `scale` or `dropdown`. Default is `dropdown`.
-- `popoverPlacement` - Placement of `poppover` dialog in respect of `triggerElement`. Possible values: `bottom-start` & `bottom-end`. Default is `bottom-start`.
+- `popoverPlacement` - Placement of `poppover` dialog in respect of `triggerElement`. Possible values: `bottom-start`, `bottom-end`,  `left`, `right` etc.. See referrence: https://atomiks.github.io/tippyjs/v6/all-props/#placement
+- `hasOverlay` - When `true` shows overlay around dialog. Default is `false`.
+- `appendTo` - When it's provided, append dialog to provided element. Default is `parent` of `triggerElement`.
+- `boundaryPadding`: It's virtual padding of boundary(`viewport`). When contet of  dialog increases, it will adjust it's position according to available space in viewport. Default is `8`;
 ### `dw-fit-dialog`
   - opened - Set to `true` to open the dialog. You can use `open` and `close` method as well to open/close dialog.
 
