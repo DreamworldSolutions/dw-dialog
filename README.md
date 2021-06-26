@@ -311,8 +311,9 @@ npm install --save @dreamworld/dw-dialog
 | --dw-dialog-divider-color | Color of header bottom border color |
 | --dw-dialog-border-radius | Radius of dialog |
 | --dw-dialog-max-height | Max height of dialog |
-| --dw-dialog-footer-padding | Padding of footer area |
 | --dw-dialog-header-padding | padding of header area |
+| --dw-dialog-content-padding | padding of content area. Default value: It's dependent on whether dialog has header/footer or not. |
+| --dw-dialog-footer-padding | Padding of footer area |
 
 ### `dw-fit-dialog`
 | Name  | Description |

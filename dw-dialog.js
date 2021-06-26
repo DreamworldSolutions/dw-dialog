@@ -442,11 +442,27 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
     this.scrolledDown = (scrollEl.scrollHeight - 15) <= scrollLength;
   }
 
+  /**
+   * When user has set the CSS property `--dw-dialog-content-padding` to customize the 
+   * padding & if the dialog has no footer then it causes issue with the bottom padding.
+   * To fix it, this sets an attribute on the host. (and remaining rules are handled
+   * from the CSS)
+   */
+  _fixCustomContentPadding() {
+    let customContentPaddingValue = getComputedStyle(this).getPropertyValue('--dw-dialog-content-padding').trim();
+    if(customContentPaddingValue) {
+      this.setAttribute('custom-content-padding-applied', '');
+    } else {
+      this.removeAttribute('custom-content-padding-applied');
+    }
+  }
+
   _onOpenedChanged(opened) { 
     if (this.type !== 'modal') {
       super._onOpenedChanged(opened);
       return;
     }
+    this._fixCustomContentPadding();
     this.updateComplete.then(() => {
       if (opened) { 
         this.open();

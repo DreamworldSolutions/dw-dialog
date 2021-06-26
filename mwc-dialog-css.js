@@ -178,7 +178,7 @@ export const ModalDialogStyles = css`
     flex-grow: 1;
     box-sizing: border-box;
     margin: 0;
-    padding: 20px 24px;
+    padding: var(--dw-dialog-content-padding, 20px 24px);
     overflow: auto;
     -webkit-overflow-scrolling: touch;
   }
@@ -191,7 +191,7 @@ export const ModalDialogStyles = css`
     margin-bottom: 0;
   }
 
-  :host([type="modal"]) .mdc-dialog__title+.mdc-dialog__content {
+  :host([type="modal"]:not([custom-content-padding-applied])) .mdc-dialog__title+.mdc-dialog__content {
     padding-top: 0;
   }
 
@@ -379,7 +379,7 @@ export const ModalDialogStyles = css`
     bottom: 0;
   }
 
-  :host([type="modal"]:not([has-footer])) .mdc-dialog .mdc-dialog__content {
+  :host([type="modal"]:not([has-footer]):not([custom-content-padding-applied])) .mdc-dialog .mdc-dialog__content {
     padding-bottom: 12px;
   }
 

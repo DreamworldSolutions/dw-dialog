@@ -58,6 +58,7 @@ export class DwDialogDemo extends LitElement {
           --mdc-theme-primary: #03A9F4;
         }
 
+
         mwc-formfield{
           display: block;
           padding-bottom: 24px;
@@ -143,6 +144,7 @@ export class DwDialogDemo extends LitElement {
         </dw-dialog>
 
         <dw-dialog id="confirmation" noCancelOnEscKey noCancelOnOutsideClick>
+        <span slot="header">The Wonderful Wizard of Oz</span>
           <div>Are you sure?</div>
           <div slot="footer">
             <mwc-button dismiss>Cancel</mwc-button>
