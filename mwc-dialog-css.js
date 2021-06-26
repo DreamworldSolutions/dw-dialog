@@ -383,7 +383,8 @@ export const ModalDialogStyles = css`
     padding-bottom: 12px;
   }
 
-  :host([type="modal"][opened][placement="bottom"][full-height]) .mdc-dialog__surface {
+  :host([type="modal"][opened][placement="bottom"][full-height]) .mdc-dialog__surface,
+  :host([type="modal"][opened][placement="bottom"][fit-height]) .mdc-dialog__surface {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
