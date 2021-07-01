@@ -230,7 +230,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
           dialog.opened = false;
           dialog.shadowRoot.appendChild(dialog._renderRootEl)
           dialog._overlay && dialog._overlay.remove();
-          dialog._sheet.remove();
+          dialog._sheet && dialog._sheet.remove();
           dialog.close();
           dialog.__unlistenEvents();
           if (window.__dwPopoverInstances && window.__dwPopoverInstances.length) {
