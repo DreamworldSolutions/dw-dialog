@@ -330,6 +330,8 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
    */
   __listenEvents() {
     document.addEventListener('keydown', this.__onKeyDown, { capture: true });
+    this.__onWheelHandler = this.__onWheelHandler.bind(this);
+    document.addEventListener('wheel', this.__onWheelHandler, { capture: true, passive: false });
   }
 
   /**
@@ -338,6 +340,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
    */
   __unlistenEvents() {
     document.removeEventListener('keydown', this.__onKeyDown, { capture: true });
+    document.removeEventListener('wheel', this.__onWheelHandler, { capture: true, passive: false });
   }
 
   /**
@@ -352,6 +355,19 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       const lastOpenedDialog = window.__dwPopoverInstances.slice(-1)[0]
       lastOpenedDialog && lastOpenedDialog.close();
     }
+  }
+
+  /**
+   * Prevents scroll from outside of the dialog.
+   * @param {Object} event Event
+   */
+  __onWheelHandler(event) {
+    const path = event.path || (event.composedPath && event.composedPath());
+    const scrollEl = this.renderRoot.querySelector('#popover_dialog__surface');
+    if (path && path.includes(scrollEl)) {
+      return;
+    }
+    event.preventDefault();
   }
 
   disconnectedCallback() {
