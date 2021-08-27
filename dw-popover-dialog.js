@@ -178,6 +178,9 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       hideOnClick: false, //Note: interactive does not work in shadowDOM, so explicitly sets it to `false` & closes dialog from `onClickOutside` handler.
       appendTo: dialog.appendTo,
       onClickOutside(instance, event) {
+        if (dialog.doNotCloseOnOutsideClick) {
+          return;
+        }
         const tippyBox = instance.popper.querySelector('.tippy-box');
         const path = event.composedPath && event.composedPath() || event.path;
         for (let el of path) {
