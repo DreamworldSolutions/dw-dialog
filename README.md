@@ -263,6 +263,7 @@ npm install --save @dreamworld/dw-dialog
 - `appendTo` - When it's provided, append dialog to provided element. Default is `parent` of `triggerElement`.
 - `boundaryPadding`: It's virtual padding of boundary(`viewport`). When contet of  dialog increases, it will adjust it's position according to available space in viewport. Default is `8`;
 - `doNotCloseOnOutsideClick`: When it's true, dialog will not be closed on outside click.
+- `excludeOutsideClickFor`: {String} It is list of CSS class selectors seperated by space. e.g `"search-input dialog"`. When `doNotCloseOnOutsideClick` given, this is not cosidered.
 ### `dw-fit-dialog`
   - opened - Set to `true` to open the dialog. You can use `open` and `close` method as well to open/close dialog.
 

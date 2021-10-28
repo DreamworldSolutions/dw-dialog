@@ -181,8 +181,21 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
         if (dialog.doNotCloseOnOutsideClick) {
           return;
         }
-        const tippyBox = instance.popper.querySelector('.tippy-box');
+
         const path = event.composedPath && event.composedPath() || event.path;
+
+        if (dialog.excludeOutsideClickFor && typeof dialog.excludeOutsideClickFor === 'string') {
+          const selectors = dialog.excludeOutsideClickFor.split(" ");
+          for (let el of path) {
+            for (let selector of selectors) {
+              if (el.classList && el.classList.contains(selector)) {
+                return;
+              }
+            }
+          }
+        }
+
+        const tippyBox = instance.popper.querySelector('.tippy-box');
         for (let el of path) {
           if (tippyBox === el) {
             return;
