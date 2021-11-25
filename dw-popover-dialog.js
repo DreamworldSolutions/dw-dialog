@@ -102,6 +102,11 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
        * `true` when footer template is provided.
        */
       _hasFooter: { type: Boolean, reflect: true, attribute: 'has-footer' },
+
+      /**
+       * This can be used when user wants to render when dialog's open animation is completed.
+       */
+       _openAnimationCompleted: { type: Boolean }
     };
   }
 
@@ -151,6 +156,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
     this.appendTo = 'parent';
     this.boundaryPadding = 8;
     this.__onKeyDown = this.__onKeyDown.bind(this);
+    this.OPEN_ANIMATION_TIME = 300; //In milliseconds.
   }
 
   updated(changedProps) {
@@ -325,6 +331,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
     this.open();
     const event = new CustomEvent('dw-dialog-opened', { bubbles: false });
     this.dispatchEvent(event);
+    setTimeout(() => { this._openAnimationCompleted = true }, this.OPEN_ANIMATION_TIME);
   }
 
   /**
@@ -338,6 +345,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
     this.close();
     const event = new CustomEvent('dw-dialog-closed', { bubbles: false });
     this.dispatchEvent(event);
+    this._openAnimationCompleted = false;
   }
 
   /**
