@@ -89,6 +89,12 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       appendTo: { type: Object },
 
       /**
+       * Input property.
+       * Element z-index, default value is 9999.
+       */
+      zIndex: { type: Number },
+
+      /**
        * When `true`, shows overlay.
        */
       hasOverlay: { type: Boolean, reflect: true, attribute: 'has-overlay' },
@@ -157,6 +163,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
     this.boundaryPadding = 8;
     this.__onKeyDown = this.__onKeyDown.bind(this);
     this.OPEN_ANIMATION_TIME = 300; //In milliseconds.
+    this.zIndex = 9999;
   }
 
   updated(changedProps) {
@@ -183,6 +190,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       interactive: true,
       hideOnClick: false, //Note: interactive does not work in shadowDOM, so explicitly sets it to `false` & closes dialog from `onClickOutside` handler.
       appendTo: dialog.appendTo,
+      zIndex: this.zIndex,
       onClickOutside(instance, event) {
         if (dialog.doNotCloseOnOutsideClick) {
           return;
