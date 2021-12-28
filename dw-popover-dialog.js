@@ -163,7 +163,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
     this.boundaryPadding = 8;
     this.__onKeyDown = this.__onKeyDown.bind(this);
     this.OPEN_ANIMATION_TIME = 300; //In milliseconds.
-    this.zIndex = 9999;
+    this.zIndex = 9999; 
   }
 
   updated(changedProps) {
