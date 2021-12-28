@@ -90,7 +90,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
 
       /**
        * Input property.
-       * Element z-index, default value is 9999.
+       * Element z-index, default value is 9999. 
        */
       zIndex: { type: Number },
 
