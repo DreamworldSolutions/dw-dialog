@@ -341,7 +341,7 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
    */
   _setFocusToElement() {
     if (this.type !== 'fit') {
-      super._setFocusToElement();
+      super._setFocusToElement && super._setFocusToElement();
       return;
     }
     setTimeout(() => {
