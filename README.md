@@ -267,6 +267,9 @@ npm install --save @dreamworld/dw-dialog
 ### `dw-fit-dialog`
   - opened - Set to `true` to open the dialog. You can use `open` and `close` method as well to open/close dialog.
 
+### `dw-composite-dialog`
+- `type`: It is mandatory & constant property.
+
 ## Attributes
 
 `dismiss` and `confirm` attribute indicates that interacting with it should close the dialog with the specified attribute. This action is then reflected via event.detail.action in the `dw-dialog-closed` event.

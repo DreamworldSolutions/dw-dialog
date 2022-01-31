@@ -16,12 +16,7 @@ import { fitDialogStyles } from './fit-dialog-styles.js';
  * Usage:
  *  - This dialog can be used by extention only. e.g `<my-composite-dialog></my-composite-dialog>`
  */
-export class DwCompositeDialog extends DwModalDialogMixin(DwFitDialogMixin(DwPopoverDialogMixin(DwCompositeBaseDialogMixin(LitElement)))) {
-  constructor() {
-    super();
-    this.type = 'modal';
-  }
-
+export class DwCompositeDialog extends DwCompositeBaseDialogMixin(DwModalDialogMixin(DwFitDialogMixin(DwPopoverDialogMixin(LitElement)))) {
   static get styles() {
     return [
       ModalDialogStyles,

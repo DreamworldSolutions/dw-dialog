@@ -105,20 +105,6 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
     };
   }
 
-  get opened() {
-    return this._opened;
-  }
-
-  set opened(val) {
-    const oldVal = this._opened;
-    if (oldVal === val) {
-      return;
-    }
-    this._opened = val;
-    this.requestUpdate('opened', oldVal);
-    this._onOpenedChanged(val);
-  }
-
   render() {
     if (this.type !== 'modal') {
       return html`${super.render()}`
@@ -187,8 +173,9 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
     if (this.type !== 'modal') {
       return;
     }
-    if (changedProps.has('opened')) { 
-      this._manageFullHeight(); 
+    if (changedProps.has('opened') && this.type === 'modal') {
+      this._manageFullHeight();
+      this._onOpenedChanged(this.opened);
     }
   }
 
@@ -231,10 +218,10 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
    */
   layout() { 
     if (this.type !== 'modal') {
-      super.layout()
+      super.layout && super.layout()
       return;
     }
-    this._mdcDialogInstance.layout();
+    this._mdcDialogInstance && this._mdcDialogInstance.layout();
     this._manageFullHeight();
   }
 
@@ -328,6 +315,7 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
    * Listens `MDCDialog:closed`, `MDCDialog:opened` and scroll events
    */
   _listenEvents() { 
+    this._unlistenEvents();
     if (this.type !== 'modal') {
       super._listenEvents();
       return;
@@ -346,7 +334,7 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
    */
   _unlistenEvents() { 
     if (this.type !== 'modal') {
-      super._unlistenEvents();
+      super._unlistenEvents && super._unlistenEvents();
       return;
     }
     let el = this.renderRoot.querySelector('#dialogContainer');
@@ -413,7 +401,7 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
    */
   _manageFullHeight() {
     if (this.type !== 'modal') {
-      super._manageFullHeight();
+      super._manageFullHeight && super._manageFullHeight();
       return;
     }
     let el = this.renderRoot.querySelector('.mdc-dialog__surface');
@@ -427,7 +415,7 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
    */
   _onDialogScroll() {
     if (this.type !== 'modal') {
-      super._onDialogScroll();
+      super._onDialogScroll && super._onDialogScroll();
       return;
     }
     let scrollEl = this.renderRoot.querySelector('#dialog-content');
@@ -478,7 +466,7 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
 
   _setFocusToElement() { 
     if (this.type !== 'modal') {
-      super._setFocusToElement();
+      super._setFocusToElement && super._setFocusToElement();
       return;
     }
     let el = this.renderRoot.querySelector(this.autoFocusSelector);

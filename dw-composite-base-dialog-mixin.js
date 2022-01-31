@@ -13,6 +13,13 @@ export const DwCompositeBaseDialogMixin = (baseElement) => class DwCompositeBase
     }
   }
 
+  constructor() {
+    super();
+    this.type = undefined;
+    this.mandatoryProps = ['type'];
+    this.constantProps = ['type'];
+  }
+
   /**
    * Customize render root of element.
    */

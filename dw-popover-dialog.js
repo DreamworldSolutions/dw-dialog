@@ -116,21 +116,6 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
     };
   }
 
-  get opened() {
-    return this._opened;
-  }
-
-  set opened(val) {
-    const oldVal = this._opened;
-    if (oldVal === val) {
-      return;
-    }
-
-    this._opened = val;
-    this.requestUpdate('opened', oldVal);
-    this._onOpenedChanged(val);
-  }
-
   render() {
     if (this.type !== 'popover') {
       return html`${super.render()}`;
@@ -171,6 +156,9 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
     if (this.type === 'popover') {
       this._hasHeader = !!this._headerTemplate;
       this._hasFooter = !!this._footerTemplate;
+    }
+    if (changedProps.has('opened') && this.type === 'popover') {
+      this._onOpenedChanged(this.opened);
     }
   }
 

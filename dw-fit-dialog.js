@@ -137,26 +137,13 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
     };
   }
 
-  get opened() {
-    return this._opened;
-  }
-
-  set opened(val) {
-    const oldVal = this._opened;
-    if (oldVal === val) {
-      return;
-    }
-
-    this._opened = val;
-    this.requestUpdate('opened', oldVal);
-    this._onOpenedChanged(val);
-  }
-
-
   updated(changedProps) {
     super.updated && super.updated(changedProps);
     this._hasHeader = !!this._headerTemplate;
     this._hasFooter = !!this._footerTemplate;
+    if (changedProps.has('opened') && this.type === 'fit') {
+      this._onOpenedChanged(this.opened);
+    }
   }
 
   /**
@@ -308,7 +295,7 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
    */
   _onScrollHandler() {
     if (this.type !== 'fit') {
-      super._onScrollHandler();
+      super._onScrollHandler && super._onScrollHandler();
       return;
     }
     const scrollEl = document.scrollingElement;
@@ -321,6 +308,7 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
    * Listen `scroll` event & `click` event of "dismiss".
    */
   _listenEvents() {
+    this._unlistenEvents();
     if (this.type !== 'fit') {
       super._listenEvents();
       return;
@@ -353,7 +341,7 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
    */
   _setFocusToElement() {
     if (this.type !== 'fit') {
-      super._setFocusToElement();
+      super._setFocusToElement && super._setFocusToElement();
       return;
     }
     setTimeout(() => {
