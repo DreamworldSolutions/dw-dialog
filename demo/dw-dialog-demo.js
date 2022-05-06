@@ -286,4 +286,4 @@ export class DwDialogDemo extends LitElement {
   }
 }
 
-window.customElements.define('dw-dialog-demo', DwDialogDemo);
+window.customElements.define('dw-dialog-demo', DwDialogDemo); 
