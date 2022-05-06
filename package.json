@@ -23,7 +23,7 @@
   "homepage": "https://github.com/DreamworldSolutions/dw-dialog#readme",
   "dependencies": {
     "@dreamworld/material-styles": "^1.1.0",
-    "@material/dialog": "9.0.0-canary.1c156d69d.0",
+    "@material/dialog": "^14.0.0",
     "lit-element": "^2.2.1",
     "lodash-es": "^4.17.15",
     "tippy.js": "^6.2.7"
