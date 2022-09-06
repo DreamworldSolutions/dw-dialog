@@ -37,7 +37,7 @@ export const DwCompositeBaseDialogMixin = (baseElement) => class DwCompositeBase
    */
   attributeChangedCallback(name, oldValue, newValue) {
     super.attributeChangedCallback(name, oldValue, newValue);
-    if (newValue !== null && newValue !== undefined) {
+    if (newValue !== null && newValue !== undefined && name !== 'title') {
       this._renderRootEl && this._renderRootEl.setAttribute(name, newValue);
     } else {
       this._renderRootEl && this._renderRootEl.removeAttribute(name);
