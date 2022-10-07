@@ -1,5 +1,4 @@
-import { css } from 'lit-element';
-
+import { css } from '@dreamworld/pwa-helpers/lit.js';
 export const popoverStyle = css`
   :host([type="popover"]) {
     display: none;

@@ -1,5 +1,5 @@
 
-import { html, css } from 'lit-element';
+import { html, css } from '@dreamworld/pwa-helpers/lit.js';
 import { DwCompositeDialog } from '../dw-composite-dialog.js';
 import './my-popover-dialog.js';
 

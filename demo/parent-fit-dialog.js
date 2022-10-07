@@ -1,5 +1,5 @@
 
-import { html, css } from 'lit-element';
+import { html} from '@dreamworld/pwa-helpers/lit.js';
 import { DwFitDialog } from '../dw-fit-dialog.js';
 import './child-fit-dialog.js';
 export class ParentFitDialog extends DwFitDialog {

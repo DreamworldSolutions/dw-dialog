@@ -1,5 +1,5 @@
 
-import { html, css } from 'lit-element';
+import { html, css } from '@dreamworld/pwa-helpers/lit.js';
 import { DwPopoverDialog } from '../dw-popover-dialog.js'
 export class MyPopoverDialog extends DwPopoverDialog {
 

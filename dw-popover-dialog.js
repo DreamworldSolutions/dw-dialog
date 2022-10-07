@@ -1,7 +1,6 @@
 
 
-import { html, css } from 'lit-element';
-import { LitElement } from '@dreamworld/pwa-helpers/lit-element.js';
+import { LitElement, html, css } from '@dreamworld/pwa-helpers/lit.js';
 import { popoverStyle, externalStyle } from './popover-dialog-css.js';
 import tippy from 'tippy.js';
 import { DwCompositeBaseDialogMixin } from './dw-composite-base-dialog-mixin.js';

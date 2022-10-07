@@ -1,5 +1,4 @@
-import { html, css } from 'lit-element';
-import { LitElement } from '@dreamworld/pwa-helpers/lit-element.js';
+import { LitElement, html, css } from '@dreamworld/pwa-helpers/lit.js';
 import isEmpty from 'lodash-es/isEmpty';
 import findIndex from 'lodash-es/findIndex';
 import { fitDialogStyles } from './fit-dialog-styles.js';

@@ -1,7 +1,6 @@
 
 
-import { html, css } from 'lit-element';
-import { LitElement } from '@dreamworld/pwa-helpers/lit-element.js';
+import { LitElement, html } from '@dreamworld/pwa-helpers/lit.js';
 import { MDCDialog } from './component';
 import { ModalDialogStyles } from './mwc-dialog-css';
   
