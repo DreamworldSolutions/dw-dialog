@@ -1,3 +1,5 @@
+import { adoptStyles } from '@dreamworld/pwa-helpers/lit.js';
+
 /**
  * Purpose: Costimzes renderRoot of element & proxies attribute of element to host element.
  * @param {Object} baseElement Base Element
@@ -26,10 +28,12 @@ export const DwCompositeBaseDialogMixin = (baseElement) => class DwCompositeBase
   createRenderRoot() {
     this._renderRootEl = document.createElement('div');
     this._renderRootEl.id = 'render-root';
-    this._renderRootEl.attachShadow({ mode: 'open' });
-    this.attachShadow({ mode: 'open' });
+    this._renderRootEl.attachShadow(this.constructor.shadowRootOptions);
+    this.attachShadow(this.constructor.shadowRootOptions);
     this.shadowRoot.appendChild(this._renderRootEl);
-    return this._renderRootEl.shadowRoot;
+    const renderRoot = this._renderRootEl.shadowRoot;
+    adoptStyles(renderRoot, this.constructor.elementStyles)
+    return renderRoot;
   }
 
   /**
