@@ -1,10 +1,11 @@
-
 import { html, css } from 'lit-element';
 import { LitElement } from '@dreamworld/pwa-helpers/lit-element.js';
 import isEmpty from 'lodash-es/isEmpty';
 import findIndex from 'lodash-es/findIndex';
 import { fitDialogStyles } from './fit-dialog-styles.js';
 import { DwCompositeBaseDialogMixin } from './dw-composite-base-dialog-mixin.js';
+
+let appendToElement;
 
 /**
  * Behaviours:
@@ -179,7 +180,8 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
     }
 
     this.opened = true;
-    document.body.appendChild(this._renderRootEl);
+    const parentEl = appendToElement ? appendToElement : document.body;
+    parentEl.appendChild(this._renderRootEl);
   }
 
   /**
@@ -351,6 +353,14 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
         el && el.scrollIntoView(false);
       }, 400);
     }, 0);
+  }
+
+  /**
+   * It's used to append fit dialog into the specified element.
+   * @param {Object} element 
+   */
+  static setAppendTo(element) {
+    appendToElement = element;
   }
 }
 
