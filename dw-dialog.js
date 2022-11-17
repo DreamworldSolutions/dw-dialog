@@ -155,6 +155,24 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
     this._onDialogScroll = this._onDialogScroll.bind(this);
   }
 
+  get _dialogContentEl() {
+    return this.renderRoot.querySelector('.mdc-dialog__content');
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    if (this.type === "modal") {
+      this.resizeObserver = new ResizeObserver(() => this._manageFullHeight());
+    }
+  }
+
+  firstUpdated() {
+    super.firstUpdated();
+    if (this.type == "modal") {
+      this.resizeObserver.observe(this._dialogContentEl);
+    }
+  }
+
   disconnectedCallback() {
     if (this.type === 'modal') {
       this._unlistenEvents();
@@ -165,6 +183,7 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
       }
     }
     super.disconnectedCallback();
+    this.resizeObserver.unobserve(this._dialogContentEl);
   }
 
   updated(changedProps) {
