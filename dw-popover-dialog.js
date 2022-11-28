@@ -111,7 +111,13 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       /**
        * This can be used when user wants to render when dialog's open animation is completed.
        */
-       _openAnimationCompleted: { type: Boolean }
+      _openAnimationCompleted: { type: Boolean },
+
+      /**
+       * Whether tippy instance is shown or not
+       * Note: this is used to in content area <lit-virtualizer> element. 
+       */
+      _tippyShown: Boolean
     };
   }
 
@@ -147,7 +153,8 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
     this.boundaryPadding = 8;
     this.__onKeyDown = this.__onKeyDown.bind(this);
     this.OPEN_ANIMATION_TIME = 300; //In milliseconds.
-    this.zIndex = 9999; 
+    this.zIndex = 9999;
+    this._tippyShown = false;
   }
 
   updated(changedProps) {
@@ -241,6 +248,9 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
         });
         const content = dialog.renderRoot.querySelector('#dialog-content');
         content && dialog._resizeObserver.observe(content);
+        window.setTimeout(() => {
+          dialog._tippyShown = true;
+        }, 200);
       },
       onHidden() {
         if (dialog.isConnected) {
