@@ -183,7 +183,9 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
       }
     }
     super.disconnectedCallback();
-    this.resizeObserver.unobserve(this._dialogContentEl);
+    if (this.type === 'modal') { 
+      this.resizeObserver.unobserve(this._dialogContentEl);
+    }
   }
 
   updated(changedProps) {
