@@ -166,13 +166,6 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
     }
   }
 
-  firstUpdated() {
-    super.firstUpdated();
-    if (this.type == "modal") {
-      this.resizeObserver.observe(this._dialogContentEl);
-    }
-  }
-
   disconnectedCallback() {
     if (this.type === 'modal') {
       this._unlistenEvents();
@@ -183,9 +176,6 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
       }
     }
     super.disconnectedCallback();
-    if (this.type === 'modal') { 
-      this.resizeObserver.unobserve(this._dialogContentEl);
-    }
   }
 
   updated(changedProps) {
@@ -207,6 +197,8 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
       super.open(triggerEl)
       return;
     }
+    this.resizeObserver.observe(this._dialogContentEl);
+    
     this.updateComplete.then(() => {
       if (this._mdcDialogInstance) {
         return;
@@ -230,6 +222,7 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
       super.close();
       return;
     }
+    this.resizeObserver.unobserve(this._dialogContentEl);
     this._mdcDialogInstance && this._mdcDialogInstance.close();
   }
 
