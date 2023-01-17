@@ -155,10 +155,6 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
     this._onDialogScroll = this._onDialogScroll.bind(this);
   }
 
-  get _dialogContentEl() {
-    return this.renderRoot.querySelector('.mdc-dialog__content');
-  }
-
   connectedCallback() {
     super.connectedCallback();
     if (this.type === "modal") {
@@ -197,6 +193,7 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
       super.open(triggerEl)
       return;
     }
+    this._dialogContentEl = this.renderRoot.querySelector('.mdc-dialog__content');
     this.resizeObserver.observe(this._dialogContentEl);
     
     this.updateComplete.then(() => {
@@ -222,7 +219,7 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
       super.close();
       return;
     }
-    this.resizeObserver.unobserve(this._dialogContentEl);
+    this._dialogContentEl && this.resizeObserver.unobserve(this._dialogContentEl);
     this._mdcDialogInstance && this._mdcDialogInstance.close();
   }
 
