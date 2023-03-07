@@ -346,3 +346,7 @@ npm install --save @dreamworld/dw-dialog
 - dialog-header - For header's style
 - dialog-content - For content's style
 - dialog-footer - For footer's style
+
+## Scroll lock
+
+- When dialog open integrator should lock the scroll manually.
