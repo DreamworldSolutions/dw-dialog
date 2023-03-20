@@ -250,7 +250,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
         content && dialog._resizeObserver.observe(content);
         window.setTimeout(() => {
           dialog._tippyShown = true;
-        }, 200);
+        }, 250);
       },
       onHidden() {
         if (dialog.isConnected) {
