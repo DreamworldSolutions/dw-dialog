@@ -19,7 +19,6 @@ import { DwCompositeBaseDialogMixin } from './dw-composite-base-dialog-mixin.js'
  *    - `--dw-popover-height`: Height of popover dialog. Default is auto.
  *    - `--dw-popover-max-height`: Maximum height of dialog. Default is 90vh.
  *    - `--dw-popover-overlay-background`: Background of popover overlay. Default is `rgba(0, 0, 0, 0.3)`
- *    - `--dw-popover-animation-time`: Animation time of popover. Default is 0.3s
  *  - Events:
  *    - Dispatches `dw-dialog-opened` & `dw-dialog-closed` events.
  * 
@@ -112,12 +111,6 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
        * This can be used when user wants to render when dialog's open animation is completed.
        */
       _openAnimationCompleted: { type: Boolean },
-
-      /**
-       * Whether tippy instance is shown or not
-       * Note: this is used to in content area <lit-virtualizer> element. 
-       */
-      _tippyShown: Boolean
     };
   }
 
@@ -152,9 +145,8 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
     this.appendTo = 'parent';
     this.boundaryPadding = 8;
     this.__onKeyDown = this.__onKeyDown.bind(this);
-    this.OPEN_ANIMATION_TIME = 300; //In milliseconds.
+    this.OPEN_ANIMATION_TIME = 200; //In milliseconds.
     this.zIndex = 9999;
-    this._tippyShown = false;
   }
 
   updated(changedProps) {
@@ -248,9 +240,6 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
         });
         const content = dialog.renderRoot.querySelector('#dialog-content');
         content && dialog._resizeObserver.observe(content);
-        window.setTimeout(() => {
-          dialog._tippyShown = true;
-        }, 200);
       },
       onHidden() {
         if (dialog.isConnected) {
