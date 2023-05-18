@@ -330,7 +330,6 @@ npm install --save @dreamworld/dw-dialog
 | --dw-fit-dialog-footer-background | Background color of Footer |
 | --dw-fit-dialog-max-width | Maximum width of dialog. Default is 768px |
 | --dw-fit-dialog-overlay-color | Overlay color of dialog. Default is `rgba(0,0,0,0.4)` |
-| --dw-fit-dialog-animation-time | Animation time of dialog. Default is `0.3s` |
 
 
 ### dw-popover-dialog
