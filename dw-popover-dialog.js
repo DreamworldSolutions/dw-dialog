@@ -19,7 +19,6 @@ import { DwCompositeBaseDialogMixin } from './dw-composite-base-dialog-mixin.js'
  *    - `--dw-popover-height`: Height of popover dialog. Default is auto.
  *    - `--dw-popover-max-height`: Maximum height of dialog. Default is 90vh.
  *    - `--dw-popover-overlay-background`: Background of popover overlay. Default is `rgba(0, 0, 0, 0.3)`
- *    - `--dw-popover-animation-time`: Animation time of popover. Default is 0.2s
  *  - Events:
  *    - Dispatches `dw-dialog-opened` & `dw-dialog-closed` events.
  * 
