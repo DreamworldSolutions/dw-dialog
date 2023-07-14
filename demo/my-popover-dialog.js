@@ -6,6 +6,7 @@ export class MyPopoverDialog extends DwPopoverDialog {
   constructor() {
     super();
     this.popoverPlacement = 'bottom-start';
+    this.extraOptions = {hideOnClick: true};
   }
 
   static get styles() {

@@ -9,6 +9,7 @@ export class MyCompositeDialog extends DwCompositeDialog {
   constructor() {
     super();
     this.type = 'modal';
+    this.extraOptions= {hideOnClick: true};
   }
 
   static get styles() {

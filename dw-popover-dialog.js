@@ -111,6 +111,8 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
        * This can be used when user wants to render when dialog's open animation is completed.
        */
       _openAnimationCompleted: { type: Boolean },
+
+      extraOptions: Object
     };
   }
 
@@ -167,6 +169,8 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
   _init(triggerEl) {
     const dialog = this;
     const offset = this.showTrigger ? dialog.popoverOffset : [0, -(triggerEl.offsetHeight)];
+    const hideOnClick = this.extraOptions && this.extraOptions.hideOnClick;
+    console.log(this.extraOptions, hideOnClick);
     this._tippyInstance = tippy(triggerEl, {
       placement: dialog.popoverPlacement,
       offset,
@@ -174,7 +178,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       maxWidth: 'none',
       trigger: 'manual',
       interactive: true,
-      hideOnClick: false, //Note: interactive does not work in shadowDOM, so explicitly sets it to `false` & closes dialog from `onClickOutside` handler.
+      hideOnClick: hideOnClick || false, //Note: interactive does not work in shadowDOM, so explicitly sets it to `false` & closes dialog from `onClickOutside` handler.
       appendTo: dialog.appendTo,
       zIndex: this.zIndex,
       onClickOutside(instance, event) {
