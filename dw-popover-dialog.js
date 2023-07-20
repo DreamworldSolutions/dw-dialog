@@ -181,6 +181,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       content: dialog._renderRootEl,
       maxWidth: 'none',
       trigger: 'manual',
+      interactive: true,
       hideOnClick: hideOnClick || false, //Note: interactive does not work in shadowDOM, so explicitly sets it to `false` & closes dialog from `onClickOutside` handler.
       appendTo: dialog.appendTo,
       zIndex: this.zIndex,
