@@ -112,7 +112,10 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
        */
       _openAnimationCompleted: { type: Boolean },
 
-      extraOptions: Object
+      /**
+       * Extra options to be passed to Tippy.js
+       */
+      extraOptions: { type: Object },
     };
   }
 
@@ -170,14 +173,14 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
     const dialog = this;
     const offset = this.showTrigger ? dialog.popoverOffset : [0, -(triggerEl.offsetHeight)];
     const hideOnClick = this.extraOptions && this.extraOptions.hideOnClick;
-    console.log(this.extraOptions, hideOnClick);
-    this._tippyInstance = tippy(triggerEl, {
+
+    let tippyOptions = {
+      ...this.extraOptions,
       placement: dialog.popoverPlacement,
       offset,
       content: dialog._renderRootEl,
       maxWidth: 'none',
       trigger: 'manual',
-      interactive: true,
       hideOnClick: hideOnClick || false, //Note: interactive does not work in shadowDOM, so explicitly sets it to `false` & closes dialog from `onClickOutside` handler.
       appendTo: dialog.appendTo,
       zIndex: this.zIndex,
@@ -259,7 +262,9 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
           dialog._resizeObserver && dialog._resizeObserver.disconnect();
         }
       },
-    });
+    }
+
+    this._tippyInstance = tippy(triggerEl, tippyOptions);
     this._tippyInstance.show();
   }
 
