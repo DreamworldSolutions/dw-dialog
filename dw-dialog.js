@@ -194,7 +194,7 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
       return;
     }
     this._dialogContentEl = this.renderRoot.querySelector('.mdc-dialog__content');
-    this.resizeObserver.observe(this._dialogContentEl);
+    this._dialogContentEl && this.resizeObserver.observe(this._dialogContentEl);
     
     this.updateComplete.then(() => {
       if (this._mdcDialogInstance) {
@@ -220,7 +220,7 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
       return;
     }
 
-    this.resizeObserver.unobserve(this._dialogContentEl);
+    this._dialogContentEl && this.resizeObserver.unobserve(this._dialogContentEl);
     this._mdcDialogInstance && this._mdcDialogInstance.close();
   }
 
