@@ -3,6 +3,9 @@
 import { LitElement, html } from '@dreamworld/pwa-helpers/lit.js';
 import { MDCDialog } from './component';
 import { ModalDialogStyles } from './mwc-dialog-css';
+
+// Lodash Methods
+import { debounce } from 'lodash-es';
   
 export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends baseElement {
   static get styles() {
@@ -158,7 +161,9 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
   connectedCallback() {
     super.connectedCallback();
     if (this.type === "modal") {
-      this.resizeObserver = new ResizeObserver(() => this._manageFullHeight());
+      this._debounceResizeObserver = debounce(this._debounceResizeObserver.bind(this), 200);
+      this.resizeObserver = new ResizeObserver(() => this._debounceResizeObserver());
+      this.resizeObserver.observe(this);
     }
   }
 
@@ -170,8 +175,14 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
         this._mdcDialogInstance.destroy();
         this._mdcDialogInstance = null;
       }
+
+      this.resizeObserver.unobserve(this);
     }
     super.disconnectedCallback();
+  }
+
+  _debounceResizeObserver() {
+    this._manageFullHeight();
   }
 
   updated(changedProps) {
@@ -378,10 +389,6 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
     this.dispatchEvent(event);
     this._unlistenEvents();
 
-    if(this.resizeObserver && this._dialogContentEl) {
-      this.resizeObserver.unobserve(this._dialogContentEl);
-    }
-
     if (this._mdcDialogInstance) {
       this._mdcDialogInstance.destroy();
       this._mdcDialogInstance = null;
@@ -403,11 +410,6 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
       composed: true
     });
 
-    if (this.resizeObserver && this._dialogContentEl) {
-      this.resizeObserver.observe(this._dialogContentEl);
-    }
-
-    
     this.dispatchEvent(event);
   }
 
