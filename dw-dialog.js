@@ -3,7 +3,7 @@
 import { LitElement, html } from '@dreamworld/pwa-helpers/lit.js';
 import { MDCDialog } from './component';
 import { ModalDialogStyles } from './mwc-dialog-css';
-  
+
 export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends baseElement {
   static get styles() {
     return [
@@ -194,6 +194,7 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
       return;
     }
     this._dialogContentEl = this.renderRoot.querySelector('.mdc-dialog__content');
+    this._dialogContentEl && this.resizeObserver.observe(this._dialogContentEl);
     
     this.updateComplete.then(() => {
       if (this._mdcDialogInstance) {
@@ -218,6 +219,8 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
       super.close();
       return;
     }
+
+    this._dialogContentEl && this.resizeObserver.unobserve(this._dialogContentEl);
     this._mdcDialogInstance && this._mdcDialogInstance.close();
   }
 
@@ -378,10 +381,6 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
     this.dispatchEvent(event);
     this._unlistenEvents();
 
-    if(this.resizeObserver && this._dialogContentEl) {
-      this.resizeObserver.unobserve(this._dialogContentEl);
-    }
-
     if (this._mdcDialogInstance) {
       this._mdcDialogInstance.destroy();
       this._mdcDialogInstance = null;
@@ -403,11 +402,6 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
       composed: true
     });
 
-    if (this.resizeObserver && this._dialogContentEl) {
-      this.resizeObserver.observe(this._dialogContentEl);
-    }
-
-    
     this.dispatchEvent(event);
   }
 
