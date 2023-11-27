@@ -153,6 +153,8 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
     this._onDialogOpened = this._onDialogOpened.bind(this);
     this._onDialogClosed = this._onDialogClosed.bind(this);
     this._onDialogScroll = this._onDialogScroll.bind(this);
+
+    window.openedDwDialogsInstances = window.openedDwDialogsInstances || [];
   }
 
   connectedCallback() {
@@ -381,6 +383,17 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
     this.dispatchEvent(event);
     this._unlistenEvents();
 
+    const index = window.openedDwDialogsInstances.findIndex((element) => element === this);
+    if (index >= 0) {
+      window.openedDwDialogsInstances.splice(index, 1);
+    }
+
+    window.openedDwDialogsInstances.map((element, index) => {
+      if (index === window.openedDwDialogsInstances.length - 1) {
+        element._mdcDialogInstance.escapeKeyAction = element?.noCancelOnEscKey ? '' : 'close';
+      }
+    })
+
     if (this._mdcDialogInstance) {
       this._mdcDialogInstance.destroy();
       this._mdcDialogInstance = null;
@@ -395,6 +408,15 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
       super._onDialogOpened();
       return;
     }
+
+    window.openedDwDialogsInstances.map((element) => {
+      if (element !== this) {
+        element._mdcDialogInstance.escapeKeyAction = '';
+      }
+    })
+
+    window.openedDwDialogsInstances.push(this);
+
     this.opened = true;
     let event = new CustomEvent('dw-dialog-opened', {
       detail: e.detail,

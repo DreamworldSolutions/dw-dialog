@@ -262,6 +262,14 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
     }
     window.openedDwFitDialogsInstances.push({ element: this });
 
+    window.openedDwDialogsInstances.map((element) => {
+      if (element !== this) {
+        element._mdcDialogInstance.escapeKeyAction = '';
+      }
+    })
+
+    window.openedDwDialogsInstances.push(this);
+
     this.dispatchEvent(new CustomEvent('dw-fit-dialog-opened', { bubbles: false, composed: false }));
     if (this.autoFocusSelector) {
       this.updateComplete.then(() => {
@@ -284,6 +292,17 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
     this._unlistenEvents();
 
     window.openedDwFitDialogsInstances.splice(window.openedDwFitDialogsInstances.length - 1, 1);
+
+    const index = window.openedDwDialogsInstances.findIndex((element) => element === this);
+    if (index >= 0) {
+      window.openedDwDialogsInstances.splice(index, 1);
+    }
+
+    window.openedDwDialogsInstances.map((element, index) => {
+      if (index === window.openedDwDialogsInstances.length - 1) {
+        element._mdcDialogInstance.escapeKeyAction = element?.noCancelOnEscKey ? '' : 'close';
+      }
+    })
 
     this._restoreScroll();
 
