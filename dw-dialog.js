@@ -3,6 +3,7 @@
 import { LitElement, html } from '@dreamworld/pwa-helpers/lit.js';
 import { MDCDialog } from './component';
 import { ModalDialogStyles } from './mwc-dialog-css';
+import { forEach } from 'lodash-es';
 
 export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends baseElement {
   static get styles() {
@@ -383,16 +384,11 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
     this.dispatchEvent(event);
     this._unlistenEvents();
 
-    const index = window.openedDwDialogsInstances.findIndex((element) => element === this);
-    if (index >= 0) {
-      window.openedDwDialogsInstances.splice(index, 1);
+    window.openedDwDialogsInstances.pop();
+    let lastOpenedDialogsInstances = window.openedDwDialogsInstances[window.openedDwDialogsInstances.length - 1];
+    if (lastOpenedDialogsInstances) {
+      lastOpenedDialogsInstances._mdcDialogInstance.escapeKeyAction = lastOpenedDialogsInstances?.noCancelOnEscKey ? '' : 'close';
     }
-
-    window.openedDwDialogsInstances.map((element, index) => {
-      if (index === window.openedDwDialogsInstances.length - 1) {
-        element._mdcDialogInstance.escapeKeyAction = element?.noCancelOnEscKey ? '' : 'close';
-      }
-    })
 
     if (this._mdcDialogInstance) {
       this._mdcDialogInstance.destroy();
@@ -409,11 +405,11 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
       return;
     }
 
-    window.openedDwDialogsInstances.map((element) => {
+    forEach(window.openedDwDialogsInstances, element => {
       if (element !== this) {
         element._mdcDialogInstance.escapeKeyAction = '';
       }
-    })
+    });
 
     window.openedDwDialogsInstances.push(this);
 
