@@ -4,7 +4,7 @@ import { LitElement, html, css } from '@dreamworld/pwa-helpers/lit.js';
 import { popoverStyle, externalStyle } from './popover-dialog-css.js';
 import tippy from 'tippy.js';
 import { DwCompositeBaseDialogMixin } from './dw-composite-base-dialog-mixin.js';
-
+import { forEach } from 'lodash-es';
 
 /**
  * 
@@ -332,6 +332,14 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       return;
     }
 
+    forEach(window.openedDwDialogsInstances, element => {
+      if (element !== this) {
+        element._mdcDialogInstance.escapeKeyAction = '';
+      }
+    });
+
+    window.openedDwDialogsInstances.push(this);
+
     this.open();
     const event = new CustomEvent('dw-dialog-opened', { bubbles: false });
     this.dispatchEvent(event);
@@ -346,6 +354,13 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       super._onDialogClosed();
       return;
     }
+
+    window.openedDwDialogsInstances.pop();
+    let lastOpenedDialogsInstances = window.openedDwDialogsInstances[window.openedDwDialogsInstances.length - 1];
+    if (lastOpenedDialogsInstances) {
+      lastOpenedDialogsInstances._mdcDialogInstance.escapeKeyAction = lastOpenedDialogsInstances?.noCancelOnEscKey ? '' : 'close';
+    }
+
     this.close();
     const event = new CustomEvent('dw-dialog-closed', { bubbles: false });
     this.dispatchEvent(event);

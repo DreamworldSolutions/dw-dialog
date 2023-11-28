@@ -3,6 +3,7 @@ import isEmpty from 'lodash-es/isEmpty';
 import findIndex from 'lodash-es/findIndex';
 import { fitDialogStyles } from './fit-dialog-styles.js';
 import { DwCompositeBaseDialogMixin } from './dw-composite-base-dialog-mixin.js';
+import { forEach } from 'lodash-es';
 
 let appendToElement;
 
@@ -262,6 +263,14 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
     }
     window.openedDwFitDialogsInstances.push({ element: this });
 
+    forEach(window.openedDwDialogsInstances, element => {
+      if (element !== this) {
+        element._mdcDialogInstance.escapeKeyAction = '';
+      }
+    });
+
+    window.openedDwDialogsInstances.push(this);
+
     this.dispatchEvent(new CustomEvent('dw-fit-dialog-opened', { bubbles: false, composed: false }));
     if (this.autoFocusSelector) {
       this.updateComplete.then(() => {
@@ -284,6 +293,12 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
     this._unlistenEvents();
 
     window.openedDwFitDialogsInstances.splice(window.openedDwFitDialogsInstances.length - 1, 1);
+
+    window.openedDwDialogsInstances.pop();
+    let lastOpenedDialogsInstances = window.openedDwDialogsInstances[window.openedDwDialogsInstances.length - 1];
+    if (lastOpenedDialogsInstances) {
+      lastOpenedDialogsInstances._mdcDialogInstance.escapeKeyAction = lastOpenedDialogsInstances?.noCancelOnEscKey ? '' : 'close';
+    }
 
     this._restoreScroll();
 
