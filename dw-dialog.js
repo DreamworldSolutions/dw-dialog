@@ -170,6 +170,12 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
       this._unlistenEvents();
 
       if (this._mdcDialogInstance) {
+        window.openedDwDialogsInstances.pop();
+        let lastOpenedDialogsInstances = window.openedDwDialogsInstances[window.openedDwDialogsInstances.length - 1];
+        if (lastOpenedDialogsInstances && lastOpenedDialogsInstances._mdcDialogInstance) {
+          lastOpenedDialogsInstances._mdcDialogInstance.escapeKeyAction = lastOpenedDialogsInstances?.noCancelOnEscKey ? '' : 'close';
+        }
+        
         this._mdcDialogInstance.destroy();
         this._mdcDialogInstance = null;
       }
@@ -386,7 +392,7 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
 
     window.openedDwDialogsInstances.pop();
     let lastOpenedDialogsInstances = window.openedDwDialogsInstances[window.openedDwDialogsInstances.length - 1];
-    if (lastOpenedDialogsInstances) {
+    if (lastOpenedDialogsInstances && lastOpenedDialogsInstances._mdcDialogInstance) {
       lastOpenedDialogsInstances._mdcDialogInstance.escapeKeyAction = lastOpenedDialogsInstances?.noCancelOnEscKey ? '' : 'close';
     }
 
@@ -406,7 +412,7 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
     }
 
     forEach(window.openedDwDialogsInstances, element => {
-      if (element !== this) {
+      if (element !== this && element._mdcDialogInstance) {
         element._mdcDialogInstance.escapeKeyAction = '';
       }
     });
