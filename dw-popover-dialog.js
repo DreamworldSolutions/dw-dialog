@@ -333,7 +333,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
     }
 
     forEach(window.openedDwDialogsInstances, element => {
-      if (element !== this) {
+      if (element !== this && element._mdcDialogInstance) {
         element._mdcDialogInstance.escapeKeyAction = '';
       }
     });
@@ -357,7 +357,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
 
     window.openedDwDialogsInstances.pop();
     let lastOpenedDialogsInstances = window.openedDwDialogsInstances[window.openedDwDialogsInstances.length - 1];
-    if (lastOpenedDialogsInstances) {
+    if (lastOpenedDialogsInstances && lastOpenedDialogsInstances._mdcDialogInstance) {
       lastOpenedDialogsInstances._mdcDialogInstance.escapeKeyAction = lastOpenedDialogsInstances?.noCancelOnEscKey ? '' : 'close';
     }
 
