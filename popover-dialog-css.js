@@ -69,6 +69,12 @@ export const externalStyle = css`
     outline: none;
   }
 
+  .tippy-box[data-animation="fadeIn"] {
+    will-change: opacity;
+    animation-name: fadeIn;
+    animation-duration: var(--dw-popover-animation-time, 0.3s);
+  }
+
   .tippy-box[data-animation="dropdown"] {
     will-change: opacity, transform, transform-origin;
     animation-name: dropdown;
