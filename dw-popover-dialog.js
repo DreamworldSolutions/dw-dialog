@@ -93,6 +93,17 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       zIndex: { type: Number },
 
       /**
+       * Extra options to be passed to Tippy.js
+       */
+      extraOptions: { type: Object },
+
+      /**
+       * Input property.
+       * External styles to be applied on popover dialog
+       */
+      popoverStyles: { type: Object },
+
+      /**
        * When `true`, shows overlay.
        */
       hasOverlay: { type: Boolean, reflect: true, attribute: 'has-overlay' },
@@ -111,11 +122,6 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
        * This can be used when user wants to render when dialog's open animation is completed.
        */
       _openAnimationCompleted: { type: Boolean },
-
-      /**
-       * Extra options to be passed to Tippy.js
-       */
-      extraOptions: { type: Object },
     };
   }
 
@@ -226,7 +232,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       onCreate() {
         dialog._sheet = document.createElement('style');
         dialog._sheet.id = 'popover-style';
-        dialog._sheet.innerHTML = externalStyle.cssText;
+        dialog._sheet.innerHTML = `${externalStyle.cssText} ${dialog.popoverStyles ? dialog.popoverStyles?.cssText : ''}`;
         const parentEl = dialog.appendTo === 'parent' ? triggerEl.parentNode : dialog.appendTo;
         parentEl.appendChild(dialog._sheet);
         if (dialog.hasOverlay) {

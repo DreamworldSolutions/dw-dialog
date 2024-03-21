@@ -81,6 +81,20 @@ export const externalStyle = css`
     animation-duration: var(--dw-popover-animation-time, 0.3s);
   }
 
+  .tippy-box[data-animation="dropdown"][data-placement="bottom-end"],
+  .tippy-box[data-animation="dropdown"][data-placement="bottom-start"],
+  .tippy-box[data-animation="dropdown"][data-placement="left-start"],
+  .tippy-box[data-animation="dropdown"][data-placement="right-start"] {
+    transform-origin: top;
+  }
+
+  .tippy-box[data-animation="dropdown"][data-placement="top-end"],
+  .tippy-box[data-animation="dropdown"][data-placement="top-start"],
+  .tippy-box[data-animation="dropdown"][data-placement="left-end"],
+  .tippy-box[data-animation="dropdown"][data-placement="right-end"] {
+    transform-origin: bottom;
+  }
+
   .tippy-box[data-animation="scale"] {
     will-change: opacity, transform;
     animation-name: scale;
@@ -112,13 +126,11 @@ export const externalStyle = css`
   @keyframes dropdown {
     from {
       opacity: 0;
-      transform-origin: left top;
       transform: scaleY(0);
     }
 
     to {
       opacity: 1;
-      transform-origin: left top;
       transform: scaleY(1);
     }
   }
