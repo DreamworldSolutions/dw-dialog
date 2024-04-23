@@ -188,9 +188,14 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
     if (this.type !== 'modal') {
       return;
     }
+
     if (changedProps.has('opened') && this.type === 'modal') {
       this._manageFullHeight();
       this._onOpenedChanged(this.opened);
+    }
+
+    if (changedProps.has("noCancelOnEscKey") && this._mdcDialogInstance) {
+      this._mdcDialogInstance.escapeKeyAction = this.noCancelOnEscKey ? "" : "close";
     }
   }
 
