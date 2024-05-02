@@ -208,6 +208,11 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
       return;
     }
     this._dialogContentEl = this.renderRoot.querySelector('.mdc-dialog__content');
+
+    if (!this.resizeObserver && this.type === 'modal') {
+      this.resizeObserver = new ResizeObserver(() => this._manageFullHeight());
+    }
+    
     this._dialogContentEl && this.resizeObserver.observe(this._dialogContentEl);
     
     this.updateComplete.then(() => {
