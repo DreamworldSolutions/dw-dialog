@@ -116,6 +116,7 @@ export const ModalDialogStyles = css`
     max-height: 100%;
     pointer-events: auto;
     overflow-y: auto;
+    outline: none;
   }
 
   :host([type="modal"]) .mdc-dialog[dir="rtl"] .mdc-dialog__surface,
