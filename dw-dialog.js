@@ -113,7 +113,7 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
     return html`
       <div id="dialogContainer" class="mdc-dialog" role="alertdialog" aria-modal="true" aria-labelledby="my-dialog-title" aria-describedby="my-dialog-content">
         <div class="mdc-dialog__container">
-          <div class="mdc-dialog__surface">
+          <div class="mdc-dialog__surface" tabindex='0'>
 
             <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
 
@@ -150,6 +150,7 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
     this.placement = 'center';
     this.scrolledDown = true;
     this.scrolledUp = true;
+    this.autoFocusSelector = '.mdc-dialog__surface';
     
     this._onDialogOpened = this._onDialogOpened.bind(this);
     this._onDialogClosed = this._onDialogClosed.bind(this);
