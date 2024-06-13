@@ -8,6 +8,7 @@ import { DwCompositeBaseDialogMixin } from './dw-composite-base-dialog-mixin.js'
 import { ModalDialogStyles } from './mwc-dialog-css.js';
 import { popoverStyle } from './popover-dialog-css.js';
 import { fitDialogStyles } from './fit-dialog-styles.js';
+import { Shadow } from '@dreamworld/material-styles/shadow.js';
 
 /**
  * Purpose: Composes `modal`, `fit` & "popover" dialogs.
@@ -18,6 +19,7 @@ import { fitDialogStyles } from './fit-dialog-styles.js';
 export class DwCompositeDialog extends DwCompositeBaseDialogMixin(DwModalDialogMixin(DwFitDialogMixin(DwPopoverDialogMixin(LitElement)))) {
   static get styles() {
     return [
+      Shadow,
       ModalDialogStyles,
       popoverStyle,
       fitDialogStyles
