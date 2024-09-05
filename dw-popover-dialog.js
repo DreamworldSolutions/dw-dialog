@@ -179,6 +179,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
     const dialog = this;
     const offset = this.showTrigger ? dialog.popoverOffset : [0, -(triggerEl.offsetHeight)];
     const hideOnClick = this.extraOptions && this.extraOptions.hideOnClick;
+    const trigger = this.extraOptions && this.extraOptions.trigger;
 
     let tippyOptions = {
       ...this.extraOptions,
@@ -186,7 +187,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
       offset,
       content: dialog._renderRootEl,
       maxWidth: 'none',
-      trigger: 'manual',
+      trigger: trigger || 'manual',
       interactive: true,
       hideOnClick: hideOnClick || false, //Note: interactive does not work in shadowDOM, so explicitly sets it to `false` & closes dialog from `onClickOutside` handler.
       appendTo: dialog.appendTo,
