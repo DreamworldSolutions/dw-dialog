@@ -28,7 +28,7 @@ export class DwCompositeDialog extends DwCompositeBaseDialogMixin(DwModalDialogM
 
   updated(props) {
     super.updated(props);
-    if (props.has("opened") && this.opened) {
+    if (props.has("opened") && this.opened && this.type !== 'fit') {
       this._setTransformStyle();
     }
   }
