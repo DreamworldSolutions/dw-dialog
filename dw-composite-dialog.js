@@ -25,25 +25,6 @@ export class DwCompositeDialog extends DwCompositeBaseDialogMixin(DwModalDialogM
       fitDialogStyles
     ]
   }
-
-  updated(props) {
-    super.updated(props);
-    if (props.has("opened") && this.opened && this.type !== 'fit') {
-      this._setTransformStyle();
-    }
-  }
-
-  /**
-   * This is a workaround for Safari / Chrome rendering issue at specific zoom level.
-   */
-  _setTransformStyle() {
-    setTimeout(() => {
-      const el = this.renderRoot.querySelector("#dialogContainer") || this.renderRoot.querySelector("#popover_dialog__surface");
-      if(el) {
-        el.style.transform = `translateZ(0)`;
-      }
-    }, 350);
-  }
 }
 
 window.customElements.define('dw-composite-dialog', DwCompositeDialog);
