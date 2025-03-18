@@ -84,7 +84,8 @@ export const externalStyle = css`
   .tippy-box[data-animation="dropdown"][data-placement="bottom-end"],
   .tippy-box[data-animation="dropdown"][data-placement="bottom-start"],
   .tippy-box[data-animation="dropdown"][data-placement="left-start"],
-  .tippy-box[data-animation="dropdown"][data-placement="right-start"] {
+  .tippy-box[data-animation="dropdown"][data-placement="right-start"],
+  .tippy-box[data-animation="dropdown"][data-placement="bottom"] {
     transform-origin: top;
   }
 
