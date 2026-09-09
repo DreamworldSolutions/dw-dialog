@@ -23,7 +23,7 @@ export const popoverStyle = css`
     min-width: var(--dw-popover-min-width, 280px);
     width: var(--dw-popover-width, 280px);
     height: var(--dw-popover-height, auto);
-    max-height: var(--dw-popover-max-height, 90vh);
+    max-height: min(var(--dw-popover-max-height, 90vh), var(--dw-popover-available-height, 100vh));
     overflow: auto;
     z-index: 101;
   }
