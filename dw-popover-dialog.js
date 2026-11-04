@@ -1,6 +1,6 @@
 
 
-import { html, css } from 'lit-element';
+import { html, css } from 'lit';
 import { LitElement } from '@dreamworld/pwa-helpers/lit-element.js';
 import { popoverStyle, externalStyle } from './popover-dialog-css.js';
 import tippy from 'tippy.js';
@@ -267,8 +267,7 @@ export const DwPopoverDialogMixin = (baseElement) => class DwPopoverDialog exten
    */
   async open(triggerElement) {
     if (this.type !== 'popover') {
-      super.open();
-      return;
+      return super.open(triggerElement);
     }
     this.opened = true;
     await this.updateComplete;

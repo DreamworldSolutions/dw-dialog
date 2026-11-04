@@ -1,6 +1,6 @@
 
 
-import { html, css } from 'lit-element';
+import { html, css } from 'lit';
 import { LitElement } from '@dreamworld/pwa-helpers/lit-element.js';
 import { MDCDialog } from './component';
 import { ModalDialogStyles } from './mwc-dialog-css';
@@ -101,7 +101,12 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
         type: Boolean,
         reflect: true,
         attribute: 'full-height'
-      }
+      },
+
+      /**
+       * When true, disables opening animations for the dialog
+       */
+      noAnimation: { type: Boolean, reflect: true, attribute: 'no-animation' },
     };
   }
 
@@ -184,16 +189,16 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
    */
   open(triggerEl) { 
     if (this.type !== 'modal') {
-      super.open(triggerEl)
-      return;
+      return super.open(triggerEl);
     }
-    this.updateComplete.then(() => {
+    return this.updateComplete.then(() => {
       if (this._mdcDialogInstance) {
         return;
       }
       this._initDialog();
       this._listenEvents();
       this._checkAvailableSlot();
+      this.opened = true;
       this._mdcDialogInstance.open();
       if (this.autoFocusSelector) { 
         this._setFocusToElement();
@@ -210,6 +215,8 @@ export const DwModalDialogMixin = (baseElement) => class DwModalDialog extends b
       super.close();
       return;
     }
+
+    this.opened = false;
     this._mdcDialogInstance && this._mdcDialogInstance.close();
   }
 

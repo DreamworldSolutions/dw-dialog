@@ -1,4 +1,4 @@
-import { css } from 'lit-element';
+import { css } from 'lit';
 
 export const ModalDialogStyles = css`
   :host([type="modal"]) {
@@ -404,7 +404,7 @@ export const ModalDialogStyles = css`
 
   /* STARTS: style for center placement */
 
-  :host([type="modal"][placement="center"]) .mdc-dialog__container {
+  :host([type="modal"][placement="center"]:not([no-animation])) .mdc-dialog__container {
     transition: opacity 75ms linear, transform 150ms 0ms cubic-bezier(0, 0, 0.2, 1);
   }
 /* ENDS: style for center placement */

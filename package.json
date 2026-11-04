@@ -22,12 +22,12 @@
   },
   "homepage": "https://github.com/DreamworldSolutions/dw-dialog#readme",
   "dependencies": {
-    "@dreamworld/material-styles": "^1.1.0",
-    "@dreamworld/pwa-helpers": "^1.11.1",
+    "@dreamworld/material-styles": "^3.2.4",
+    "@dreamworld/pwa-helpers": "^3.0.2",
     "@material/dialog": "^14.0.0",
-    "lit-element": "^2.2.1",
     "lodash-es": "^4.17.15",
-    "tippy.js": "^6.2.7"
+    "tippy.js": "^6.2.7",
+    "lit": "^3.3.0"
   },
   "devDependencies": {
     "@material/mwc-button": "^0.26.1",

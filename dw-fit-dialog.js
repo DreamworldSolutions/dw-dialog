@@ -1,5 +1,5 @@
 
-import { html, css } from 'lit-element';
+import { html, css } from 'lit';
 import { LitElement } from '@dreamworld/pwa-helpers/lit-element.js';
 import isEmpty from 'lodash-es/isEmpty';
 import findIndex from 'lodash-es/findIndex';
@@ -48,17 +48,19 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
     }
 
     return html`
-        <div class="mdc-dialog__container" ?opened=${this.opened} ?scroll-locked="${this.scrollLocked}"
-          ?has-header=${this._hasHeader} ?has-footer=${this._hasFooter} ?scrolled-down=${this.scrolledDown}
-          ?scrolled-up=${this.scrolledUp} ?modal-dialog-opened=${this._modalDialogOpened}>
+      <div class="mdc-dialog__container" ?opened=${this.opened} ?scroll-locked="${this.scrollLocked}"
+        ?has-header=${this._hasHeader} ?has-footer=${this._hasFooter} ?scrolled-down=${this.scrolledDown}
+        ?scrolled-up=${this.scrolledUp} ?modal-dialog-opened=${this._modalDialogOpened}>
+        ${this.fitDialogHideOverlay ? '': html`
           <div id="overlay"></div>
+        `}
         
-          <div class="mdc-dialog__content" id="dialog-content">
-            ${this._customHeaderTemplate}
-            ${this._contentTemplate}
-            ${this._customFooterTemplate}
-          </div>
+        <div class="mdc-dialog__content" id="dialog-content">
+          ${this._customHeaderTemplate}
+          ${this._contentTemplate}
+          ${this._customFooterTemplate}
         </div>
+      </div>
     `;
   }
 
@@ -90,6 +92,8 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
     this.scrolledDown = true;
     this.scrolledUp = true;
     this.type = 'fit';
+    this.fitDialogHideOverlay = false;
+    this.fitDialogNoAnimation = false;
   }
 
   static get properties() {
@@ -114,6 +118,16 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
        * Output property.  True when user scrolled to top of dialog content.
        */
       scrolledUp: { type: Boolean, reflect: true, attribute: 'scrolled-up' },
+
+      /**
+       * When `true`, fit dialog hide overlay.
+       */
+      fitDialogHideOverlay: { type: Boolean, reflect: true, attribute: 'fit-dialog-hide-overlay' },
+
+      /**
+       * When `true`, fit dialog no animation.
+       */
+      fitDialogNoAnimation: { type: Boolean, reflect: true, attribute: 'fit-dialog-no-animation' },
 
       /**
        * `true` when header template is provided.
@@ -174,8 +188,7 @@ export const DwFitDialogMixin = (baseElement) => class DwFitDialog extends DwCom
    */
   open(triggerEl) {
     if (this.type !== 'fit') {
-      super.open(triggerEl);
-      return;
+      return super.open(triggerEl);
     }
 
     this.opened = true;

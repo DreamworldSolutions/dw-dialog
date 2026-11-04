@@ -1,4 +1,4 @@
-import { css } from 'lit-element';
+import { css } from 'lit';
 
 export const fitDialogStyles = css`
   /* START Container */
@@ -125,10 +125,23 @@ export const fitDialogStyles = css`
     cursor: pointer;
   }
 
+
   #overlay, 
   #dialog-content {
     animation-name: fadeIn;
     animation-duration: var(--dw-fit-dialog-animation-time, 0.3s);
+  }
+
+  :host([type="fit"][fit-dialog-no-animation]) #overlay, 
+  :host([type="fit"][fit-dialog-no-animation]) #dialog-content {
+    animation-name: none;
+    animation-duration: unset;
+  }
+
+  :host([type="fit"][fit-dialog-hide-overlay]) #overlay {
+    background-color: transparent;
+    display: none;
+    opacity: 0;
   }
 
   @keyframes fadeIn {
