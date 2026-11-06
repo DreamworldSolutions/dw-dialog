@@ -31,6 +31,11 @@ export const DwCompositeBaseDialogMixin = (baseElement) => class DwCompositeBase
     this._renderRootEl.attachShadow(this.constructor.shadowRootOptions);
     this.attachShadow(this.constructor.shadowRootOptions);
     this.shadowRoot.appendChild(this._renderRootEl);
+    // Lit creates the render root on connect, so attributes set before it (e.g. in a template) are copied here.
+    this.constructor.observedAttributes.forEach((name) => {
+      const value = this.getAttribute(name);
+      value !== null && name !== 'title' && this._renderRootEl.setAttribute(name, value);
+    });
     const renderRoot = this._renderRootEl.shadowRoot;
     adoptStyles(renderRoot, this.constructor.elementStyles)
     return renderRoot;
